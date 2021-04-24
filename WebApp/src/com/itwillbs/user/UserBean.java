@@ -69,6 +69,14 @@ public class UserBean {
 			this.id = id; 
 			return this; 
 		}
+		public Builder pwd(String pwd){
+			this.pwd = pwd; 
+			return this; 
+		}
+		public Builder name(String name){
+			this.name = name; 
+			return this; 
+		}
 		public Builder gender(String gender){
 			this.gender = gender;
 			return this; 
