@@ -4,25 +4,109 @@
 <html>
 <script type="text/javascript">
 
+	function deletePw(){
+		document.fr.pw.value="";
+		document.fr.pw2.value="";
+		document.fr.pw.focus();
+	}
 	function checkUser(){
-		
-		// 1) 비밀번호 일치 여부 확인 
-		
+		// 1) 비밀번호 일치 여부 확인
 		// 2) 입력하지 않은 값이 있는지 확인 
 		
 		// 3) 
 		
+		var pw = document.fr.pw.value ; 
 		
+		//아이디
+		if(document.fr.id.value == ""){
+			alert("아이디를 입력하세요!"); 
+			document.fr.id.focus() ; 
+			return false; 
+		}
+		
+		if (document.fr.idCheck.value == ""){
+			alert("아이디 중복 체크를 진행하세요!");
+			document.fr.id.focus(); 
+			return false; 
+		}
+		
+		//비밀번호
+		if ( pw == ""){
+			alert("비밀번호를 입력하세요!"); 
+			deletePw();
+			return false; 
+		}else if(pw.length < 6 ){
+			alert("비밀번호는 6자 이상 작성해주세요!");
+			deletePw();
+			return false;
+		}else if ( pw != document.fr.pw2.value){
+			alert("입력하신 비밀번호가 다릅니다."); 
+			deletePw(); 
+			
+			return false; 
+		}else{
+			if (pw.search(document.fr.id.value)>=0){
+				alert("비밀번호에 아이디가 포함될 수는 없습니다.");
+				deletePw(); 
+				return false; 
+			}
+			
+			if(/[^a-zA-Z0-9]/g.test(pw)){
+				alert("비밀번호는 숫자와 영문자로만 구성되어야합니다."); 
+				deletePw();
+				return false; 
+			}
+			/* else if(!/[a-zA-z]/.test(pw) || !/[0-9]/.test(pw)){
+				alert("영어와 숫자를 모두 사용해야 합니다."); 
+				deletePw();
+				return false ; 
+			} */
+			
+		}
+		 	
+		//이름
+		if(document.fr.name.value == ""){
+			alert("이름을 입력하세요!"); 
+			document.fr.name.focus(); 
+			return false; 
+		}
+		// 성별 - 기본적으로 남자를 고르게 해두었으니 따로 검사는 X
+		// 나이
+		if( document.fr.age.value == ""){
+			alert("나이를 입력하세요!"); 
+			document.fr.age.focus(); 
+			return false; 
+		}
+		//주소
+		if (document.fr.addr.value == ""){
+			alert("주소를 입력하세요!") ; 
+			document.fr.addr.focus(); 
+			return false; 
+		}
+		// 이메일 
+		if ( document.fr.email.value == ""){
+			alert("이메일을 입력하세요!") ; 
+			document.fr.email.focus(); 
+			return false ; 
+		}
+		
+		
+		 
 	}
 	
 	function checkID(){
-		
 		// TODO - idCheckPro.jsp 에서 DB 조회해서 중복된 아이디인지 확인하는 로직 필요. 
-		location.href = "idCheckPro.jsp?id=" + document.fr.id.value ; 
+		//location.href = "idCheckPro.jsp?id=" + document.fr.id.value ; 
+		window.open( "idCheckPro.jsp?id=" + document.fr.id.value , "idChkPopup","width=500,height=600" );
 		
 	}
 
 </script>
+<%
+
+	String id = request.getParameter("idchk"); 
+	if(id == null) id =""; 
+%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>회원 가입</title>
@@ -33,26 +117,30 @@
 	<!-- TODO : 크기 조정 필요 -->
 	<fieldset style="width: 400px; height: 300px;">
 		<legend> 회원 가입 </legend>
-		<!--  TODO 유효성검사 (onsubmit)  -->
-		<form action="signUpPro.jsp" method="post" name="fr" onsubmit="return checkUser()">
+		<!-- TODO : 테스트 완료되면 get에서  post로 바꾸기 -->
+		<form action="signUpPro.jsp" method="get" name="fr" onsubmit="return checkUser()">
 			<table border="2">
 				<tr>
 					<td>아이디 :</td>
-					<td><input style="width: 100px" type="text" name="id" maxlength="8" placeholder="영문,숫자(8자)">
-
+					<td><input style="width: 100px" type="text" name="id" maxlength="8" 
+					<% if(!id.equals("")){ %>value="<%=id %>" readonly="readonly" <%}
+					else{ %> placeholder="영문,숫자(8자)" <%} %>>
 						<!--  TODO 중복확인 로직 넣기  -->
 						<!--  DB에 가서 select를 해봐야 한다.  --> 
 						<input type="button" value="중복확인"
-								onclick="checkID()"></td>
+								onclick="checkID()">
+					<input type="hidden" name="idCheck" disabled="disabled"> 			
+					</td>
+					
 				</tr>
 				<tr>
 					<td>비밀번호 :</td>
-					<td><input style="width: 180px" type="text" name="pw" maxlength="14" placeholder="14자 이하의 영어,숫자 조합" ></td>
+					<td><input style="width: 180px" type="password" name="pw" maxlength="14" placeholder="6~14자 이하의 영어,숫자 조합" ></td>
 					
 				</tr>
 				<tr>
 					<td>비밀번호 확인 :</td>
-					<td><input style="width: 180px" type="text" name="pw2" maxlength="14"></td>
+					<td><input style="width: 180px" type="password" name="pw2" maxlength="14" placeholder="6~14자 이하의 영어,숫자 조합" ></td>
 				</tr>
 				<tr>
 					<td>이름</td>
@@ -61,7 +149,7 @@
 				<tr>
 					<td>성별</td>
 					<td>
-						<input type="radio" name="gender" value="male">남
+						<input type="radio" name="gender" value="male" checked="checked">남
 						<input type="radio" name="gender" value="female">여
 					</td>
 				</tr>
