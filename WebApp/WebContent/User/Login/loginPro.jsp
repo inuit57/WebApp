@@ -9,12 +9,15 @@
 </head>
 <body>
 
-<h2>SignUpPro.jsp</h2>
-
-<% 
+<%
 
 	String id = request.getParameter("id"); 
+	String pwd = request.getParameter("pwd"); 
+	
 	UserDAO uDAO = new UserDAO(); 
+
+	
+
 %>
 
 </body>
