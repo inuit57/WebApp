@@ -4,8 +4,12 @@
 <html>
 <script type="text/javascript">
 
+	function deletePw(){
+		document.fr.pw.value="";
+		document.fr.pw2.value="";
+		document.fr.pw.focus();
+	}
 	function checkUser(){
-		
 		// 1) 비밀번호 일치 여부 확인
 		// 2) 입력하지 않은 값이 있는지 확인 
 		
@@ -22,40 +26,37 @@
 		//비밀번호
 		if ( pw == ""){
 			alert("비밀번호를 입력하세요!"); 
-			document.fr.pw.focus();
+			deletePw();
 			return false; 
 		}else if(pw.length < 6 ){
 			alert("비밀번호는 6자 이상 작성해주세요!");
-			document.fr.pw.value="";
-			document.fr.pw.focus();
+			deletePw();
 			return false;
 		}else if ( pw != document.fr.pw2.value){
 			alert("입력하신 비밀번호가 다릅니다."); 
-			document.fr.pw.value="";
-			document.fr.pw2.value ="" ;
-			document.fr.pw.focus(); 
+			deletePw(); 
 			
 			return false; 
 		}else{
 			if (pw.search(document.fr.id.value)>=0){
 				alert("비밀번호에 아이디가 포함될 수는 없습니다.");
-				pw = ""; 
-				document.fr.pw.focus(); 
+				deletePw(); 
 				return false; 
 			}
-			var pwd_check = '/^[a-z|A-Z|0-9]';
-			//if (pwd_check.test(pw)){
-			if(!/^[a-zA-Z0-9]$/.test(pw)){
+			
+			if(/[^a-zA-Z0-9]/g.test(pw)){
 				alert("비밀번호는 숫자와 영문자로만 구성되어야합니다."); 
-				document.fr.pw.value=""; 
-				document.fr.pw2.value="";  
-				document.fr.pw.focus(); 
-				
+				deletePw();
 				return false; 
-			}else{
-				//alert(pw.value); 
 			}
+			/* else if(!/[a-zA-z]/.test(pw) || !/[0-9]/.test(pw)){
+				alert("영어와 숫자를 모두 사용해야 합니다."); 
+				deletePw();
+				return false ; 
+			} */
+			
 		}
+		 	
 		//이름
 		if(document.fr.name.value == ""){
 			alert("이름을 입력하세요!"); 
@@ -81,7 +82,7 @@
 			document.fr.email.focus(); 
 			return false ; 
 		}
-		
+		 
 	}
 	
 	function checkID(){
@@ -103,7 +104,7 @@
 	<fieldset style="width: 400px; height: 300px;">
 		<legend> 회원 가입 </legend>
 		<!--  TODO 유효성검사 (onsubmit)  -->
-		<form action="signUpPro.jsp" method="post" name="fr" onsubmit="return checkUser()">
+		<form action="signUpPro.jsp" method="get" name="fr" onsubmit="return checkUser()">
 			<table border="2">
 				<tr>
 					<td>아이디 :</td>
