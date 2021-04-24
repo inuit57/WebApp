@@ -52,11 +52,11 @@
 				</tr>
 				<tr>
 					<td>비밀번호 확인 :</td>
-					<td><input style="width: 180px" type="text" name="pw2"></td>
+					<td><input style="width: 180px" type="text" name="pw2" maxlength="14"></td>
 				</tr>
 				<tr>
 					<td>이름</td>
-					<td><input style="width: 180px" type="text" name="name"></td>
+					<td><input style="width: 180px" type="text" name="name" maxlength="10"></td>
 				</tr>
 				<tr>
 					<td>성별</td>
@@ -72,11 +72,11 @@
 				<tr>
 					<td>주소</td>
 					<!--  TODO 주소 API 사용해보기  -->
-					<td><input type="text" name="addr"></td> 
+					<td><input type="text" name="addr" maxlength="100"></td> 
 				</tr>
 				<tr>
 					<td>이메일</td>
-					<td><input type="email" name="email"> </td>
+					<td><input type="email" name="email" maxlength="30"> </td>
 				</tr>
 				<tr>
 					<td colspan="2" align="right">
