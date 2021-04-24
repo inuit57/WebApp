@@ -23,6 +23,13 @@
 			document.fr.id.focus() ; 
 			return false; 
 		}
+		
+		if (document.fr.idCheck.value == ""){
+			alert("아이디 중복 체크를 진행하세요!");
+			document.fr.id.focus(); 
+			return false; 
+		}
+		
 		//비밀번호
 		if ( pw == ""){
 			alert("비밀번호를 입력하세요!"); 
@@ -82,17 +89,24 @@
 			document.fr.email.focus(); 
 			return false ; 
 		}
+		
+		
 		 
 	}
 	
 	function checkID(){
-		
 		// TODO - idCheckPro.jsp 에서 DB 조회해서 중복된 아이디인지 확인하는 로직 필요. 
-		location.href = "idCheckPro.jsp?id=" + document.fr.id.value ; 
+		//location.href = "idCheckPro.jsp?id=" + document.fr.id.value ; 
+		window.open( "idCheckPro.jsp?id=" + document.fr.id.value , "idChkPopup","width=500,height=600" );
 		
 	}
 
 </script>
+<%
+
+	String id = request.getParameter("idchk"); 
+	if(id == null) id =""; 
+%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>회원 가입</title>
@@ -103,17 +117,21 @@
 	<!-- TODO : 크기 조정 필요 -->
 	<fieldset style="width: 400px; height: 300px;">
 		<legend> 회원 가입 </legend>
-		<!--  TODO 유효성검사 (onsubmit)  -->
+		<!-- TODO : 테스트 완료되면 get에서  post로 바꾸기 -->
 		<form action="signUpPro.jsp" method="get" name="fr" onsubmit="return checkUser()">
 			<table border="2">
 				<tr>
 					<td>아이디 :</td>
-					<td><input style="width: 100px" type="text" name="id" maxlength="8" placeholder="영문,숫자(8자)">
-
+					<td><input style="width: 100px" type="text" name="id" maxlength="8" 
+					<% if(!id.equals("")){ %>value="<%=id %>" readonly="readonly" <%}
+					else{ %> placeholder="영문,숫자(8자)" <%} %>>
 						<!--  TODO 중복확인 로직 넣기  -->
 						<!--  DB에 가서 select를 해봐야 한다.  --> 
 						<input type="button" value="중복확인"
-								onclick="checkID()"></td>
+								onclick="checkID()">
+					<input type="hidden" name="idCheck" disabled="disabled"> 			
+					</td>
+					
 				</tr>
 				<tr>
 					<td>비밀번호 :</td>

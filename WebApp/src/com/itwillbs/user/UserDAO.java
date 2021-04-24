@@ -18,6 +18,7 @@ public class UserDAO {
 	private Connection conn ; 
 	private PreparedStatement pstmt; 
 	
+	//연결 설정
 	private Connection getConnection(){
 		Context initCTX;
 		try {
@@ -51,8 +52,8 @@ public class UserDAO {
 		}
 	} //dbClose(); 
 	
+	// id로 User얻어오기 
 	public UserBean getUserBean(String id){
-
 		try {
 			conn = getConnection();
 			
@@ -72,8 +73,9 @@ public class UserDAO {
 						userGrant(rs.getInt("userGrant")).
 						signInDate(rs.getDate("signInDate")).
 						build();
+			}else{
+				return null; //없는 경우 null 리턴 
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally{
