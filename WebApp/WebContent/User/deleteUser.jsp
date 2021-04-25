@@ -15,8 +15,13 @@
 	
 	if(id == null){
 		response.sendRedirect("Login/loginForm.jsp"); 
-	}
+	}else{
 	
+		ud.deleteUser(id); 
+		session.invalidate(); //세션 정보 다 지워주기 
+		
+		response.sendRedirect("Login/main.jsp");
+	}
 	
 %>
 </body>

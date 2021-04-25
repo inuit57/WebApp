@@ -89,8 +89,6 @@
 			document.fr.email.focus(); 
 			return false ; 
 		}
-		
-		
 		 
 	}
 	
@@ -168,7 +166,7 @@
 				<tr>
 					<td colspan="2" align="right">
 						<input type="submit" value="확인" >
-						<input type="button" value="취소">
+						<input type="button" value="취소" onclick="location.href='Login/main.jsp'">
 					</td>
 				</tr>
 			</table>

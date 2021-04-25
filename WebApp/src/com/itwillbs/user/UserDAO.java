@@ -57,7 +57,7 @@ public class UserDAO {
 		try {
 			conn = getConnection();
 			
-			String sql = "select count(*) from userInfo where id=? and pwdd=?"; 
+			String sql = "select count(*) from userInfo where id=? and pwd=?"; 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pwd);
@@ -158,4 +158,25 @@ public class UserDAO {
 		}
 		return false ;
 	} //insertUser
+	
+	public boolean deleteUser(String id){
+		try {
+			conn = getConnection(); 
+			
+			String sql = "delete from userinfo where id = ?"; 
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate(); 
+			
+			System.out.println(id+" 삭제완료");
+			return true; 
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			dbClose();
+		}
+		return false; 
+	}
 }

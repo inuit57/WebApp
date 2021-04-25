@@ -15,13 +15,13 @@
 	String id = (String)session.getAttribute("id");
 	
 	UserDAO uDao = new UserDAO(); 
-	String pwd = uDao.getUserBean(id).getpwd();
 	
 	if (id != null){
-		System.out.println(id); 
+		System.out.println(id);
+		String pwd = uDao.getUserBean(id).getpwd();
 	}else{
 		// 로그인 페이지로 이동.
-		response.sendRedirect("../loginForm.jsp");
+		response.sendRedirect("loginForm.jsp");
 	}
 	
 %>
