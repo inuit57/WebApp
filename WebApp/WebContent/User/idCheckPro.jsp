@@ -15,18 +15,18 @@
 	String id = request.getParameter("id"); 
 	UserDAO uDAO = new UserDAO(); 
 	
-	UserBean ub = uDAO.getUserBean(id); 
+	//UserBean ub = uDAO.getUserBean(id); 
 	
-	boolean flag = false; 
+	boolean flag = uDAO.UserCheck(id); 
 	
-	if (ub == null){
+/* 	if (ub == null){
 		//response.sendRedirect("signUpForm.jsp?idchk="+id); 
 		flag = true; 	
 	}else{
 		//System.out.println(ub.getId()); 
 		//response.sendRedirect("signUpForm.jsp");
 		flag = false; 
-	}
+	} */
 %>
 
 <script type="text/javascript">
