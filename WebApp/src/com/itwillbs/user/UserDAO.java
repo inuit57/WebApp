@@ -120,7 +120,9 @@ public class UserDAO {
 						userGrant(rs.getInt("userGrant")).
 						signInDate(rs.getDate("signInDate")).
 						build();
+				System.out.println("유저를 찾았습니다.");
 			}else{
+				System.out.println("정보 없음");
 				return null; //없는 경우 null 리턴 
 			}
 		} catch (SQLException e) {
@@ -159,6 +161,7 @@ public class UserDAO {
 		return false ;
 	} //insertUser
 	
+
 	public boolean deleteUser(String id){
 		try {
 			conn = getConnection(); 
@@ -177,6 +180,33 @@ public class UserDAO {
 		} finally{
 			dbClose();
 		}
+		return false; 
+	}	//deleteUser
+	
+	public boolean updateUser(UserBean ub){
+		try {
+			conn = getConnection(); 
+			
+			String sql = "update userinfo set pwd = ? , name=? , gender=?, age=?, addr=? , email=? where id = ?"; 
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ub.getpwd());
+			pstmt.setString(2, ub.getName());
+			pstmt.setString(3, ub.getGender());
+			pstmt.setInt(4, ub.getAge());
+			pstmt.setString(5, ub.getAddr());
+			pstmt.setString(6, ub.getEmail());
+			pstmt.setString(7, ub.getId());
+			
+			pstmt.executeUpdate(); 
+			
+			return true; 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			dbClose();
+		} 
+		
 		return false; 
 	}
 }

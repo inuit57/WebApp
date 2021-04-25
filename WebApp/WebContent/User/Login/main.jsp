@@ -18,7 +18,10 @@
 	
 	if (id != null){
 		System.out.println(id);
-		String pwd = uDao.getUserBean(id).getpwd();
+		UserBean ub = uDao.getUserBean(id); 
+		
+		if(ub != null){ String pwd = ub.getpwd(); }
+		// TODO : 정보 수정할 때 비밀번호 한번 입력하게 하기 
 	}else{
 		// 로그인 페이지로 이동.
 		response.sendRedirect("loginForm.jsp");
