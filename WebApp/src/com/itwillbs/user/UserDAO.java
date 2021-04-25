@@ -52,7 +52,52 @@ public class UserDAO {
 		}
 	} //dbClose(); 
 	
-	// id로 User얻어오기 
+	// id로 User얻어오기
+	public boolean UserCheck(String id,String pwd){
+		try {
+			conn = getConnection();
+			
+			String sql = "select count(*) from userInfo where id=? and pwd=?"; 
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, pwd);
+			ResultSet rs = pstmt.executeQuery(); 
+			if(rs.next()){
+				return true; 
+			}else{
+				return false; //없는 경우 null 리턴 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			dbClose();
+		}
+		return false;
+		 
+	}
+	
+	public boolean UserCheck(String id){
+		try {
+			conn = getConnection();
+			
+			String sql = "select count(*) from userInfo where id=?";  
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			ResultSet rs = pstmt.executeQuery(); 
+			if(rs.next()){
+				return true; 
+			}else{
+				return false; //없는 경우 null 리턴 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			dbClose();
+		}
+		 
+		return false ; 
+	}
+	
 	public UserBean getUserBean(String id){
 		try {
 			conn = getConnection();
