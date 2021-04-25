@@ -53,14 +53,14 @@ public class UserDAO {
 	} //dbClose(); 
 	
 	// id로 User얻어오기
-	public boolean UserCheck(String id,String pwd){
+	public boolean UserCheck(String id,String pw){
 		try {
 			conn = getConnection();
 			
-			String sql = "select count(*) from userInfo where id=? and pwd=?"; 
+			String sql = "select count(*) from userInfo where id=? and pw=?"; 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
-			pstmt.setString(2, pwd);
+			pstmt.setString(2, pw);
 			ResultSet rs = pstmt.executeQuery(); 
 			if(rs.next()){
 				return true; 
@@ -98,6 +98,8 @@ public class UserDAO {
 		return false ; 
 	}
 	
+	//getUserBean(String id)
+	//유저 1명 정보 다 얻어오기 
 	public UserBean getUserBean(String id){
 		try {
 			conn = getConnection();
@@ -109,7 +111,7 @@ public class UserDAO {
 			if(rs.next()){
 				ub = new UserBean.Builder().
 						id(rs.getString("id")).
-						pwd(rs.getString("pwd")).
+						pw(rs.getString("pw")).
 						name(rs.getString("name")).
 						addr(rs.getString("addr")).
 						age(rs.getInt("age")).
@@ -128,5 +130,32 @@ public class UserDAO {
 		}
 		System.out.println(ub); 
 		return ub ; 
-	}
+	}// getUserBean(String id)
+	
+	//insertUser : 회원 가입
+	public boolean insertUser(UserBean ub){
+		try {
+			conn = getConnection(); 
+			
+			String sql = "insert into userInfo values(? , ? , ? , ? , ? , ? , ? , 0 , now()) "; 
+	
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ub.getId());
+			pstmt.setString(2, ub.getpw());
+			pstmt.setString(3, ub.getName());
+			pstmt.setString(4, ub.getGender());
+			pstmt.setInt(5,ub.getAge()); 
+			pstmt.setString(6, ub.getAddr());
+			pstmt.setString(7, ub.getEmail());
+			
+			pstmt.executeUpdate(); 
+			System.out.println("회원 등록 완료");
+			return true ; 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		}
+		return false ;
+	} //insertUser
 }

@@ -149,8 +149,8 @@
 				<tr>
 					<td>성별</td>
 					<td>
-						<input type="radio" name="gender" value="male" checked="checked">남
-						<input type="radio" name="gender" value="female">여
+						<input type="radio" name="gender" value="M" checked="checked">남
+						<input type="radio" name="gender" value="F">여
 					</td>
 				</tr>
 				<tr>

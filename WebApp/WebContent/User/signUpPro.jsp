@@ -11,11 +11,26 @@
 
 <h2>SignUpPro.jsp</h2>
 
+
+	<jsp:useBean id="userBean" class="com.itwillbs.user.UserBean"></jsp:useBean>
+	<%-- 에러가 왜 나는가 했는데 public 기본 생성자가 없어서 그랬다...  --%>
+	<jsp:setProperty property="*" name="userBean"/> 
+
 <% 
 
-	String id = request.getParameter("id"); 
-	UserDAO uDAO = new UserDAO(); 
+	UserDAO uDAO = new UserDAO();
+	
+	boolean flag = uDAO.insertUser(userBean);  
+	
 %>
-
+<script type="text/javascript">
+	if(<%=flag%>){
+		alert("회원 가입 완료!"); 
+		location.href="Login/loginForm.jsp"; 
+	}else{
+		alert("잘못된 접근입니다.")
+		location.href="Login/loginForm.jsp"; 
+	}
+</script>
 </body>
 </html>

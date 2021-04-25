@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class UserBean {
 	private String id ; 
-	private String pwd ; 
+	private String pw ; 
 	private String name ; 
 	private String gender ;  
 	private int age ; 
@@ -13,12 +13,38 @@ public class UserBean {
 	private int userGrant ; 
 	private Date signInDate ; 
 	
-	
+	public void setId(String id) {
+		this.id = id;
+	}
+	public void setpw(String pw) {
+		this.pw = pw;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public void setUserGrant(int userGrant) {
+		this.userGrant = userGrant;
+	}
+	public void setSignInDate(Date signInDate) {
+		this.signInDate = signInDate;
+	}
 	public String getId() {
 		return id;
 	}
-	public String getPwd() {
-		return pwd;
+	public String getpw() {
+		return pw;
 	}
 	public String getName() {
 		return name;
@@ -42,9 +68,15 @@ public class UserBean {
 		return signInDate;
 	}
 	
+	public UserBean(){
+		//자바빈즈 액션태그 사용용 기본 생성자 
+	}
+	
+	// 액션태그를 쓰는 자바빈으로 가는 편이 더 좋을 것 같네.
+	// 빌더 패턴이 어떤 것인지 공부했다는 것이 소득이다. 
 	private UserBean(Builder builder) {
 		this.id = builder.id ; 
-		this.pwd = builder.pwd; 
+		this.pw = builder.pw; 
 		this.name = builder.name ; 
 		this.gender = builder.gender ; 
 		this.age = builder.age ; 
@@ -56,7 +88,7 @@ public class UserBean {
 	
 	public static class Builder{
 		private String id ; 
-		private String pwd ; 
+		private String pw ; 
 		private String name ; 
 		private String gender ;  
 		private int age ; 
@@ -69,8 +101,8 @@ public class UserBean {
 			this.id = id; 
 			return this; 
 		}
-		public Builder pwd(String pwd){
-			this.pwd = pwd; 
+		public Builder pw(String pw){
+			this.pw = pw; 
 			return this; 
 		}
 		public Builder name(String name){
