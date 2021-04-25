@@ -57,7 +57,7 @@ public class UserDAO {
 		try {
 			conn = getConnection();
 			
-			String sql = "select count(*) from userInfo where id=? and pw=?"; 
+			String sql = "select count(*) from userInfo where id=? and pwd=?"; 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pw);

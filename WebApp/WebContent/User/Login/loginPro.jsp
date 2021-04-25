@@ -12,14 +12,14 @@
 <%
 
 	String id = request.getParameter("id"); 
-	String pwd = request.getParameter("pwd"); 
+	String pw = request.getParameter("pw"); 
 	
 	UserDAO uDAO = new UserDAO(); 
 
 	//정보 확인하기 
 	//(비밀번호와 일치하는지). 
 	//
-	boolean flag = uDAO.UserCheck(id, pwd); 
+	boolean flag = uDAO.UserCheck(id, pw); 
 	
 	if(flag){
 		session.setAttribute("id", id); // 세션에 로그인 정보 저장 
