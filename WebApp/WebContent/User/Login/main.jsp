@@ -16,14 +16,15 @@
 		System.out.println(id); 
 	}else{
 		// 로그인 페이지로 이동.
-		response.sendRedirect("loginForm.jsp");
+		response.sendRedirect("../loginForm.jsp");
 	}
 	
 %>
 
 <h2> <%=id %>님 환영합니다.</h2>
 
-<input type="button" value="logout" onclick="location.href='logoutPro.jsp'">
+<input type="button" value="로그아웃" onclick="location.href='logoutPro.jsp'">
+<input type="button" value="정보수정" onclick="location.href='../userUpdateForm.jsp'">
 
 
 </body>
