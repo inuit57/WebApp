@@ -4,10 +4,10 @@
 <html>
 <script type="text/javascript">
 
-	function deletePw(){
-		document.fr.pw.value="";
-		document.fr.pw2.value="";
-		document.fr.pw.focus();
+	function deletepwd(){
+		document.fr.pwd.value="";
+		document.fr.pwd2.value="";
+		document.fr.pwd.focus();
 	}
 	function checkUser(){
 		// 1) 비밀번호 일치 여부 확인
@@ -15,7 +15,7 @@
 		
 		// 3) 
 		
-		var pw = document.fr.pw.value ; 
+		var pwd = document.fr.pwd.value ; 
 		
 		//아이디
 		if(document.fr.id.value == ""){
@@ -31,34 +31,34 @@
 		}
 		
 		//비밀번호
-		if ( pw == ""){
+		if ( pwd == ""){
 			alert("비밀번호를 입력하세요!"); 
-			deletePw();
+			deletepwd();
 			return false; 
-		}else if(pw.length < 6 ){
+		}else if(pwd.length < 6 ){
 			alert("비밀번호는 6자 이상 작성해주세요!");
-			deletePw();
+			deletepwd();
 			return false;
-		}else if ( pw != document.fr.pw2.value){
+		}else if ( pwd != document.fr.pwd2.value){
 			alert("입력하신 비밀번호가 다릅니다."); 
-			deletePw(); 
+			deletepwd(); 
 			
 			return false; 
 		}else{
-			if (pw.search(document.fr.id.value)>=0){
+			if (pwd.search(document.fr.id.value)>=0){
 				alert("비밀번호에 아이디가 포함될 수는 없습니다.");
-				deletePw(); 
+				deletepwd(); 
 				return false; 
 			}
 			
-			if(/[^a-zA-Z0-9]/g.test(pw)){
+			if(/[^a-zA-Z0-9]/g.test(pwd)){
 				alert("비밀번호는 숫자와 영문자로만 구성되어야합니다."); 
-				deletePw();
+				deletepwd();
 				return false; 
 			}
-			/* else if(!/[a-zA-z]/.test(pw) || !/[0-9]/.test(pw)){
+			/* else if(!/[a-zA-z]/.test(pwd) || !/[0-9]/.test(pwd)){
 				alert("영어와 숫자를 모두 사용해야 합니다."); 
-				deletePw();
+				deletepwd();
 				return false ; 
 			} */
 			
@@ -97,16 +97,16 @@
 	function checkID(){
 		// TODO - idCheckPro.jsp 에서 DB 조회해서 중복된 아이디인지 확인하는 로직 필요. 
 		//location.href = "idCheckPro.jsp?id=" + document.fr.id.value ; 
+		if ( document.fr.id.value == "" ){
+			alert("아이디를 입력하세요!") ; 
+			return;
+		}
 		window.open( "idCheckPro.jsp?id=" + document.fr.id.value , "idChkPopup","width=500,height=600" );
 		
 	}
 
 </script>
-<%
 
-	String id = request.getParameter("idchk"); 
-	if(id == null) id =""; 
-%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>회원 가입</title>
@@ -123,8 +123,7 @@
 				<tr>
 					<td>아이디 :</td>
 					<td><input style="width: 100px" type="text" name="id" maxlength="8" 
-					<% if(!id.equals("")){ %>value="<%=id %>" readonly="readonly" <%}
-					else{ %> placeholder="영문,숫자(8자)" <%} %>>
+					placeholder="영문,숫자(8자)">
 						<!--  TODO 중복확인 로직 넣기  -->
 						<!--  DB에 가서 select를 해봐야 한다.  --> 
 						<input type="button" value="중복확인"
@@ -135,12 +134,12 @@
 				</tr>
 				<tr>
 					<td>비밀번호 :</td>
-					<td><input style="width: 180px" type="password" name="pw" maxlength="14" placeholder="6~14자 이하의 영어,숫자 조합" ></td>
+					<td><input style="width: 180px" type="password" name="pwd" maxlength="14" placeholder="6~14자 이하의 영어,숫자 조합" ></td>
 					
 				</tr>
 				<tr>
 					<td>비밀번호 확인 :</td>
-					<td><input style="width: 180px" type="password" name="pw2" maxlength="14" placeholder="6~14자 이하의 영어,숫자 조합" ></td>
+					<td><input style="width: 180px" type="password" name="pwd2" maxlength="14" placeholder="6~14자 이하의 영어,숫자 조합" ></td>
 				</tr>
 				<tr>
 					<td>이름</td>

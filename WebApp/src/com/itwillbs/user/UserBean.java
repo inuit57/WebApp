@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class UserBean {
 	private String id ; 
-	private String pw ; 
+	private String pwd ; 
 	private String name ; 
 	private String gender ;  
 	private int age ; 
@@ -16,8 +16,8 @@ public class UserBean {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public void setpw(String pw) {
-		this.pw = pw;
+	public void setpwd(String pwd) {
+		this.pwd = pwd;
 	}
 	public void setName(String name) {
 		this.name = name;
@@ -43,8 +43,8 @@ public class UserBean {
 	public String getId() {
 		return id;
 	}
-	public String getpw() {
-		return pw;
+	public String getpwd() {
+		return pwd;
 	}
 	public String getName() {
 		return name;
@@ -76,7 +76,7 @@ public class UserBean {
 	// 빌더 패턴이 어떤 것인지 공부했다는 것이 소득이다. 
 	private UserBean(Builder builder) {
 		this.id = builder.id ; 
-		this.pw = builder.pw; 
+		this.pwd = builder.pwd; 
 		this.name = builder.name ; 
 		this.gender = builder.gender ; 
 		this.age = builder.age ; 
@@ -88,7 +88,7 @@ public class UserBean {
 	
 	public static class Builder{
 		private String id ; 
-		private String pw ; 
+		private String pwd ; 
 		private String name ; 
 		private String gender ;  
 		private int age ; 
@@ -101,8 +101,8 @@ public class UserBean {
 			this.id = id; 
 			return this; 
 		}
-		public Builder pw(String pw){
-			this.pw = pw; 
+		public Builder pwd(String pwd){
+			this.pwd = pwd; 
 			return this; 
 		}
 		public Builder name(String name){
