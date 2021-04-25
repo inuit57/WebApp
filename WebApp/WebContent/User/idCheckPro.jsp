@@ -17,7 +17,9 @@
 	
 	//UserBean ub = uDAO.getUserBean(id); 
 	
-	boolean flag = uDAO.UserCheck(id); 
+	boolean flag = !uDAO.UserCheck(id); 
+	System.out.println(flag); 
+	//System.out.println(id); 
 	
 /* 	if (ub == null){
 		//response.sendRedirect("signUpForm.jsp?idchk="+id); 
@@ -33,11 +35,12 @@
 
 	if (<%=flag%>){
 		alert("사용가능한 아이디입니다.");
-		opener.document.fr.idCheck.value = "Yes";
+		opener.document.fr.idCheck.value = "Yes"; 
 		self.close(); 
 	}else{
 		alert("이미 사용 중인 아이디입니다.");
 		opener.document.fr.id.value = ""; 
+		opener.document.fr.idCheck.value = "";
 		self.close();
 	}
 </script>

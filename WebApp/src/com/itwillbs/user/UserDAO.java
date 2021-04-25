@@ -53,14 +53,14 @@ public class UserDAO {
 	} //dbClose(); 
 	
 	// id로 User얻어오기
-	public boolean UserCheck(String id,String pw){
+	public boolean UserCheck(String id,String pwd){
 		try {
 			conn = getConnection();
 			
 			String sql = "select count(*) from userInfo where id=? and pwd=?"; 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
-			pstmt.setString(2, pw);
+			pstmt.setString(2, pwd);
 			ResultSet rs = pstmt.executeQuery(); 
 			if(rs.next()){
 				return true; 
@@ -80,7 +80,7 @@ public class UserDAO {
 		try {
 			conn = getConnection();
 			
-			String sql = "select count(*) from userInfo where id=?";  
+			String sql = "select id from userInfo where id=?";  
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			ResultSet rs = pstmt.executeQuery(); 
@@ -111,7 +111,7 @@ public class UserDAO {
 			if(rs.next()){
 				ub = new UserBean.Builder().
 						id(rs.getString("id")).
-						pw(rs.getString("pw")).
+						pwd(rs.getString("pwd")).
 						name(rs.getString("name")).
 						addr(rs.getString("addr")).
 						age(rs.getInt("age")).
@@ -141,7 +141,7 @@ public class UserDAO {
 	
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, ub.getId());
-			pstmt.setString(2, ub.getpw());
+			pstmt.setString(2, ub.getpwd());
 			pstmt.setString(3, ub.getName());
 			pstmt.setString(4, ub.getGender());
 			pstmt.setInt(5,ub.getAge()); 
@@ -158,4 +158,25 @@ public class UserDAO {
 		}
 		return false ;
 	} //insertUser
+	
+	public boolean deleteUser(String id){
+		try {
+			conn = getConnection(); 
+			
+			String sql = "delete from userinfo where id = ?"; 
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate(); 
+			
+			System.out.println(id+" 삭제완료");
+			return true; 
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			dbClose();
+		}
+		return false; 
+	}
 }
