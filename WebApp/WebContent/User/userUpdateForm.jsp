@@ -133,19 +133,19 @@
 				<tr>
 					<td>아이디 :</td>
 					<td>
-					<input style="width: 100px" type="text" name="id" maxlength="8" disabled="disabled" value=<%=ub.getId() %>>
+					<input style="width: 100px" type="text" name="id" maxlength="8" readonly="readonly" value=<%=ub.getId() %>>
 					</td>					
 				</tr>
 				<tr>
 					<td>비밀번호 :</td>
 					<td>
-					<input style="width: 180px" type="password" name="pw" maxlength="14" 
+					<input style="width: 180px" type="password" name="pwd" maxlength="14" 
 					placeholder="6~14자 이하의 영어,숫자 조합"  value=<%=ub.getpwd() %>></td>
 					
 				</tr>
 				<tr>
 					<td>비밀번호 확인 :</td>
-					<td><input style="width: 180px" type="password" name="pw2" maxlength="14" placeholder="6~14자 이하의 영어,숫자 조합" ></td>
+					<td><input style="width: 180px" type="password" name="pwd2" maxlength="14" placeholder="6~14자 이하의 영어,숫자 조합" ></td>
 				</tr>
 				<tr>
 					<td>이름</td>
