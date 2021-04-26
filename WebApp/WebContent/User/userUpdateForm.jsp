@@ -39,10 +39,9 @@
 		document.fr.pwd.focus();
 	}
 	function checkUser(){
+		
 		// 1) 비밀번호 일치 여부 확인
 		// 2) 입력하지 않은 값이 있는지 확인 
-		
-		// 3) 
 		
 		var pwd = document.fr.pwd.value ; 
 		
@@ -50,12 +49,6 @@
 		if(document.fr.id.value == ""){
 			alert("아이디를 입력하세요!"); 
 			document.fr.id.focus() ; 
-			return false; 
-		}
-		
-		if (document.fr.idCheck.value == ""){
-			alert("아이디 중복 체크를 진행하세요!");
-			document.fr.id.focus(); 
 			return false; 
 		}
 		
@@ -85,11 +78,6 @@
 				deletepwd();
 				return false; 
 			}
-			/* else if(!/[a-zA-z]/.test(pwd) || !/[0-9]/.test(pwd)){
-				alert("영어와 숫자를 모두 사용해야 합니다."); 
-				deletepwd();
-				return false ; 
-			} */
 			
 		}
 		 	
@@ -118,7 +106,6 @@
 			document.fr.email.focus(); 
 			return false ; 
 		}
-		 
 	}
 </script>
 </head>
