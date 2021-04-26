@@ -1,5 +1,7 @@
 package com.itwillbs.board;
 
+import java.sql.Date;
+
 public class BoardBean {
 
 	int bid;  // 게시글 id
@@ -9,6 +11,14 @@ public class BoardBean {
 	String bcontent ; 
 	int ref_id ; 
 	int comment_id ;
+	Date bdate ; 
+	
+	public Date getBdate() {
+		return bdate;
+	}
+	public void setBdate(Date bdate) {
+		this.bdate = bdate;
+	}
 	
 	public int getBid() {
 		return bid;

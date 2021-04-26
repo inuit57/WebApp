@@ -66,7 +66,7 @@ public class BoardDAO {
 			
 			//게시판에 글 넣기 시작.
 			sql = "insert into board values( " +
-					" ? , ?, ? , ? , ? , ? , ? ) "; 
+					" ? , ?, ? , ? , ? , ? , ? , now() ) "; 
 					//bid, uid, bsubject , btype,  bcontent, ref_id, comment_id	
 		
 			pstmt = conn.prepareStatement(sql); 
@@ -110,6 +110,7 @@ public class BoardDAO {
 				bb.setUid(rs.getString("uid"));
 				bb.setComment_id(rs.getInt("comment_id"));
 				bb.setRef_id(rs.getInt("ref_id"));
+				bb.setBdate(rs.getDate("bdate"));
 				
 				arrBB.add(bb); 
 			}

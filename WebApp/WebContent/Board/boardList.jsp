@@ -16,6 +16,15 @@
 	ArrayList<BoardBean> arrBB = bDao.getBoardList(); 
 	
 %>
-<h1> 총 글 갯수 :</h1>
+<h1> 총 글 갯수 : <%=arrBB.size() %></h1>
+
+<table border="1">
+	<tr>
+	<th>글 번호</th>
+	<th>제목</th>
+	<th>작성자</th>
+	<th>작성일</th>
+	</tr>
+</table>
 </body>
 </html>
