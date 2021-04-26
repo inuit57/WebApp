@@ -66,10 +66,11 @@
 		<th>작성일</th>
 	</tr>
 	<%
+	int i ; 
 	//for(BoardBean bb : arrBB){
 		//for(int i = 0 ; i< arrBB.size(); i++){
-		for(int i = listStart  ; i< listEnd ; i++){
-			BoardBean bb = arrBB.get(i); 	
+		for(i = listStart  ; i< listEnd ; i++){
+			BoardBean bb = arrBB.get(i);
 	%>
 		<tr>
 			<td align="center"><%=bb.getBid() %></td>
@@ -80,7 +81,7 @@
 					case 1 : typeStr="공지";break;
 					case 2 : typeStr="일반";break;
 					case 3 : typeStr="자료";break;
-					default :typeStr="오류" ; 
+					default :typeStr="" ; 
 					}
 				%>
 				<%=typeStr %>
@@ -91,6 +92,21 @@
 		</tr>
 	<%	
 	}%>
+	<%
+		if(listEnd == size){
+			for(; i<listStart+listCut ; i++){
+				%>
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+				<%
+			}
+		}
+	%>
 	<tr>
 		<td colspan="5" align="right">
 			<input type="button" value="글 작성" onclick="location.href='insertForm.jsp'">
@@ -107,7 +123,7 @@
 			<%
 		//}
 		//페이지 번호 출력.
-		for(int i= pageStart ; i <= pageEnd ; i++){
+		for(i= pageStart ; i <= pageEnd ; i++){
 %>
 			<a href="boardList.jsp?currentIndex=<%=i %>"><%=i %></a>
 	<%} 	
