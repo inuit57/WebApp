@@ -39,6 +39,7 @@
 					case 1 : typeStr="공지";break;
 					case 2 : typeStr="일반";break;
 					case 3 : typeStr="자료";break;
+					default :typeStr="오류" ; 
 					}
 				%>
 				<%=typeStr %>
