@@ -9,7 +9,9 @@
 <title>아이디 유효성 검사</title>
 </head>
 <body>
-
+<%
+	request.setCharacterEncoding("UTF-8"); 
+%>
 <%
 
 	String id = request.getParameter("id"); 

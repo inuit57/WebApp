@@ -8,7 +8,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<%
+	request.setCharacterEncoding("UTF-8"); 
+%>
 	<jsp:useBean id="userBean" class="com.itwillbs.user.UserBean"></jsp:useBean>
 	<%-- 에러가 왜 나는가 했는데 public 기본 생성자가 없어서 그랬다...  --%>
 	<jsp:setProperty property="*" name="userBean"/> 
