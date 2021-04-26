@@ -63,7 +63,8 @@ public class UserDAO {
 			pstmt.setString(2, pwd);
 			ResultSet rs = pstmt.executeQuery(); 
 			if(rs.next()){
-				return true; 
+				if ( rs.getInt(1) > 0 ) return true; 
+				else return false ; 
 			}else{
 				return false; //없는 경우 null 리턴 
 			}
