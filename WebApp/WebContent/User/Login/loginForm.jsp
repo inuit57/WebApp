@@ -8,15 +8,6 @@
 </head>
 <body>
 
-<%
-
-/* 	String id = (String)session.getAttribute("id");
-	
-	if (id != null){
-		response.sendRedirect("main.jsp");  
-	} */
-%>
-
 	<fieldset>
 		<legend>로그인</legend>
 		<!--  테스트 끝나고 get에서 post로 바꿀 것. -->
