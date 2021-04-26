@@ -32,13 +32,16 @@
 		<tr>
 			<td><%=bb.getBid() %></td>
 			<td><%=bb.getBsubject() %></td>
-			<td><%=bb.getBcontent()%></td>
+			<td><%=bb.getUid() %> </td>
 			<td><%=bb.getBdate() %></td>
 		</tr>
 	<%	
 	}%>
 </table>
 
-<%} %>
+<%}else{
+	%>
+	등록된 글이 없습니다.
+<% }%>
 </body>
 </html>

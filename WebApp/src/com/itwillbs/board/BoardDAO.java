@@ -79,6 +79,9 @@ public class BoardDAO {
 			pstmt.setInt(7, bb.getComment_id());
 			// 게시판에 글 넣기 끝. 
 			
+			pstmt.executeUpdate(); //
+			System.out.println("작성완료!");
+			
 			return true ; 
 			
 		} catch (SQLException e) {
