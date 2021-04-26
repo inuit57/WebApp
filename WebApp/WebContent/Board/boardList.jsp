@@ -14,7 +14,8 @@
 
 	BoardDAO bDao = new BoardDAO(); 
 	ArrayList<BoardBean> arrBB = bDao.getBoardList(); 
-	
+
+	if(arrBB.size() >0){
 %>
 <h1> 총 글 갯수 : <%=arrBB.size() %></h1>
 
@@ -25,6 +26,19 @@
 	<th>작성자</th>
 	<th>작성일</th>
 	</tr>
+	<%
+	for(BoardBean bb : arrBB){
+	%>
+		<tr>
+			<td><%=bb.getBid() %></td>
+			<td><%=bb.getBsubject() %></td>
+			<td><%=bb.getBcontent()%></td>
+			<td><%=bb.getBdate() %></td>
+		</tr>
+	<%	
+	}%>
 </table>
+
+<%} %>
 </body>
 </html>
