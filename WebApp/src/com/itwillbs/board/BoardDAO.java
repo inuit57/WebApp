@@ -98,7 +98,7 @@ public class BoardDAO {
 		
 		try {
 			conn = getConnection(); 
-			String sql = "select * from board "; 
+			String sql = "select * from board order by bid desc"; 
 		
 		
 			pstmt = conn.prepareStatement(sql);
