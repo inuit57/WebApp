@@ -8,7 +8,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<%
+	request.setCharacterEncoding("UTF-8"); 
+%>
 <%
 
 	String id = request.getParameter("id"); 
