@@ -21,22 +21,40 @@
 
 <table border="1">
 	<tr>
-	<th>글 번호</th>
-	<th>제목</th>
-	<th>작성자</th>
-	<th>작성일</th>
+		<th>글 번호</th>
+		<th>분류</th>
+		<th>제목</th>
+		<th>작성자</th>
+		<th>작성일</th>
 	</tr>
 	<%
 	for(BoardBean bb : arrBB){
 	%>
 		<tr>
-			<td><%=bb.getBid() %></td>
+			<td align="center"><%=bb.getBid() %></td>
+			<td>
+				<% int type = Integer.parseInt(bb.getBtype());
+					String typeStr = ""; 
+					switch(type){
+					case 1 : typeStr="공지";break;
+					case 2 : typeStr="일반";break;
+					case 3 : typeStr="자료";break;
+					}
+				%>
+				<%=typeStr %>
+			</td>
 			<td><%=bb.getBsubject() %></td>
 			<td><%=bb.getUid() %> </td>
 			<td><%=bb.getBdate() %></td>
 		</tr>
 	<%	
 	}%>
+	<tr>
+		<td colspan="5" align="right">
+			<input type="button" value="글 작성" onclick="location.href='insertForm.jsp'">
+			<input type="button" value="메인으로" onclick="location.href='../User/Login/main.jsp'">
+		</td>
+	</tr>
 </table>
 
 <%}else{
