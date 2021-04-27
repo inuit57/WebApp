@@ -64,6 +64,7 @@
 				</td>
 				<td colspan="2">
 					<input type="text" name="bsubject" placeholder="제목"  value=<%=bb.getBsubject() %>>  
+					<input type="hidden" name="bid" value=<%=bid%> >
 				</td>
 			</tr>
 			<tr> 
