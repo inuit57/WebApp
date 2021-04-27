@@ -24,7 +24,6 @@
 	}
 		
 	function listChange(listCnt){
-		 	
 		location.href="boardList.jsp?listCnt="+listCnt; 
 	}
 </script>
@@ -41,8 +40,6 @@
 	// curr, listCnt 
 	// 빡치니까 이거 쿠키에 저장하고 여기저기에서 가져다가 쓰게끔 하자. 
 	// 세션에 저장하는 게 좋으려나. 
-	
-	
 	
 	int currentIndex =1 ; 
 	if(curr != null){
@@ -116,7 +113,7 @@
 				%>
 				<%=typeStr %>
 			</td>
-			<td><%=bb.getBsubject() %></td>
+			<td><a href="boardView.jsp?bID=<%=bb.getBid() %>"><%=bb.getBsubject() %></a></td>
 			<td><%=bb.getUid() %> </td>
 			<td><%=bb.getBdate() %></td>
 		</tr>

@@ -125,5 +125,39 @@ public class BoardDAO {
 		} 
 		
 		return arrBB; 
-	}
+	} //getBoardList
+	
+	public BoardBean getBoard(int bid){
+		BoardBean bb = null; 
+		
+		try {
+			conn = getConnection(); 
+			String sql = "select * from board where bid = ?"; 
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1	, bid);
+			ResultSet rs = pstmt.executeQuery();  
+			while(rs.next()){
+				bb = new BoardBean(); 
+				bb.setBcontent(rs.getString("bcontent"));
+				bb.setBid(rs.getInt("bid"));
+				bb.setBsubject(rs.getString("bsubject"));
+				bb.setBtype(rs.getString("btype"));
+				bb.setUid(rs.getString("uid"));
+				bb.setComment_id(rs.getInt("comment_id"));
+				bb.setRef_id(rs.getInt("ref_id"));
+				bb.setBdate(rs.getDate("bdate"));
+				 
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		} 
+		
+		return bb; 
+	} //public BoardBean getBoard(int bid){
+	
+	
 }
