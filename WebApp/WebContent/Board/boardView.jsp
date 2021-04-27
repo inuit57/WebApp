@@ -63,7 +63,7 @@
 				</td>
 				<td colspan="2">
 					<input type="text" name="bsubject" placeholder="제목"  
-					readonly="readonly" value=<%=bb.getBsubject() %>>  
+					readonly="readonly" value='<%=bb.getBsubject() %>'>  
 				</td>
 			</tr>
 			<tr> 
