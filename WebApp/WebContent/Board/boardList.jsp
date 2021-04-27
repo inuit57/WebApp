@@ -73,6 +73,7 @@
 	if(size >0){
 %>
 <h1> 총 글 갯수 : <%=arrBB.size() %></h1>
+<h2> 현재 사용자 : <%=session.getAttribute("id") %></h2>
 
 <table border="1" >
 	<tr>
