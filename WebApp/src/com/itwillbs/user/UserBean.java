@@ -12,11 +12,25 @@ public class UserBean {
 	private String email ; 
 	private int userGrant ; 
 	private Date signInDate ; 
+	private String post_num; 
+	private String addr2 ; 
 	
+	public String getAddr2() {
+		return addr2;
+	}
+	public void setAddr2(String addr2) {
+		this.addr2 = addr2;
+	}
+	public String getPost_num() {
+		return post_num;
+	}
+	public void setPost_num(String post_num) {
+		this.post_num = post_num;
+	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	public void setpwd(String pwd) {
+	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
 	public void setName(String name) {
@@ -43,7 +57,7 @@ public class UserBean {
 	public String getId() {
 		return id;
 	}
-	public String getpwd() {
+	public String getPwd() {
 		return pwd;
 	}
 	public String getName() {
@@ -84,6 +98,8 @@ public class UserBean {
 		this.email = builder.email ; 
 		this.userGrant = builder.userGrant; 
 		this.signInDate = builder.signInDate; 
+		this.post_num = builder.post_num; 
+		this.addr2 = builder.addr2; 
 	}
 	
 	public static class Builder{
@@ -96,6 +112,8 @@ public class UserBean {
 		private String email ; 
 		private int userGrant ; 
 		private Date signInDate ;
+		private String post_num; 
+		private String addr2 ; 
 		
 		public Builder id(String id){
 			this.id = id; 
@@ -131,6 +149,16 @@ public class UserBean {
 		}
 		public Builder signInDate(Date signInDate){
 			this.signInDate = signInDate ; 
+			return this; 
+		}
+		
+		public Builder addr2(String addr2){
+			this.addr2 = addr2; 
+			return this; 
+		}
+		
+		public Builder post_num(String post_num){
+			this.post_num = post_num; 
 			return this; 
 		}
 

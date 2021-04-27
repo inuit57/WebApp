@@ -18,7 +18,7 @@
 <% 
 
 	UserDAO uDAO = new UserDAO();
-	
+
 	boolean flag = uDAO.insertUser(userBean);  
 	
 %>
