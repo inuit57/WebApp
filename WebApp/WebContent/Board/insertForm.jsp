@@ -8,6 +8,7 @@
 </head>
 <body>
 
+
 <fieldset> 
 	<legend>게시글 작성</legend>
 	<form action="insertPro.jsp">

@@ -23,7 +23,7 @@ public class BoardDAO {
 				
 			try {
 				conn = ds.getConnection();
-				System.out.println("연결 성공!");
+				System.out.println("board 연결 성공!");
 				
 			} catch (SQLException e) {
 				e.printStackTrace();

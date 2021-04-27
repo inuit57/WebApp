@@ -37,9 +37,17 @@
 	String curr = request.getParameter("currentIndex");
 	String listCnt = request.getParameter("listCnt"); 
 	
+	//TODO : 세션 또는 쿠키에 저장하자. 
+	// curr, listCnt 
+	// 빡치니까 이거 쿠키에 저장하고 여기저기에서 가져다가 쓰게끔 하자. 
+	// 세션에 저장하는 게 좋으려나. 
+	
+	
+	
 	int currentIndex =1 ; 
 	if(curr != null){
 		currentIndex = Integer.parseInt(curr);
+		session.setAttribute("curr", curr); 
 	}
 
 	BoardDAO bDao = new BoardDAO(); 
@@ -47,7 +55,10 @@
 
 	int size = arrBB.size();  // 전체 게시글 숫자
 	int listCut = 3; //한 페이지 목록에 보여질 게시글의 숫자.
-	if(listCnt != null) listCut = Integer.parseInt(listCnt); 
+	if(listCnt != null){
+		listCut = Integer.parseInt(listCnt); 
+		session.setAttribute("listCnt", listCnt); 
+	}
 	
 	int listStart = (currentIndex-1)*listCut; 
 	int listEnd = listStart+listCut ; 
