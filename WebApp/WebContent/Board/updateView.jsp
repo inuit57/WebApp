@@ -9,7 +9,6 @@
 <script type="text/javascript">
 
 	function moveList(){
-		
 		var curr = <%=(String)session.getAttribute("curr")%>; 
 		var listCnt = <%=(String)session.getAttribute("listCnt")%>
 		
@@ -27,7 +26,7 @@
 		
 		//TODO : 유효성 검사하기 
 		
-		return false; //
+		//return false; //
 	}
 	
 </script>
@@ -53,7 +52,7 @@
 <% if ( bb != null ){ %>
 <fieldset> 
 	<legend>게시글 내용</legend>
-	<form action="UpdatePro.jsp"  method="get" onsubmit="return update()">
+	<form action="updatePro.jsp"  method="get" onsubmit="return update()">
 		<table border="2">
 			<tr> 
 				<td>
