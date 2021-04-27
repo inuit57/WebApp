@@ -62,11 +62,11 @@
 				<td colspan="3" align="right">
 				<%
 					if ( bb.getUid().equals(session.getAttribute("id"))){
+						// TODO : 계정 권한이 관리자인 경우에만 삭제 버튼 활성화 되도록 추가
 				%>
 					<input type="button" value="수정">
 					<input type="button" value="삭제">
 				<%} %>
-					<!-- TODO : 취소 js 함수 만들어서 처리, 글 목록으로 이동 -->
 					<input type="button" value="목록" onclick="moveList()">
 				</td> 
 			</tr>

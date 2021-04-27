@@ -45,7 +45,6 @@
 			<tr>
 				<td colspan="3" align="right">
 					<input type="submit" value="작성">
-					<!-- TODO : 취소 js 함수 만들어서 처리, 글 목록으로 이동 -->
 					<input type="button" value="취소" onclick="moveList()">
 				</td> 
 			</tr>
