@@ -177,5 +177,31 @@ public class BoardDAO {
 			dbClose();
 		}
 		return true; 
+	} // deleteBoard() 
+	
+	public boolean updateBoard(BoardBean bb){
+		
+		conn = getConnection(); 
+		String sql = "Update Board set btype=?, bsubject=?, bcontent=? where bid=?"; 
+		//System.out.println(bb.getBcontent());
+		//System.out.println(bb.getBsubject());
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,bb.getBtype());
+			pstmt.setString(2, bb.getBsubject());
+			pstmt.setString(3, bb.getBcontent());
+			pstmt.setInt(4, bb.getBid());
+			
+			pstmt.executeUpdate(); 
+			System.out.println("업데이트 완료");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false; 
+			
+		} finally {
+			dbClose();
+		}
+		
+		return true; 
 	}
 }
