@@ -5,6 +5,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 <script type="text/javascript">
 
 	function moveList(){
@@ -18,20 +19,16 @@
 		location.href="boardList.jsp?currentIndex="+curr+"&listCnt="+listCnt; 
 	}
 	
-	function updateView(bid){
-		//UpdateView를 따로 만들지 않고
-		//여기 안에서 disable을 풀어주고 수정을 바로 할 수 있게 시도했으나 잘 되지 않는다.
-		//제이쿼리 검색해서도 해보았는데 잘 되지는 않는다... ㅠㅠ 
-		
-		//TODO : 비밀번호를 한번더 받도록 한다? 
-		location.href="UpdateView.jsp?bID="+bid; 
+	function moveBack(){
+		history.back();
 	}
+	
 </script>
+
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>게시글 내용</title>
+<title>게시글 수정</title>
 </head>
-
-
 <body>
 <%
 	request.setCharacterEncoding("UTF-8"); 
@@ -44,32 +41,28 @@
 	}else{
 		bb = bDAO.getBoard(Integer.parseInt(bid)); 
 	}
-	
 %>
-
-
 
 <% if ( bb != null ){ %>
 <fieldset> 
 	<legend>게시글 내용</legend>
+	<form action="UpdatePro.jsp">
 		<table border="2">
 			<tr> 
 				<td>
-					<select name="btype"  disabled="disabled" >
+					<select name="btype" >
 						<option value="1" <% if(bb.getBtype().equals("1")){ %>selected="selected" <%} %>>공지</option>
 						<option value="2" <% if(bb.getBtype().equals("2")){ %>selected="selected" <%} %>>일반</option>
 						<option value="3" <% if(bb.getBtype().equals("3")){ %>selected="selected" <%} %>>자료</option>
 					</select>
 				</td>
 				<td colspan="2">
-					<input type="text" name="bsubject" placeholder="제목"  
-					readonly="readonly" value=<%=bb.getBsubject() %>>  
+					<input type="text" name="bsubject" placeholder="제목"  value=<%=bb.getBsubject() %>>  
 				</td>
 			</tr>
 			<tr> 
 				<td colspan="3">
-					<textarea rows="20" cols="30" name="bcontent" placeholder="내용" 
-					readonly="readonly" ><%=bb.getBcontent() %></textarea>
+					<textarea rows="20" cols="30" name="bcontent" placeholder="내용" ><%=bb.getBcontent() %></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -78,14 +71,15 @@
 					if ( bb.getUid().equals(session.getAttribute("id"))){
 						// TODO : 계정 권한이 관리자인 경우에만 삭제 버튼 활성화 되도록 추가
 				%>
-					<input type="button" id="editBtn" value="수정" onclick="updateView(<%=bid %>)" >
+					<input type="submit" value="수정완료"  >
 					
-					<input type="button" value="삭제" onclick="location.href='deletePro.jsp?bid=<%=bid%>'">
+					<input type="button" value="취소" onclick="moveBack()">
 				<%} %>
 					<input type="button" value="목록" onclick="moveList()">
 				</td> 
 			</tr>
 		</table>
+	</form>
 </fieldset>
 <% } %>
 </body>
