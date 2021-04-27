@@ -15,7 +15,7 @@
 			if (listCnt == null) listCnt = 3; 
 			
 			location.href="boardList.jsp?currentIndex="+curr+"&listCnt="+listCnt; 
-		}
+	}
 </script>
 </head>
 <body>

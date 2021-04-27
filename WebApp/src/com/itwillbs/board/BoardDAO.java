@@ -159,5 +159,23 @@ public class BoardDAO {
 		return bb; 
 	} //public BoardBean getBoard(int bid){
 	
-	
+	public boolean deleteBoard(int bid){
+		try {
+			conn = getConnection(); 
+			String sql = "delete from board where bid = ?"; 
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bid);
+			
+			pstmt.executeUpdate(); 
+			System.out.println("삭제 완료!");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false; 
+		}finally {
+			dbClose();
+		}
+		return true; 
+	}
 }
