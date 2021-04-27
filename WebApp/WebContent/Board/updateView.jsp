@@ -23,6 +23,13 @@
 		history.back();
 	}
 	
+	function update(){
+		
+		//TODO : 유효성 검사하기 
+		
+		return false; //
+	}
+	
 </script>
 
 
@@ -46,7 +53,7 @@
 <% if ( bb != null ){ %>
 <fieldset> 
 	<legend>게시글 내용</legend>
-	<form action="UpdatePro.jsp">
+	<form action="UpdatePro.jsp"  method="get" onsubmit="return update()">
 		<table border="2">
 			<tr> 
 				<td>
@@ -71,7 +78,7 @@
 					if ( bb.getUid().equals(session.getAttribute("id"))){
 						// TODO : 계정 권한이 관리자인 경우에만 삭제 버튼 활성화 되도록 추가
 				%>
-					<input type="submit" value="수정완료"  >
+					<input type="submit" value="수정완료" >
 					
 					<input type="button" value="취소" onclick="moveBack()">
 				<%} %>

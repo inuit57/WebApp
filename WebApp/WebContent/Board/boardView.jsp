@@ -24,7 +24,7 @@
 		//제이쿼리 검색해서도 해보았는데 잘 되지는 않는다... ㅠㅠ 
 		
 		//TODO : 비밀번호를 한번더 받도록 한다? 
-		location.href="UpdateView.jsp?bID="+bid; 
+		location.href="updateView.jsp?bID="+bid; 
 	}
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
