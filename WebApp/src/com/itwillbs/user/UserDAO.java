@@ -28,7 +28,7 @@ public class UserDAO {
 			
 			try {
 				conn = ds.getConnection();
-				System.out.println("연결 성공!");
+				System.out.println("user 연결 성공!");
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
