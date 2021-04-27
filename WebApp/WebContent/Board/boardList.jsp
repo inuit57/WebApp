@@ -7,20 +7,25 @@
 <html>
 <head>
 <script type="text/javascript">
-	function prePage(curr , min){
+	function prePage(curr , min , listCnt){
 		//function prePage(curr){
 		//location.href="boardList.jsp?currentIndex="+(curr-1);
 		curr = curr - 1; 
 		if(curr < min){ curr = min; }
-		location.href="boardList.jsp?currentIndex="+(curr);
+		location.href="boardList.jsp?currentIndex="+(curr) +"&listCnt="+listCnt;
 	}
 
-	function postPage(curr , max){
+	function postPage(curr , max,listCnt){
 		//function postPage(curr){
 		//location.href="boardList.jsp?currentIndex="+(curr+1);
 		curr = curr + 1; 
 		if(curr > max) { curr = max; }
-		location.href="boardList.jsp?currentIndex="+(curr);
+		location.href="boardList.jsp?currentIndex="+(curr)+"&listCnt="+listCnt;;
+	}
+		
+	function listChange(listCnt){
+		 	
+		location.href="boardList.jsp?listCnt="+listCnt; 
 	}
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -30,6 +35,8 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String curr = request.getParameter("currentIndex");
+	String listCnt = request.getParameter("listCnt"); 
+	
 	int currentIndex =1 ; 
 	if(curr != null){
 		currentIndex = Integer.parseInt(curr);
@@ -40,6 +47,8 @@
 
 	int size = arrBB.size();  // 전체 게시글 숫자
 	int listCut = 3; //한 페이지 목록에 보여질 게시글의 숫자.
+	if(listCnt != null) listCut = Integer.parseInt(listCnt); 
+	
 	int listStart = (currentIndex-1)*listCut; 
 	int listEnd = listStart+listCut ; 
 	
@@ -50,14 +59,24 @@
 	int pageStart = 1+((currentIndex-1)/pageCut)*pageCut ; 
 	int pageEnd = pageStart+pageCut-1 ; 
 	
-	int maxIndex = size/3 + ((size%3 == 0) ? 0 : 1 );
+	int maxIndex = size/listCut + ((size%listCut == 0) ? 0 : 1 );
 	if(pageEnd > maxIndex) pageEnd = maxIndex; 
 	
 	if(size >0){
 %>
 <h1> 총 글 갯수 : <%=arrBB.size() %></h1>
 
-<table border="1">
+<table border="1" >
+	<tr>
+		<td colspan="5" align="right">
+			한 페이지당 글 갯수 : 
+			<select name="listCut" onchange="listChange(this.value)">
+				<option value="3"  <%if(listCut == 3){%> selected="selected" <%} %>>3</option>
+				<option value="5"  <%if(listCut == 5){%> selected="selected" <%} %> >5</option>
+				<option value="10" <%if(listCut == 10){%> selected="selected" <%} %> >10</option>
+			</select>
+		</td>
+	</tr>
 	<tr>
 		<th>번호</th>
 		<th>분류</th>
@@ -119,7 +138,7 @@
 	//이전 버튼
 		//if(pageStart > pageCut){
 			%>
-			<input type="button" value="이전" onclick="prePage(<%=currentIndex%>,1)">
+			<input type="button" value="이전" onclick="prePage(<%=currentIndex%>,1,<%=listCut%>)">
 			<%
 		//}
 		//페이지 번호 출력.
@@ -131,7 +150,7 @@
 	<%//다음 버튼
 	//if(pageEnd < maxIndex ){
 	%>
-		<input type="button" value="다음" onclick="postPage(<%=currentIndex%>,<%=maxIndex%>)">
+		<input type="button" value="다음" onclick="postPage(<%=currentIndex%>,<%=maxIndex%>,<%=listCut%>)">
 	<%//}	%>
 <%		
 	}else{

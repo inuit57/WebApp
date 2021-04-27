@@ -33,6 +33,7 @@
 
 <input type="button" value="로그아웃" onclick="location.href='logoutPro.jsp'">
 <input type="button" value="정보수정" onclick="location.href='../userUpdateForm.jsp'">
+<input type="button" value="게시판" onclick="location.href='../../Board/boardList.jsp'">
 
 
 </body>
