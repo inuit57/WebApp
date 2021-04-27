@@ -120,6 +120,8 @@ public class UserDAO {
 						gender(rs.getString("gender")).
 						userGrant(rs.getInt("userGrant")).
 						signInDate(rs.getDate("signInDate")).
+						post_num(rs.getString("post_num")).
+						addr2(rs.getString("addr2")).
 						build();
 				System.out.println("유저를 찾았습니다.");
 			}else{
@@ -140,16 +142,18 @@ public class UserDAO {
 		try {
 			conn = getConnection(); 
 			
-			String sql = "insert into userInfo values(? , ? , ? , ? , ? , ? , ? , 0 , now()) "; 
+			String sql = "insert into userInfo values(? , ? , ? , ? , ? , ? , ? , 0 , now() , ?, ?) "; 
 	
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, ub.getId());
-			pstmt.setString(2, ub.getpwd());
+			pstmt.setString(2, ub.getPwd());
 			pstmt.setString(3, ub.getName());
 			pstmt.setString(4, ub.getGender());
 			pstmt.setInt(5,ub.getAge()); 
 			pstmt.setString(6, ub.getAddr());
 			pstmt.setString(7, ub.getEmail());
+			pstmt.setString(8, ub.getPost_num());
+			pstmt.setString(9, ub.getAddr2());
 			
 			pstmt.executeUpdate(); 
 			System.out.println("회원 등록 완료");
@@ -188,18 +192,21 @@ public class UserDAO {
 		try {
 			conn = getConnection(); 
 			
-			String sql = "update userinfo set pwd = ? , name=? , gender=?, age=?, addr=? , email=? where id = ?"; 
+			String sql = "update userinfo set pwd = ? , name=? , gender=?, age=?,post_num=?, addr=? ,addr2=?, email=? where id = ?"; 
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, ub.getpwd());
+			pstmt.setString(1, ub.getPwd());
 			pstmt.setString(2, ub.getName());
 			pstmt.setString(3, ub.getGender());
 			pstmt.setInt(4, ub.getAge());
-			pstmt.setString(5, ub.getAddr());
-			pstmt.setString(6, ub.getEmail());
-			pstmt.setString(7, ub.getId());
+			pstmt.setString(5, ub.getPost_num());
+			pstmt.setString(6, ub.getAddr());
+			pstmt.setString(7, ub.getAddr2());
+			pstmt.setString(8, ub.getEmail());
+			pstmt.setString(9, ub.getId());
 			
 			pstmt.executeUpdate(); 
+			System.out.println("업데이트 완료");
 			
 			return true; 
 		} catch (SQLException e) {

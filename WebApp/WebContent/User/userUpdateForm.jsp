@@ -24,7 +24,7 @@
 	
 %>
 
-
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
 
 	function deleteChk() {
@@ -107,12 +107,27 @@
 			return false ; 
 		}
 	}
+	
+	 function searchPostCode() {
+	        new daum.Postcode({
+	            oncomplete: function(data) {
+
+	                var roadAddr = data.roadAddress; // 도로명 주소 변수
+	              
+
+	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	                document.getElementById('post_num').value = data.zonecode;
+	                document.getElementById("addr").value = roadAddr;            
+	              
+	            }
+	        }).open();
+	    }
 </script>
 </head>
 <body>
 
 <% if(ub != null){ %>
-	<fieldset style="width: 400px; height: 300px;">
+	<fieldset  style="width: 600px;"> 
 		<legend> 회원 정보 수정 </legend>
 		<!-- TODO : 테스트 완료되면 get에서  post로 바꾸기 -->
 		<form action="userUpdatePro.jsp" method="get" name="fr" onsubmit="return checkUser()"> 
@@ -127,7 +142,7 @@
 					<td>비밀번호 :</td>
 					<td>
 					<input style="width: 180px" type="password" name="pwd" maxlength="14" 
-					placeholder="6~14자 이하의 영어,숫자 조합"  value=<%=ub.getpwd() %>></td>
+					placeholder="6~14자 이하의 영어,숫자 조합"  value=<%=ub.getPwd() %>></td>
 					
 				</tr>
 				<tr>
@@ -151,7 +166,12 @@
 				</tr>
 				<tr>
 					<td>주소</td>
-					<td><input type="text" name="addr" maxlength="100" value=<%=ub.getAddr() %>></td> 
+					<td>
+						<input type="text" id="post_num" name="post_num" placeholder="우편번호" value='<%=ub.getPost_num() %>'>
+						<input type="button" value="검색" onclick="searchPostCode()"> <br> 
+						<input type="text" id="addr" name="addr" placeholder="도로명주소" value='<%=ub.getAddr() %>'>
+						<input type="text" id="addr2" name="addr2" placeholder="상세주소" value='<%=ub.getAddr2() %>'>
+					</td>
 				</tr>
 				<tr>
 					<td>이메일</td>
