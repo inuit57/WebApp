@@ -127,6 +127,7 @@ public class CommentDAO {
 			
 			pstmt.executeUpdate(); 
 			// 댓글 수정 완료 
+			System.out.println("댓글 수정 완료");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -136,5 +137,28 @@ public class CommentDAO {
 		}
 		
 		return true; 
-	}
+	} // updateComment() 
+	
+	public boolean deleteComment(CommentBean cb){
+		conn = getConnection(); 
+		String sql = "delete from comment where bid=? and cm_id=?"; 
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cb.getBid());
+			pstmt.setInt(2, cb.getCm_id());
+			
+			pstmt.executeUpdate(); 
+			// 댓글 삭제 완료 
+			System.out.println("댓글 삭제 완료");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false ; 
+		} finally {
+			dbClose();
+		}
+		
+		return true; 
+	} // deleteComment
 }

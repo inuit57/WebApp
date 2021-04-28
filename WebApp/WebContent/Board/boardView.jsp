@@ -108,20 +108,22 @@
 					%>
 					<tr>
 						<td><%=cb.getUid() %></td>
-						<td colspan="3" >
+						<td colspan = "6">
 						<input type="text" id='comment<%=cb.getCm_id() %>' style="background-color: #e2e2e2;" 
 						value='<%=arrCb.get(i).getContent() %>' readonly="readonly">
-						</td>
+						
 						<!-- TODO :  댓글 수정/삭제 버튼 -->
-						<td> <input type="button" id='btn<%=cb.getCm_id() %>' value="수정" onclick="editComment('<%=cb.getCm_id() %>')"></td>
-						<td> <input type="button" value="삭제"></td>
+						<% if ( session.getAttribute("id").equals(cb.getUid())){ %>
+						<input type="button" id='btn<%=cb.getCm_id() %>' value="수정" onclick="editComment('<%=cb.getCm_id() %>')">
+						<input type="button" value="삭제" onclick="deleteComment('<%=cb.getCm_id() %>')"></td>
+						<%} %>
 						<script>
 							function editComment(index){
 								var btn = document.getElementById('btn'+index); 
 								var input = document.getElementById('comment'+index); 
 								
 								if(btn.value == '수정'){
-									btn.value = '전송'; 
+									btn.value = '완료'; 
 									input.style="background-color: white;"
 									input.removeAttribute("readonly"); 
 								}else{
@@ -136,8 +138,11 @@
 										location.href="Comment/updateComment.jsp?bid="+<%=bid%>+"&cm_id="+index+"&content="+input.value ; 
 									}
 								}
-								
-								
+																
+							}//editComment(index)
+							
+							function deleteComment(index){
+								location.href="Comment/deleteComment.jsp?bid="+<%=bid%>+"&cm_id="+index;
 							}
 						</script>
 					</tr>
