@@ -29,6 +29,7 @@
 		//TODO : 비밀번호를 한번더 받도록 한다? -> 굳이? 
 		location.href="updateView.jsp?bID="+bid; 
 	}
+	
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>게시글 내용</title>
@@ -103,19 +104,48 @@
 				</tr>
 				<%
 				for(int i = 0 ; i< arrCb.size(); i++){
+					CommentBean cb = arrCb.get(i) ; 
 					%>
 					<tr>
-						<td><%=arrCb.get(i).getUid() %></td>
-						<td colspan="3"><input type="text" value='<%=arrCb.get(i).getContent() %>' readonly="readonly"></td>
+						<td><%=cb.getUid() %></td>
+						<td colspan="3" >
+						<input type="text" id='comment<%=cb.getCm_id() %>' style="background-color: #e2e2e2;" 
+						value='<%=arrCb.get(i).getContent() %>' readonly="readonly">
+						</td>
 						<!-- TODO :  댓글 수정/삭제 버튼 -->
-						<td> <input type="button" value="수정"></td>
+						<td> <input type="button" id='btn<%=cb.getCm_id() %>' value="수정" onclick="editComment('<%=cb.getCm_id() %>')"></td>
 						<td> <input type="button" value="삭제"></td>
+						<script>
+							function editComment(index){
+								var btn = document.getElementById('btn'+index); 
+								var input = document.getElementById('comment'+index); 
+								
+								if(btn.value == '수정'){
+									btn.value = '전송'; 
+									input.style="background-color: white;"
+									input.removeAttribute("readonly"); 
+								}else{
+									btn.value='수정'; 
+									input.style="background-color: #e2e2e2;"
+									input.setAttribute("readonly", "readonly");
+									
+									if(input.value == ""){
+										alert("내용을 작성해주세요!"); 
+									}else{
+										//DB에 업데이트
+										location.href="Comment/updateComment.jsp?bid="+<%=bid%>+"&cm_id="+index+"&content="+input.value ; 
+									}
+								}
+								
+								
+							}
+						</script>
 					</tr>
 					<%
 				}
 			%>
 			<%} %>
-			<!--  댓글 유효성 검사 : required로 대체되었다. -->
+			<!--  댓글 유효성 검사 : required로 대체. -->
 		 	<form action="Comment/insertComment.jsp"  > 
 				<tr>
 					<td align="center"><input style="width:50px" type="text" name="uid" value='<%=session.getAttribute("id") %>' readonly="readonly"></td>

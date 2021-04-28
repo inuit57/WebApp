@@ -113,5 +113,28 @@ public class CommentDAO {
 		
 		return arrCb; 
 		
+	}//getCommentList 
+	
+	public boolean updateComment(CommentBean cb){
+		conn = getConnection(); 
+		String sql = "update comment set content = ? where bid=? and cm_id=?"; 
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, cb.getContent());
+			pstmt.setInt(2, cb.getBid());
+			pstmt.setInt(3, cb.getCm_id());
+			
+			pstmt.executeUpdate(); 
+			// 댓글 수정 완료 
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false ; 
+		} finally {
+			dbClose();
+		}
+		
+		return true; 
 	}
 }
