@@ -20,7 +20,7 @@
 		System.out.println(id);
 		UserBean ub = uDao.getUserBean(id); 
 		
-		if(ub != null){ String pwd = ub.getpwd(); }
+		if(ub != null){ String pwd = ub.getPwd(); }
 		// TODO : 정보 수정할 때 비밀번호 한번 입력하게 하기 
 	}else{
 		// 로그인 페이지로 이동.

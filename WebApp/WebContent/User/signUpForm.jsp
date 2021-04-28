@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
 
 	function deletepwd(){
@@ -102,6 +103,21 @@
 		window.open( "idCheckPro.jsp?id=" + document.fr.id.value , "idChkPopup","width=500,height=600" );
 		
 	}
+	
+    function searchPostCode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+
+                var roadAddr = data.roadAddress; // 도로명 주소 변수
+              
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('post_num').value = data.zonecode;
+                document.getElementById("addr").value = roadAddr;            
+              
+            }
+        }).open();
+    }
 
 </script>
 
@@ -113,7 +129,7 @@
 	<!-- 회원가입 페이지 입니다. -->
 
 	<!-- TODO : 크기 조정 필요 -->
-	<fieldset style="width: 400px; height: 300px;">
+	<fieldset  style="width: 600px;"> 
 		<legend> 회원 가입 </legend>
 		<!-- TODO : 테스트 완료되면 get에서  post로 바꾸기 -->
 		<form action="signUpPro.jsp" method="get" name="fr" onsubmit="return checkUser()">
@@ -156,8 +172,12 @@
 				</tr>
 				<tr>
 					<td>주소</td>
-					<!--  TODO 주소 API 사용해보기  -->
-					<td><input type="text" name="addr" maxlength="100"></td> 
+					<td>
+						<input type="text" id="post_num" name="post_num" placeholder="우편번호">
+						<input type="button" value="검색" onclick="searchPostCode()"> <br> 
+						<input type="text" id="addr" name="addr" placeholder="도로명주소">
+						<input type="text" id="addr2" name="addr2" placeholder="상세주소">
+					</td>
 				</tr>
 				<tr>
 					<td>이메일</td>
