@@ -10,47 +10,13 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-public class UserDAO {
+import com.itwillbs.dao.ObjectDAO;
+
+public class UserDAO extends ObjectDAO {
 
 	private UserBean ub ;
 	//UserBean ub = new UserBean.Builder().build(); 
 	// 이렇게 하면 그냥 빈 객체 생성된다. 
-	private Connection conn ; 
-	private PreparedStatement pstmt; 
-	
-	//연결 설정
-	private Connection getConnection(){
-		Context initCTX;
-		try {
-			initCTX = new InitialContext();
-			DataSource ds = (DataSource)initCTX.lookup("java:comp/env/jdbc/mysqlDB");
-			
-			
-			try {
-				conn = ds.getConnection();
-				//System.out.println("user 연결 성공!");
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} 
-		} catch (NamingException e) {
-			
-			e.printStackTrace();
-		} 
-		
-		return conn ; 
-	} //getConnection(); 
-	
-	public void dbClose(){
-		try {
-			if(conn!= null){
-				pstmt.close();
-				conn.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	} //dbClose(); 
 	
 	// id로 User얻어오기
 	public boolean UserCheck(String id,String pwd){
