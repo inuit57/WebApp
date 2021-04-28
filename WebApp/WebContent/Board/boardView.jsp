@@ -5,7 +5,7 @@
 <%@page import="com.itwillbs.board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <script type="text/javascript">
@@ -93,7 +93,7 @@
 				</td> 
 			</tr>
 			
-			<!-- TODO : 댓글들 읽어서 테이블 형태로 찍어주기 -->
+			<!--  댓글들 읽어서 테이블 형태로 찍어주기 -->
 			<%
 			if(arrCb.size() > 0){
 				for(int i = 0 ; i< arrCb.size(); i++){
@@ -102,17 +102,18 @@
 						<td><%=arrCb.get(i).getUid() %></td>
 						<td colspan="2"><%=arrCb.get(i).getContent() %></td>
 						<!-- TODO :  댓글 수정/삭제 버튼 -->
+						
 					</tr>
 					<%
 				}
 			%>
 			<%} %>
-			<!--  TODO : 댓글 유효성 검사? -->
-		 	<form action="Comment/insertComment.jsp"  onsubmit=""> 
+			<!--  댓글 유효성 검사 : required로 대체되었다. -->
+		 	<form action="Comment/insertComment.jsp"  > 
 				<tr>
 					<td align="center"><input style="width:50px" type="text" name="uid" value='<%=session.getAttribute("id") %>' readonly="readonly"></td>
 					<td>
-						<input type="text" name="content" placeholder="댓글">
+						<input type="text" name="content" placeholder="댓글" required="required">
 						<input type="hidden" name="bid" value="<%=bid %>">
 					</td>
 					<td><input type="submit" value="작성" ></td>
