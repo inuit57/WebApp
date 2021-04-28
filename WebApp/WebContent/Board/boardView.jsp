@@ -62,25 +62,25 @@
 		<table border="2">
 			<tr> 
 				<td>
-					<select style="width:50px" name="btype"  disabled="disabled" >
+					<select name="btype"  disabled="disabled" >
 						<option value="1" <% if(bb.getBtype().equals("1")){ %>selected="selected" <%} %>>공지</option>
 						<option value="2" <% if(bb.getBtype().equals("2")){ %>selected="selected" <%} %>>일반</option>
 						<option value="3" <% if(bb.getBtype().equals("3")){ %>selected="selected" <%} %>>자료</option>
 					</select>
 				</td>
-				<td colspan="2">
-					<input style="width:200px" type="text" name="bsubject" placeholder="제목"  
+				<td colspan="5">
+					<input style="width:250px" type="text" name="bsubject" placeholder="제목"  
 					readonly="readonly" value=<%=bb.getBsubject() %>>  
 				</td>
 			</tr>
 			<tr> 
-				<td colspan="3">
-					<textarea rows="20" cols="35" name="bcontent" placeholder="내용" 
+				<td colspan="6">
+					<textarea rows="20" cols="42" name="bcontent" placeholder="내용" 
 					readonly="readonly" ><%=bb.getBcontent() %> </textarea>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="3" align="right">
+				<td colspan="6" align="right">
 				<%
 					if ( bb.getUid().equals(session.getAttribute("id"))){
 						// TODO : 계정 권한이 관리자인 경우에만 삭제 버튼 활성화 되도록 추가
@@ -96,13 +96,20 @@
 			<!--  댓글들 읽어서 테이블 형태로 찍어주기 -->
 			<%
 			if(arrCb.size() > 0){
+				%>
+				<tr>
+				<td colspan="6">댓글 목록</td>
+				<!--  TODO : 댓글도 페이징 넣기?  -->
+				</tr>
+				<%
 				for(int i = 0 ; i< arrCb.size(); i++){
 					%>
 					<tr>
 						<td><%=arrCb.get(i).getUid() %></td>
-						<td colspan="2"><%=arrCb.get(i).getContent() %></td>
+						<td colspan="3"><input type="text" value='<%=arrCb.get(i).getContent() %>' readonly="readonly"></td>
 						<!-- TODO :  댓글 수정/삭제 버튼 -->
-						
+						<td> <input type="button" value="수정"></td>
+						<td> <input type="button" value="삭제"></td>
 					</tr>
 					<%
 				}
@@ -112,8 +119,8 @@
 		 	<form action="Comment/insertComment.jsp"  > 
 				<tr>
 					<td align="center"><input style="width:50px" type="text" name="uid" value='<%=session.getAttribute("id") %>' readonly="readonly"></td>
-					<td>
-						<input type="text" name="content" placeholder="댓글" required="required">
+					<td colspan="4">
+						<input style="width:190px"  type="text" name="content" placeholder="댓글" required="required">
 						<input type="hidden" name="bid" value="<%=bid %>">
 					</td>
 					<td><input type="submit" value="작성" ></td>

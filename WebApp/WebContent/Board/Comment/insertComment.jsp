@@ -20,8 +20,8 @@
 <script type="text/javascript">
 
 	if(<%=flag%>){
-		alert("댓글 작성 완료!");
-		alert("<%=cb.getBid()%>")
+		//alert("댓글 작성 완료!");
+		//alert("<%=cb.getBid()%>")
 	}
 	
 	location.href="../boardView.jsp?bID=<%=cb.getBid()%>" ;  
