@@ -47,6 +47,10 @@
 		session.setAttribute("curr", curr); 
 	}
 
+	session.setAttribute("viewType", "1");  // 1 : list 
+	session.setMaxInactiveInterval(5000); 
+
+	
 	BoardDAO bDao = new BoardDAO(); 
 	ArrayList<BoardBean> arrBB = bDao.getBoardList(); 
 
@@ -161,6 +165,7 @@
 	%>
 		<input type="button" value="다음" onclick="postPage(<%=currentIndex%>,<%=maxIndex%>,<%=listCut%>)">
 	<%//}	%>
+	<input type="button" value="갤러리로 전환" onclick="location.href='ImageBoard.jsp'">
 <%		
 	}else{
 	%>
