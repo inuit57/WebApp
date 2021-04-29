@@ -11,11 +11,17 @@
 		
 		var curr = <%=(String)session.getAttribute("curr")%>; 
 		var listCnt = <%=(String)session.getAttribute("listCnt")%>
+		var viewType = <%=(String)session.getAttribute("viewType")%>;
 		
 		if (curr == null) curr = 1 ;
 		if (listCnt == null) listCnt = 3; 
 		
-		location.href="boardList.jsp?currentIndex="+curr+"&listCnt="+listCnt; 
+		if( viewType == "1"){
+			location.href="boardList.jsp?currentIndex="+curr+"&listCnt="+listCnt; 
+		}else if ( viewType == "2"){
+			location.href="ImageBoard.jsp?listCnt="+listCnt;
+		}
+		
 	}
 	
 	function updateView(bid){
@@ -37,6 +43,8 @@
 	request.setCharacterEncoding("UTF-8"); 
 	String bid = (String)request.getParameter("bID"); 
 
+	 
+	
 	BoardDAO bDAO = new BoardDAO(); 
 	BoardBean bb = null ; 
 	if(bid == null){ 
