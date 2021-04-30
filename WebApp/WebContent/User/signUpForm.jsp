@@ -90,6 +90,11 @@
 			document.fr.email.focus(); 
 			return false ; 
 		}
+		if (document.fr.emailCheck.value == ""){
+			alert("이메일 인증을 진행하세요!");
+			document.fr.email.focus(); 
+			return false; 
+		}
 		 
 	}
 	
@@ -102,6 +107,14 @@
 		}
 		window.open( "idCheckPro.jsp?id=" + document.fr.id.value , "idChkPopup","width=500,height=600" );
 		
+	}
+	
+	function checkEmail(){
+		if ( document.fr.email.value == "" ){
+			alert("이메일을 입력하세요!") ; 
+			return;
+		} 
+		window.open( "emailCheckPro.jsp?email="+document.fr.email.value  , "이메일 인증","width=500,height=600")
 	}
 	
     function searchPostCode() {
@@ -182,6 +195,11 @@
 				<tr>
 					<td>이메일</td>
 					<td><input type="email" name="email" maxlength="30"> </td>
+					<td>
+					<input type="button" value="이메일 인증" onclick="checkEmail()">
+					<input type="hidden" name="emailCheck" disabled="disabled">
+					</td>
+					
 				</tr>
 				<tr>
 					<td colspan="2" align="right">
