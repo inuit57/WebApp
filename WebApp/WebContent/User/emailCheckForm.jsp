@@ -49,7 +49,8 @@
 		if (document.getElementById("key_input").value == "<%=Key%>" ){
 			alert("인증 완료 되었습니다..");
 			opener.document.fr.emailCheck.value = "Yes"; 
-			opener.document.fr.email.value = "" ; //값 넣어주기 
+			opener.document.fr.email.value = "<%=email_addr%>" ; //값 넣어주기 
+			
 			self.close(); 
 		}else{
 			alert("인증 암호를 다시 확인하세요.  " +  "<%=Key%>" );

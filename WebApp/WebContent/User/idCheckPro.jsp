@@ -38,6 +38,7 @@
 	if (<%=flag%>){
 		alert("사용가능한 아이디입니다.");
 		opener.document.fr.idCheck.value = "Yes"; 
+		opener.document.fr.id.readOnly=true; 
 		self.close(); 
 	}else{
 		alert("이미 사용 중인 아이디입니다.");

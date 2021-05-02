@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
@@ -95,6 +95,11 @@
 			document.fr.email.focus(); 
 			return false; 
 		}
+		if (document.fr.email.value != "<%= session.getAttribute("email")%>"){
+			alert("인증하신 이메일과 다릅니다. 다시 인증해주세요!"); 
+			document.fr.email.focus(); 
+			return false;
+		}
 		 
 	}
 	
@@ -106,6 +111,8 @@
 			return;
 		}
 		window.open( "idCheckPro.jsp?id=" + document.fr.id.value , "idChkPopup","width=500,height=600" );
+		document.fr.idChkBtn.disabled=true;
+		document.fr.idChangeBtn.disabled=false;
 		
 	}
 	
@@ -115,6 +122,7 @@
 			return;
 		} 
 		window.open( "emailCheckPro.jsp?email="+document.fr.email.value  , "이메일 인증","width=500,height=600")
+		 
 	}
 	
     function searchPostCode() {
@@ -131,7 +139,14 @@
             }
         }).open();
     }
-
+    
+    function changeID() {
+    	document.fr.idCheck.value = "";
+    	document.fr.id.readOnly=false;	
+    	document.fr.idChkBtn.disabled=false; 
+    	document.fr.idChangeBtn.disabled=true;
+	}
+    
 </script>
 
 <head>
@@ -149,12 +164,12 @@
 			<table border="2">
 				<tr>
 					<td>아이디 :</td>
-					<td><input style="width: 100px" type="text" name="id" maxlength="8" 
-					placeholder="영문,숫자(8자)">
-						<!--  TODO 중복확인 로직 넣기  -->
-						<!--  DB에 가서 select를 해봐야 한다.  --> 
-						<input type="button" value="중복확인"
+					<td><input style="width: 100px" type="text" name="id" id="id" maxlength="8" 
+					placeholder="영문,숫자(8자)" > 
+					<input type="button" value="중복확인" name="idChkBtn" 
 								onclick="checkID()">
+					<input type="button" value="ID수정" name="idChangeBtn" disabled="disabled"
+								onclick="changeID()">
 					<input type="hidden" name="idCheck" disabled="disabled"> 			
 					</td>
 					
@@ -194,6 +209,7 @@
 				</tr>
 				<tr>
 					<td>이메일</td>
+					<!-- TODO : 이메일을 한번 DB에서 조회해보고 만약 있다면 아이디/비밀번호 찾기로? -->
 					<td><input type="email" name="email" maxlength="30"> </td>
 					<td>
 					<input type="button" value="이메일 인증" onclick="checkEmail()">
