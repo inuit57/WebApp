@@ -58,7 +58,7 @@
 	    Session ses = Session.getInstance(p, auth);
 	     
 	    ses.setDebug(true);
-	     
+	    
 	    MimeMessage msg = new MimeMessage(ses); // 메일의 내용을 담을 객체
 	    msg.setSubject(subject); // 제목
 	     

@@ -13,7 +13,7 @@
 
 <input type="text" id="key_input" placeholder="인증키를 입력하세요"> <br>
 <input type="button" value="인증키 재발송" onclick="generateKey()">
-<input type="button" value="인증 확인" onclick="check()"> <br>
+<input type="button" id="key_check" value="인증 확인" onclick="check()"> <br>
 <%
 	request.setCharacterEncoding("UTF-8"); 
 	
@@ -38,16 +38,21 @@
 
 <script type="text/javascript">
 	
-	//var key = "test"; 
+	var keyValid = true; 
 	
 	function generateKey(){
 		//location.reload();
-		location.href="emailCheckPro.jsp"; 
+		keyValid=true; 
+		document.getElementById("key_check").disabled=false;
+		location.href="emailCheckPro.jsp?email="+"<%=email_addr%>"; 
+		
 	}
 	
 	function check(){
-		if (document.getElementById("key_input").value == "<%=Key%>" ){
+		if (document.getElementById("key_input").value == "<%=Key%>" && keyValid ){
 			alert("인증 완료 되었습니다..");
+			alert("<%=Key%>" + "<%=(String)session.getAttribute("key")%>");
+			alert(document.referrer); 
 			opener.document.fr.emailCheck.value = "Yes"; 
 			opener.document.fr.email.value = "<%=email_addr%>" ; //값 넣어주기 
 			
@@ -67,7 +72,7 @@
 	var RemainDate = edDate - stDate;
 	 
 	
-	var time =  60 ; 
+	var time =  30;//60 ; 
 	var min = "" ; //분
 	var sec= "" ; // 초
 	
@@ -82,8 +87,14 @@
 		if(time < 0){
 			clearInterval(x) ; 
 			document.getElementById("time").innerHTML = "시간초과"; 
-			<% session.removeAttribute("key"); %>
+			<%-- 
+			클라이언트에서는 서버 쪽 값들을 변경할 수 없다.
+			<% session.removeAttribute("key"); Key= null; %>
+			 --%>
+			keyValid= false; 
 			alert("인증시간이 만료되었습니다. 인증키를 재발급하세요.");
+			
+			document.getElementById("key_check").disabled=true;
 			//location.href="emailCheckPro.jsp?timeout=1"; 
 		}
 		
