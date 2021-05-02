@@ -23,12 +23,12 @@
 <script type="text/javascript">
 
 	function idSearch(){
-		window.open( "emailCheckPro.jsp?email="+document.getElementById("email").value  , "이메일 인증","width=500,height=600")
+		window.open( "emailCheckPro.jsp?email="+document.getElementById("email").value  , "이메일 인증","width=500,height=600");
 	
 	}
 	
 	function pwSearch(){
-		
+		window.open( "emailCheckPro.jsp?email="+document.getElementById("email").value  , "이메일 인증","width=500,height=600");
 	}
 </script>
 
