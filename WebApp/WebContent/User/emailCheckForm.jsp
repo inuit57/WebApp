@@ -23,7 +23,8 @@
 		session.setAttribute("email", email_addr); 
 	}
 	  
-			//request.getParameter("email"); 
+	// TODO : DB 상에서 email이 있는 경우, 아이디 찾기로 보내기? 
+			 
 	
 	String Key = (String)session.getAttribute("key");  
 %>
@@ -48,8 +49,9 @@
 	
 	function check(){
 		if (document.getElementById("key_input").value == "<%=Key%>" && keyValid ){
-			alert("인증 완료 되었습니다..");
-			alert("<%=Key%>" + "<%=(String)session.getAttribute("key")%>");
+			alert("인증 완료 되었습니다.");
+			keyValid= false; 
+			//alert("<%=Key%>" + "<%=(String)session.getAttribute("key")%>");
 			//alert(document.referrer); 
 
 			if(  document.referrer.includes("signUpForm.jsp") ) {
@@ -57,6 +59,11 @@
 				opener.document.fr.email.value = "<%=email_addr%>" ; //값 넣어주기
 			}else{ // 아이디, 비밀번호 찾기 처리
 				//if(  document.referrer.includes("signUpForm.jsp") ) {
+				
+				//아이디는 중간에 **을 넣어서 알려주기
+				
+				//비밀번호는 비밀번호 변경 페이지로 넘겨버리기.(그냥 회원 정보 수정 페이지로 보내버리기?)
+				//혹은 임시 비밀번호를 발급해주기? 
 				
 			}
 			 

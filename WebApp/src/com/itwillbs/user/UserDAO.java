@@ -43,6 +43,29 @@ public class UserDAO extends ObjectDAO {
 		 
 	}
 	
+	public boolean UserCheck(String id, String name, String email){
+		try {
+			conn = getConnection();
+			
+			String sql = "select id from userInfo where id=? and email=?"; 
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, email);
+			ResultSet rs = pstmt.executeQuery(); 
+			if(rs.next()){
+				return true;  
+			}else{
+				return false; //없는 경우 null 리턴 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			dbClose();
+		}
+		return false;
+		 
+	}
+	
 	public boolean UserCheck(String id){
 		try {
 			conn = getConnection();
@@ -126,10 +149,11 @@ public class UserDAO extends ObjectDAO {
 			return true ; 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false ;
 		} finally {
 			dbClose();
 		}
-		return false ;
+
 	} //insertUser
 	
 
@@ -148,11 +172,36 @@ public class UserDAO extends ObjectDAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false; 
 		} finally{
 			dbClose();
 		}
-		return false; 
+
 	}	//deleteUser
+	
+	//비밀번호 업데이트 
+	public boolean updateUser(String id, String email, String pw){
+		try {
+			conn = getConnection(); 
+			
+			String sql = "update userinfo set pwd = ? where id = ? and email=?"; 
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pw);
+			pstmt.setString(2, id);
+			pstmt.setString(3, email);
+			
+			pstmt.executeUpdate(); 
+			System.out.println("업데이트 완료");
+			
+			return true; 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false; 
+		}finally {
+			dbClose();
+		} 
+	} //비밀번호 업데이트 끝. 
 	
 	public boolean updateUser(UserBean ub){
 		try {
@@ -177,10 +226,10 @@ public class UserDAO extends ObjectDAO {
 			return true; 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false; 
 		}finally {
 			dbClose();
 		} 
 		
-		return false; 
 	}
 }
