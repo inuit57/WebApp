@@ -1,3 +1,4 @@
+<%@page import="com.itwillbs.user.UserDAO"%>
 <%@page import="com.itwillbs.comment.CommentBean"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.itwillbs.comment.CommentDAO"%>
@@ -51,6 +52,7 @@
 	
 	BoardDAO bDAO = new BoardDAO(); 
 	CommentDAO cDAO = new CommentDAO(); 
+	UserDAO uDAO = new UserDAO(); 
 	BoardBean bb = null ; 
 	ArrayList<CommentBean> arrCb = null ;
 	if(bid == null){ 
@@ -61,6 +63,7 @@
 		arrCb = cDAO.getCommentList(Integer.parseInt(bid)); 
 	}
 	
+	boolean isAdmin = (uDAO.getUserBean((String)session.getAttribute("id")).getUserGrant() > 2) ; 
 %>
 
 
@@ -72,7 +75,9 @@
 			<tr> 
 				<td>
 					<select name="btype"  disabled="disabled" >
-						<option value="1" <% if(bb.getBtype().equals("1")){ %>selected="selected" <%} %>>공지</option>
+						<% if( isAdmin ){ %>
+							<option value="1" <% if(bb.getBtype().equals("1")){ %>selected="selected" <%} %>>공지</option>
+						<% } %>
 						<option value="2" <% if(bb.getBtype().equals("2")){ %>selected="selected" <%} %>>일반</option>
 						<option value="3" <% if(bb.getBtype().equals("3")){ %>selected="selected" <%} %>>자료</option>
 					</select>
@@ -93,10 +98,12 @@
 				<td colspan="6" align="right">
 				<%
 					if ( bb.getUid().equals(session.getAttribute("id"))){
-						// TODO : 계정 권한이 관리자인 경우에만 삭제 버튼 활성화 되도록 추가
+						// TODO : 계정 권한이 관리자인 경우에도 삭제 버튼 활성화 되도록 추가
 				%>
 					<input type="button" id="editBtn" value="수정" onclick="updateView(<%=bid %>)" >
 					
+					<input type="button" value="삭제" onclick="location.href='deletePro.jsp?bid=<%=bid%>'">
+				<%}else if( isAdmin ){ %>
 					<input type="button" value="삭제" onclick="location.href='deletePro.jsp?bid=<%=bid%>'">
 				<%} %>
 					<input type="button" value="목록" onclick="moveList()">
