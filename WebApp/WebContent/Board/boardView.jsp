@@ -85,6 +85,7 @@
 				<td colspan="5">
 					<input style="width:250px" type="text" name="bsubject" placeholder="제목"  
 					readonly="readonly" value=<%=bb.getBsubject() %>>  
+
 				</td>
 			</tr>
 			<tr> 
