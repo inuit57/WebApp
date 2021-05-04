@@ -5,11 +5,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>이메일 인증</title>
 </head>
 <body>
-<!--  TODO : 시간 제한을 두는 것도 생각해볼 수 있겠다. -->
-<!--  세션에 넣고 제한 시간을 두면 되려나.  -->
 
 <input type="text" id="key_input" placeholder="인증키를 입력하세요"> <br>
 <input type="button" value="인증키 재발송" onclick="generateKey()">
@@ -25,7 +23,8 @@
 		session.setAttribute("email", email_addr); 
 	}
 	  
-			//request.getParameter("email"); 
+	// TODO : DB 상에서 email이 있는 경우, 아이디 찾기로 보내기? 
+			 
 	
 	String Key = (String)session.getAttribute("key");  
 %>
@@ -50,11 +49,21 @@
 	
 	function check(){
 		if (document.getElementById("key_input").value == "<%=Key%>" && keyValid ){
-			alert("인증 완료 되었습니다..");
-			alert("<%=Key%>" + "<%=(String)session.getAttribute("key")%>");
-			alert(document.referrer); 
-			opener.document.fr.emailCheck.value = "Yes"; 
-			opener.document.fr.email.value = "<%=email_addr%>" ; //값 넣어주기 
+			alert("인증 완료 되었습니다.");
+			keyValid= false; 
+			//alert("<%=Key%>" + "<%=(String)session.getAttribute("key")%>");
+			//alert(document.referrer); 
+
+			if(  document.referrer.includes("signUpForm.jsp") ) {
+				opener.document.fr.emailCheck.value = "Yes"; 
+				opener.document.fr.email.value = "<%=email_addr%>" ; //값 넣어주기
+			}else{ // 아이디 찾기 처리
+				//if(  document.referrer.includes("signUpForm.jsp") ) {
+				
+				//아이디는 중간에 **을 넣어서 알려주기
+				
+			}
+			 
 			
 			self.close(); 
 		}else{

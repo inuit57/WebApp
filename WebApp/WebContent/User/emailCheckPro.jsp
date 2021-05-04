@@ -1,4 +1,5 @@
 
+<%@page import="com.itwillbs.user.UserDAO"%>
 <%@page import="mailTest.KeyGenerator"%>
 <%@page import="mailTest.SMTPAuthenticator"%>
 <%@page import="javax.mail.Transport"%>
@@ -20,26 +21,40 @@
 <body>
 <%
 	request.setCharacterEncoding("utf-8");
+	String id = request.getParameter("id"); 
 	String email = request.getParameter("email"); 
 	if ( email != null){	
 		session.setAttribute("email", email);
 	}
 	
-	KeyGenerator key = new KeyGenerator() ; 
-
-	session.setAttribute("key", key.getKey());  
-	//클라 쪽에서 시간을 재서 시간이 지났을 때 이거를 날려버리는 것이 좋지 싶네. 
-
+	String pwReset = request.getParameter("pwReset"); 
 	
-	//메일을 보내는 동작도 여기에서 수행한다. 키 재발급 + 메일 발송 
-	
-	 
+	KeyGenerator key = null ; 
 	String from = "inuit57@naver.com";  //보내는 이
 	String to = email; // 받는 이 
-	String subject = "이메일 인증 요청"; 
-	String content = "인증번호 : " + key.getKey(); 
-	// 입력값 받음
-	 
+	String subject = null ;  
+	String content = null ;  //이거를 임시비밀번호로? 
+	if(pwReset != null){ 
+		key = new KeyGenerator(8) ;
+		subject = "비밀번호 재설정";
+		content = "임시비밀번호 : " + key.getKey();
+		
+		UserDAO udao = new UserDAO(); 
+		udao.updateUser(id, email, key.getKey()); 
+		// 이 시점에서 DB에 업데이트 작업을 진행해주도록 하자. 
+		//비밀번호 초기화 해주는 경우에는 session에 저장하진 않는다. 
+		
+	} //비밀번호 초기화의 경우 8자리로 생성
+	else {
+		key = new KeyGenerator(6);   
+		
+		subject = "이메일 인증 요청";
+		content = "인증번호 : " + key.getKey();
+		session.setAttribute("key", key.getKey()); //세션에 생성한 키 값을 저장한다.
+		//메일을 보내는 동작도 여기에서 수행한다. 키 재발급 + 메일 발송 
+	}
+
+	
 	Properties p = new Properties(); // 정보를 담을 객체
 	 
 	p.put("mail.smtp.host","smtp.naver.com"); // 네이버 SMTP
@@ -83,7 +98,14 @@
 	
 	
 	// 여기에서 키를 생성해서 돌려주도록 한다.
-	response.sendRedirect("emailCheckForm.jsp");  
+	if(pwReset != null){  
+		//비밀번호 초기화 동작을 수행한다.
+		//다시 로그인 페이지로 넘겨주자.
+		response.sendRedirect("Login/loginForm.jsp"); 
+		 
+	}else{
+		response.sendRedirect("emailCheckForm.jsp");  
+	}
 %>
 </body>
 </html>

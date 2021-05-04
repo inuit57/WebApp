@@ -13,22 +13,41 @@
 <input type="hidden" name="emailCheck" >
 <input type="button" value="아이디 찾기" onclick="idSearch()">
 
-<h1># pw 찾기<h1><br>
-<form action="pwSearch.jsp" >
-아이디 입력 : <input type="text" name="id" placeholder="아이디 입력"><br>
-이메일 입력 : <input type="email" name="email" placeholder="이메일을 입력하세요." ><br>
-<input type="button" value="아이디 찾기" onclick="pwSearch()"> 
+<h1># pw 찾기<h1>
+<form action="keyResetPro.jsp" name="pwForm" onsubmit="return pwCheck()">
+	아이디 입력 : <input type="text" name="id" placeholder="아이디 입력"><br>
+	이름 입력 :  <input type="text" name="name" placeholder="이름 입력"><br>
+	이메일 입력 : <input type="email" name="email" placeholder="이메일을 입력하세요." ><br>
+	<input type="submit" value="비밀번호 재발급" > 
 </form>
 
 <script type="text/javascript">
 
 	function idSearch(){
-		window.open( "emailCheckPro.jsp?email="+document.getElementById("email").value  , "이메일 인증","width=500,height=600")
+		window.open( "emailCheckPro.jsp?email="+document.getElementById("email").value  , "이메일 인증","width=500,height=600");
 	
 	}
 	
 	function pwSearch(){
+		//window.open( "emailCheckPro.jsp?email="+document.getElementById("email").value  , "이메일 인증","width=500,height=600");
 		
+		if(document.pwForm.id.value == ""){
+			alert("아이디를 입력하세요!"); 
+			document.pwForm.id.focus; 
+			return false; 
+		}
+		
+		if(document.pwForm.name.value == ""){
+			alert("이름를 입력하세요!"); 
+			document.pwForm.name.focus; 
+			return false; 
+		}
+		
+		if(document.pwForm.email.value == ""){
+			alert("이메일을 입력하세요!"); 
+			document.pwForm.email.focus; 
+			return false; 
+		}
 	}
 </script>
 

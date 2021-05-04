@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -31,6 +34,29 @@ public class UserDAO extends ObjectDAO {
 			if(rs.next()){
 				if ( rs.getInt(1) > 0 ) return true; 
 				else return false ; 
+			}else{
+				return false; //없는 경우 null 리턴 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			dbClose();
+		}
+		return false;
+		 
+	}
+	
+	public boolean UserCheck(String id, String name, String email){
+		try {
+			conn = getConnection();
+			
+			String sql = "select id from userInfo where id=? and email=?"; 
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, email);
+			ResultSet rs = pstmt.executeQuery(); 
+			if(rs.next()){
+				return true;  
 			}else{
 				return false; //없는 경우 null 리턴 
 			}
@@ -126,10 +152,11 @@ public class UserDAO extends ObjectDAO {
 			return true ; 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false ;
 		} finally {
 			dbClose();
 		}
-		return false ;
+
 	} //insertUser
 	
 
@@ -148,11 +175,109 @@ public class UserDAO extends ObjectDAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false; 
 		} finally{
 			dbClose();
 		}
-		return false; 
+
 	}	//deleteUser
+	
+	public boolean deleteUserList(String[] list){
+		
+		try {
+			conn = getConnection(); 
+			for(String id : list){
+				String sql = "delete from userinfo where id = ?"; 
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, id);
+				pstmt.executeUpdate(); 
+				
+				System.out.println(id+" 삭제완료");
+			}
+			return true; 
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false; 
+		} finally{
+			dbClose();
+		}
+	}// deleteUserList
+	
+	//비밀번호 업데이트 
+	public boolean updateUser(String id, String email, String pw){
+		try {
+			conn = getConnection(); 
+			
+			String sql = "update userinfo set pwd = ? where id = ? and email=?"; 
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pw);
+			pstmt.setString(2, id);
+			pstmt.setString(3, email);
+			
+			pstmt.executeUpdate(); 
+			System.out.println("업데이트 완료");
+			
+			return true; 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false; 
+		}finally {
+			dbClose();
+		} 
+	} //비밀번호 업데이트 끝. 
+	
+
+	public boolean updateUser(String id, int grant){
+		try {
+			conn = getConnection(); 
+			
+			String sql = "update userinfo set userGrant = ? where id = ? "; 
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, grant);
+			pstmt.setString(2, id);
+			
+			pstmt.executeUpdate(); 
+			System.out.println("업데이트 완료");
+			
+			return true; 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false; 
+		}finally {
+			dbClose();
+		} 
+	}	//권한 변경 작업
+	
+	public boolean updateUser(HashMap<String, Integer> userMap){
+		try {
+			conn = getConnection(); 
+			Set<String> idSet = userMap.keySet();
+			
+			for(String id : idSet){
+				
+				String sql = "update userinfo set userGrant = ? where id = ? "; 
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, userMap.get(id));
+				pstmt.setString(2, id);
+				
+				pstmt.executeUpdate(); 
+				System.out.println("업데이트 완료");
+			}
+			return true; 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false; 
+		}finally {
+			dbClose();
+		} 
+	}	//권한 변경 작업
+	
+	
 	
 	public boolean updateUser(UserBean ub){
 		try {
@@ -177,10 +302,40 @@ public class UserDAO extends ObjectDAO {
 			return true; 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false; 
 		}finally {
 			dbClose();
 		} 
+	} //  updateUser(UserBean ub) : 유저 한명 통째로 정보 업데이트 
+	
+	
+	public ArrayList<UserBean> getUserList(){
+		ArrayList<UserBean> userList = new ArrayList<>(); 
+		try {
+			conn = getConnection(); 
+			String sql = "select id, name, gender, age, userGrant, email,signInDate from userinfo";
+			pstmt = conn.prepareStatement(sql);
+			
+			ResultSet rs = pstmt.executeQuery(); 
+			
+			while(rs.next()){
+				UserBean ub = new UserBean(); 
+				ub.setId(rs.getString("id"));
+				ub.setName(rs.getString("name"));
+				ub.setGender(rs.getString("gender"));
+				ub.setAge(rs.getInt("age"));
+				ub.setUserGrant(rs.getInt("userGrant"));
+				ub.setEmail(rs.getString("email"));
+				ub.setSignInDate(rs.getDate("signInDate"));
+				
+				userList.add(ub); 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		}
 		
-		return false; 
+		return userList; 
 	}
 }
