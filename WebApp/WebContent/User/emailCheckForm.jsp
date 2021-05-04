@@ -57,13 +57,10 @@
 			if(  document.referrer.includes("signUpForm.jsp") ) {
 				opener.document.fr.emailCheck.value = "Yes"; 
 				opener.document.fr.email.value = "<%=email_addr%>" ; //값 넣어주기
-			}else{ // 아이디, 비밀번호 찾기 처리
+			}else{ // 아이디 찾기 처리
 				//if(  document.referrer.includes("signUpForm.jsp") ) {
 				
 				//아이디는 중간에 **을 넣어서 알려주기
-				
-				//비밀번호는 비밀번호 변경 페이지로 넘겨버리기.(그냥 회원 정보 수정 페이지로 보내버리기?)
-				//혹은 임시 비밀번호를 발급해주기? 
 				
 			}
 			 
