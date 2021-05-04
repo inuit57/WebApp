@@ -32,7 +32,10 @@
 
 	boolean flag = false ; 
 	// 여기 안에서 한번에 바꾸려고 처리하려니까 잘 되진 않는다. 
-	// 세션 안에 집어넣고 처리하는 식으로 구현하는 것으로 한다. 
+	// 세션 안에 집어넣고 처리하는 식으로 구현하는 것으로 한다.
+	
+	String searchID = (String)session.getAttribute("id"); 
+	session.removeAttribute("id") ; 
 %>
 
 <script type="text/javascript">
@@ -57,11 +60,10 @@
 			if(  document.referrer.includes("signUpForm.jsp") ) {
 				opener.document.fr.emailCheck.value = "Yes"; 
 				opener.document.fr.email.value = "<%=email_addr%>" ; //값 넣어주기
-			}else{ // 아이디 찾기 처리
-				//if(  document.referrer.includes("signUpForm.jsp") ) {
-				
+			}else if( document.referrer.includes("idSearchPro.jsp") ){ // 아이디 찾기 처리
 				//아이디는 중간에 **을 넣어서 알려주기
-				
+				alert("아이디는 <%=searchID%> 입니다."); 
+				opener.location.href="Login/loginForm.jsp"; 
 			}
 			 
 			

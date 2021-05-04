@@ -50,10 +50,11 @@ public class UserDAO extends ObjectDAO {
 		try {
 			conn = getConnection();
 			
-			String sql = "select id from userInfo where id=? and email=?"; 
+			String sql = "select id from userInfo where id=? and name=? and email=?"; 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
-			pstmt.setString(2, email);
+			pstmt.setString(2, name); 
+			pstmt.setString(3, email);
 			ResultSet rs = pstmt.executeQuery(); 
 			if(rs.next()){
 				return true;  
@@ -67,7 +68,7 @@ public class UserDAO extends ObjectDAO {
 		}
 		return false;
 		 
-	}
+	} // userCheck(id, name, email) 
 	
 	public boolean UserCheck(String id){
 		try {
@@ -89,7 +90,30 @@ public class UserDAO extends ObjectDAO {
 		}
 		 
 		return false ; 
-	}
+	} // userCheck (id) 
+	
+	public String getId(String name, String email){
+		try {
+			conn = getConnection();
+			
+			String sql = "select id from userInfo where name=? and email=?";  
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, email);
+			ResultSet rs = pstmt.executeQuery(); 
+			if(rs.next()){
+				return rs.getString(1); 
+			}else{
+				return null; //없는 경우 null 리턴 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			dbClose();
+		}
+		 
+		return null ; 
+	} // getID
 	
 	//getUserBean(String id)
 	//유저 1명 정보 다 얻어오기 
