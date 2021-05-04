@@ -1,3 +1,4 @@
+<%@page import="com.itwillbs.user.UserDAO"%>
 <%@page import="com.itwillbs.comment.CommentBean"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.itwillbs.comment.CommentDAO"%>
@@ -51,6 +52,7 @@
 	
 	BoardDAO bDAO = new BoardDAO(); 
 	CommentDAO cDAO = new CommentDAO(); 
+	UserDAO uDAO = new UserDAO(); 
 	BoardBean bb = null ; 
 	ArrayList<CommentBean> arrCb = null ;
 	if(bid == null){ 
@@ -72,7 +74,9 @@
 			<tr> 
 				<td>
 					<select name="btype"  disabled="disabled" >
-						<option value="1" <% if(bb.getBtype().equals("1")){ %>selected="selected" <%} %>>공지</option>
+						<% if( uDAO.getUserBean(bb.getUid()).getUserGrant() >2 ){ %>
+							<option value="1" <% if(bb.getBtype().equals("1")){ %>selected="selected" <%} %>>공지</option>
+						<% } %>
 						<option value="2" <% if(bb.getBtype().equals("2")){ %>selected="selected" <%} %>>일반</option>
 						<option value="3" <% if(bb.getBtype().equals("3")){ %>selected="selected" <%} %>>자료</option>
 					</select>

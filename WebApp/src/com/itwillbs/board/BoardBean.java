@@ -9,10 +9,22 @@ public class BoardBean {
 	String btype ; 
 	String bsubject ; 
 	String bcontent ; 
-	int ref_id ; 
-	int comment_id ;
+	int user_score ; 
+	String file_name ;
 	Date bdate ; 
 	
+	public int getUser_score() {
+		return user_score;
+	}
+	public void setUser_score(int user_score) {
+		this.user_score = user_score;
+	}
+	public String getFile_name() {
+		return file_name;
+	}
+	public void setFile_name(String file_name) {
+		this.file_name = file_name;
+	}
 	public Date getBdate() {
 		return bdate;
 	}
@@ -50,17 +62,6 @@ public class BoardBean {
 	public void setBcontent(String bcontent) {
 		this.bcontent = bcontent;
 	}
-	public int getRef_id() {
-		return ref_id;
-	}
-	public void setRef_id(int ref_id) {
-		this.ref_id = ref_id;
-	}
-	public int getComment_id() {
-		return comment_id;
-	}
-	public void setComment_id(int comment_id) {
-		this.comment_id = comment_id;
-	} 
+
 	
 }

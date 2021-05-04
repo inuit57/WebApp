@@ -57,10 +57,8 @@
 		</td>
 	</tr>
 
-
 	<% 
 		for (int i = 0 ; i< (size/listCut) ; i++){ // 열 갯수
-			
 	%>
 		<tr>
 			<% for(int j = 0 ; j<listCut ; j++){  %>
@@ -72,12 +70,15 @@
 				bb = arrBB.get(i*listCut+ j);	
 			%>
 			<td> 
+			<!-- 제목 -->
 			<a href="boardView.jsp?bID=<%=bb.getBid() %>">
-			 <%= bb.getBsubject() %></a>  </td>
+			 [<%= (bb.getBtype().equals("1")) ? "공지" : (bb.getBtype().equals("2")) ? "일반" : "자료"  %>]<%= bb.getBsubject() %></a>  </td>
 			<%} %>
 		</tr>
 	<%} //for문 종료 %>
 </table>
+
+<!-- TODO : 밑에 숫자로 여러 개 보이게도 좀 해줘야한다.  -->
 
 </body>
 </html>
