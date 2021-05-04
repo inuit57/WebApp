@@ -63,6 +63,7 @@
 		arrCb = cDAO.getCommentList(Integer.parseInt(bid)); 
 	}
 	
+	boolean isAdmin = (uDAO.getUserBean((String)session.getAttribute("id")).getUserGrant() > 2) ; 
 %>
 
 
@@ -74,7 +75,7 @@
 			<tr> 
 				<td>
 					<select name="btype"  disabled="disabled" >
-						<% if( uDAO.getUserBean(bb.getUid()).getUserGrant() >2 ){ %>
+						<% if( isAdmin ){ %>
 							<option value="1" <% if(bb.getBtype().equals("1")){ %>selected="selected" <%} %>>공지</option>
 						<% } %>
 						<option value="2" <% if(bb.getBtype().equals("2")){ %>selected="selected" <%} %>>일반</option>
@@ -96,10 +97,12 @@
 				<td colspan="6" align="right">
 				<%
 					if ( bb.getUid().equals(session.getAttribute("id"))){
-						// TODO : 계정 권한이 관리자인 경우에만 삭제 버튼 활성화 되도록 추가
+						// TODO : 계정 권한이 관리자인 경우에도 삭제 버튼 활성화 되도록 추가
 				%>
 					<input type="button" id="editBtn" value="수정" onclick="updateView(<%=bid %>)" >
 					
+					<input type="button" value="삭제" onclick="location.href='deletePro.jsp?bid=<%=bid%>'">
+				<%}else if( isAdmin ){ %>
 					<input type="button" value="삭제" onclick="location.href='deletePro.jsp?bid=<%=bid%>'">
 				<%} %>
 					<input type="button" value="목록" onclick="moveList()">

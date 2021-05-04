@@ -80,7 +80,7 @@
 				<td colspan="3" align="right">
 				<%
 					if ( bb.getUid().equals(session.getAttribute("id"))){
-						// TODO : 계정 권한이 관리자인 경우에만 삭제 버튼 활성화 되도록 추가
+						// TODO : 계정 권한이 관리자인 경우에도 삭제 버튼 활성화 되도록 추가
 				%>
 					<input type="submit" value="수정완료" >
 					

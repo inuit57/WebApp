@@ -7,16 +7,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>게시판 : 갤러리뷰</title>
 </head>
 <body>
 
-<!--  
-	로직을 짜도록 하자. 
-	3x3으로 보여주거나 하는 그런 거 말이다. 
-
+<!-- 
+	이미지 파일을 등록하였다면 이미지 파일을 보여주고 
+	만약 그렇지 않다면 기본 이미지를 보여주는 식으로 작업하도록 하자. 
+	
+	아니면 프로필 이미지를 보여주는 것은 어떨까. 
+	만약 프로필 이미지를 등록하였다고 한다면. 
  -->
-
 <%
 	session.setAttribute("viewType", "2");  // 2 : gallery . 
 	session.setMaxInactiveInterval(5000); 
