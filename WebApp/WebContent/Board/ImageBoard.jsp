@@ -69,8 +69,9 @@
 			<td>
 			<%
 			 	String file_name = arrBB.get(i*listCut + j).getFile_name(); 
-			 	if( (file_name != null && !file_name.equals("")) &&
-			 		(file_name.lastIndexOf(".jpg") > -1) || (file_name.lastIndexOf(".png") > -1)){
+			 	if( (file_name != null && !file_name.equals("")) 
+			 		 && ((file_name.indexOf(".jpg") > -1) || (file_name.indexOf(".png") > -1))){
+			 		//System.out.println((file_name.indexOf(".png")) ); 
 			 		// 파일 이름이 jpg , png 인 경우에 처리하도록. 
 			 		ServletContext ctx = getServletContext(); 
 			 		//String filePath = ctx.getRealPath("upload")+"\\"+file_name;
@@ -79,7 +80,8 @@
 			 		
 			 		%>
 			 	<img src="../fileTest/imgTest.jsp?file_name=<%=file_name %>" width="256" height="256">		
-			 	<%}else{
+			 	<%
+			 	}else{
 			%>
 			
 			 <img src="../img/test.png" width="256" height="256">
