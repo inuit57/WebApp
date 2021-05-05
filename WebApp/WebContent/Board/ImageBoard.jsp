@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <title>게시판 : 갤러리뷰</title>
 </head>
 <body>
@@ -18,6 +19,7 @@
 	아니면 프로필 이미지를 보여주는 것은 어떨까. 
 	만약 프로필 이미지를 등록하였다고 한다면. 
  -->
+
 <%
 	session.setAttribute("viewType", "2");  // 2 : gallery . 
 	session.setMaxInactiveInterval(5000); 
@@ -60,6 +62,7 @@
 
 	<% 
 		for (int i = 0 ; i< (size/listCut) ; i++){ // 열 갯수
+
 	%>
 		<tr>
 			<% for(int j = 0 ; j<listCut ; j++){  %>
@@ -82,15 +85,18 @@
 				bb = arrBB.get(i*listCut+ j);	
 			%>
 			<td> 
-			<!-- 제목 -->
+		<!-- 제목 -->
 			<a href="boardView.jsp?bID=<%=bb.getBid() %>">
 			 [<%= (bb.getBtype().equals("1")) ? "공지" : (bb.getBtype().equals("2")) ? "일반" : "자료"  %>]<%= bb.getBsubject() %></a>  </td>
+
 			<%} %>
 		</tr>
 	<%} //for문 종료 %>
 </table>
 
+
 <!-- TODO : 밑에 숫자로 여러 개 보이게도 좀 해줘야한다.  -->
+
 
 </body>
 </html>

@@ -6,3 +6,4 @@
 *.project
 *.MF
 *.tern-project
+/WebContent/User/TestCode/*

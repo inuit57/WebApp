@@ -1,3 +1,4 @@
+
 <%@page import="com.itwillbs.user.UserDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -10,26 +11,23 @@
 <body>
 <%
 	request.setCharacterEncoding("UTF-8"); 
-%>
-	<jsp:useBean id="userBean" class="com.itwillbs.user.UserBean"></jsp:useBean>
-	<%-- 에러가 왜 나는가 했는데 public 기본 생성자가 없어서 그랬다...  --%>
-	<jsp:setProperty property="*" name="userBean"/> 
-
-<% 
-
-	UserDAO uDAO = new UserDAO();
-
-	boolean flag = uDAO.insertUser(userBean);  
+	String id = request.getParameter("id"); 
+	int grant = Integer.parseInt(request.getParameter("grant")); 
 	
+	UserDAO udao = new UserDAO(); 
+	boolean flag = false ; 
+	
+	flag = udao.updateUser(id, grant); 
 %>
 <script type="text/javascript">
 	if(<%=flag%>){
-		alert("회원 가입 완료!"); 
-		location.href="Login/loginForm.jsp"; 
+		alert("권한 업데이트 완료!"); 
 	}else{
-		alert("잘못된 접근입니다.")
-		location.href="Login/loginForm.jsp"; 
+		alert("권한 업데이트 실패.");
 	}
+	
+	location.href="userListForm.jsp"; 
+
 </script>
 </body>
 </html>

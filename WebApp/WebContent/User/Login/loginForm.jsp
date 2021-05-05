@@ -18,6 +18,8 @@
 			<!--  TODO 다른 방식으로 로그인? 카카오톡/네이버 아이디로? -->
 			<input type="button" value="회원가입"
 				onclick="location.href='../signUpForm.jsp'">
+			<input type="button" value="아이디/비밀번호 찾기"
+				onclick="location.href='../idPwSearch.jsp'">
 		</form>
 	</fieldset>
 
