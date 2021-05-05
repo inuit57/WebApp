@@ -63,7 +63,11 @@
 		arrCb = cDAO.getCommentList(Integer.parseInt(bid)); 
 	}
 	
-	boolean isAdmin = (uDAO.getUserBean((String)session.getAttribute("id")).getUserGrant() > 2) ; 
+	
+	boolean isAdmin = false; 
+	if(session.getAttribute("id") != null ){
+		isAdmin = (uDAO.getUserBean((String)session.getAttribute("id")).getUserGrant() > 2) ;
+	}
 %>
 
 
@@ -96,6 +100,10 @@
 			</tr>
 			<tr>
 				<td colspan="6" align="right">
+				<!--  파일명 출력해주기  -->
+				<%if( bb.getFile_name() != null ){%> 
+					<a href="../fileTest/fileDownload.jsp?file_name=<%=bb.getFile_name() %>"><%=bb.getFile_name() %></a>
+				<%} %>
 				<%
 					if ( bb.getUid().equals(session.getAttribute("id"))){
 						// TODO : 계정 권한이 관리자인 경우에도 삭제 버튼 활성화 되도록 추가
