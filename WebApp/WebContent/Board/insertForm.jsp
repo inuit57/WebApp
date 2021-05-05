@@ -21,9 +21,9 @@
 <body>
 
 
-<fieldset> 
+<fieldset> 	
 	<legend>게시글 작성</legend>
-	<form action="insertPro.jsp">
+	<form action="insertPro.jsp" method="post" enctype="multipart/form-data">
 		<table border="2">
 			<tr> 
 				<td>
@@ -40,6 +40,11 @@
 			<tr> 
 				<td colspan="3">
 					<textarea rows="20" cols="30" name="bcontent" placeholder="내용"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" align="right">
+				<input type="file" name="file_name">
 				</td>
 			</tr>
 			<tr>
