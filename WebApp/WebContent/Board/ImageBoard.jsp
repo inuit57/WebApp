@@ -61,22 +61,29 @@
 	</tr>
 
 	<% 
-		for (int i = 0 ; i< (size/listCut) ; i++){ // 열 갯수
-
+		for (int i = 0 ; i< (size/listCut) ; i++){ // 열 갯수	 	 
 	%>
 		<tr>
-			<% for(int j = 0 ; j<listCut ; j++){  %>
-			
-			
+			<% for(int j = 0 ; j<listCut ; j++){  %>			
 			<!-- 만약 등록된 파일이 이미지 파일이 아니거나 없는 경우 기본이미지를 보여주기 -->
 			<td>
-			 <%
-			 	
-			 
-			 %>
-			 
-			 <img src="../img/test.png" width="200" height="200">
-			 
+			<%
+			 	String file_name = arrBB.get(i*listCut + j).getFile_name(); 
+			 	if( (file_name != null && !file_name.equals("")) &&
+			 		(file_name.lastIndexOf(".jpg") > -1) || (file_name.lastIndexOf(".png") > -1)){
+			 		// 파일 이름이 jpg , png 인 경우에 처리하도록. 
+			 		ServletContext ctx = getServletContext(); 
+			 		//String filePath = ctx.getRealPath("upload")+"\\"+file_name;
+			 		// 문제 발생 - 서버 파일에 클라이언트가 접근하는 것은 보안상 막혀있다.
+			 		// 그래서 이미지가 출력되지 않는다. (not allowed to load local resource)
+			 		
+			 		%>
+			 	<img src="../fileTest/imgTest.jsp?file_name=<%=file_name %>" width="256" height="256">		
+			 	<%}else{
+			%>
+			
+			 <img src="../img/test.png" width="256" height="256">
+			 <%} %>
 			 </td>
 			<%} %>
 		</tr>

@@ -63,7 +63,7 @@
 		
 		bb.setBsubject(multi.getParameter("bsubject")); 
 		bb.setBcontent(multi.getParameter("bcontent")); 
-		bb.setBtype(multi.getParameter("btype")); 
+		bb.setBtype(multi.getParameter("btype"));
 		bb.setFile_name(multi.getFilesystemName("file_name")); 
 		
 		boolean flag = bdao.insertBoard(bb);

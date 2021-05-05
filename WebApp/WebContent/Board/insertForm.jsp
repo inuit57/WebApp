@@ -44,7 +44,7 @@
 			</tr>
 			<tr>
 				<td colspan="3" align="right">
-				<input type="file" name="file_name">
+				<input type="file" name="file_name" >
 				</td>
 			</tr>
 			<tr>
