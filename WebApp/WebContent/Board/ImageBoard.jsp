@@ -63,7 +63,18 @@
 	%>
 		<tr>
 			<% for(int j = 0 ; j<listCut ; j++){  %>
-			<td> <img src="../img/test.png" width="200" height="200"></td>
+			
+			
+			<!-- 만약 등록된 파일이 이미지 파일이 아니거나 없는 경우 기본이미지를 보여주기 -->
+			<td>
+			 <%
+			 	
+			 
+			 %>
+			 
+			 <img src="../img/test.png" width="200" height="200">
+			 
+			 </td>
 			<%} %>
 		</tr>
 		<tr align="center">
