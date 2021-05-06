@@ -12,6 +12,45 @@
 Kakao.init('발급받은 키 입력'); //발급받은 키 중 javascript키를 사용해준다.
 console.log(Kakao.isInitialized()); // sdk초기화여부판단
 //카카오로그인
+var email  
+var name 
+
+function kakaoLogin() {
+    Kakao.Auth.login({
+      success: function (response) {
+        Kakao.API.request({
+          url: '/v2/user/me',
+          data: {
+              property_keys: ["properties.nickname", "kakao_account.email"]
+          }, // 여기에 넣은 것만 가져올 수도 있구나. 아하. 
+          success: function (response) {
+        	  console.log(response)
+        	  
+        	  console.log(response.properties.nickname)
+        	  console.log(response.kakao_account.email)
+        	  //이거를 이제 저장해서 처리하면 되겠다. 
+        	   
+        	  name = JSON.stringify(response.properties.nickname)
+        	  test = JSON.stringify(response.kakao_account.email) 
+        	  
+   
+          },
+          fail: function (error) {
+            console.log(error)
+          },
+        })
+      },
+      fail: function (error) {
+        console.log(error)
+      },
+    })
+  }
+  
+function dataCheck(){
+	
+	//여기에서 입력받은 이메일이랑 이름을 보내서 처리하자. 
+		
+}
 
 </script>
 

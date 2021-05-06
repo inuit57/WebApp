@@ -95,11 +95,6 @@
 			document.fr.email.focus(); 
 			return false; 
 		}
-		if (document.fr.email.value != "<%= session.getAttribute("email")%>"){
-			alert("인증하신 이메일과 다릅니다. 다시 인증해주세요!"); 
-			document.fr.email.focus(); 
-			return false;
-		}
 		 
 	}
 	

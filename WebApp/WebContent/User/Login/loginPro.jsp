@@ -16,12 +16,27 @@
 	String id = request.getParameter("id"); 
 	String pwd = request.getParameter("pwd"); 
 	
+	String name = request.getParameter("name"); 
+	String email = request.getParameter("email"); 
+	String loginType = request.getParameter("loginType"); 
+	
 	UserDAO uDAO = new UserDAO(); 
 
 	//정보 확인하기 
 	//(비밀번호와 일치하는지). 
 	//
-	boolean flag = uDAO.UserCheck(id, pwd); 
+	boolean flag = false; 
+	
+	switch(loginType){
+	
+	case "normal" :
+		flag = uDAO.UserCheck(id, pwd);
+		break;
+	case "kakao" :
+		id = uDAO.getId(name, email);
+		flag = !(id == null); 
+	}
+	//flag = uDAO.UserCheck(id, pwd); 
 	
 	if(flag){
 		session.setAttribute("id", id); // 세션에 로그인 정보 저장 
