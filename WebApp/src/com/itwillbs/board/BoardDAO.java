@@ -77,8 +77,8 @@ public class BoardDAO extends ObjectDAO {
 			pstmt.setString(3, bb.getBsubject());
 			pstmt.setString(4, bb.getBtype());
 			pstmt.setString(5, bb.getBcontent());
-			pstmt.setInt(6, bb.getRef_id());
-			pstmt.setInt(7, bb.getComment_id());
+			pstmt.setInt(6, bb.getUser_score());
+			pstmt.setString(7, bb.getFile_name());
 			// 게시판에 글 넣기 끝. 
 			
 			pstmt.executeUpdate(); //
@@ -113,8 +113,8 @@ public class BoardDAO extends ObjectDAO {
 				bb.setBsubject(rs.getString("bsubject"));
 				bb.setBtype(rs.getString("btype"));
 				bb.setUid(rs.getString("uid"));
-				bb.setComment_id(rs.getInt("comment_id"));
-				bb.setRef_id(rs.getInt("ref_id"));
+				bb.setUser_score(rs.getInt("user_score"));
+				bb.setFile_name(rs.getString("file_name"));
 				bb.setBdate(rs.getDate("bdate"));
 				
 				arrBB.add(bb); 
@@ -146,8 +146,8 @@ public class BoardDAO extends ObjectDAO {
 				bb.setBsubject(rs.getString("bsubject"));
 				bb.setBtype(rs.getString("btype"));
 				bb.setUid(rs.getString("uid"));
-				bb.setComment_id(rs.getInt("comment_id"));
-				bb.setRef_id(rs.getInt("ref_id"));
+				bb.setUser_score(rs.getInt("user_score"));
+				bb.setFile_name(rs.getString("file_name"));
 				bb.setBdate(rs.getDate("bdate"));
 				 
 			}

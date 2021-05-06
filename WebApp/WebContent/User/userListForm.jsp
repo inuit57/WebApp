@@ -67,6 +67,8 @@
 <input type="button" value="일괄 수정" onclick="userGrantUpdateAll()">
 <input type="button" value="추방" onclick="kickUser()">
 
+<input type="button" value="메인으로" onclick="location.href='Login/main.jsp'">
+
 
 <!-- TODO : Ajax로 변경?  -->
 <!-- <script  src="http://code.jquery.com/jquery-latest.min.js"></script> -->

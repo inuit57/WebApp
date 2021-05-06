@@ -1,3 +1,4 @@
+<%@page import="com.itwillbs.user.UserDAO"%>
 <%@page import="com.itwillbs.board.BoardBean"%>
 <%@page import="com.itwillbs.board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -40,6 +41,7 @@
 	request.setCharacterEncoding("UTF-8"); 
 	String bid = (String)request.getParameter("bID"); 
 
+	UserDAO uDAO = new UserDAO(); 
 	BoardDAO bDAO = new BoardDAO(); 
 	BoardBean bb = null ; 
 	if(bid == null){ 
@@ -57,7 +59,9 @@
 			<tr> 
 				<td>
 					<select name="btype" >
-						<option value="1" <% if(bb.getBtype().equals("1")){ %>selected="selected" <%} %>>공지</option>
+						<% if( uDAO.getUserBean(bb.getUid()).getUserGrant() >2 ){ %>
+							<option value="1" <% if(bb.getBtype().equals("1")){ %>selected="selected" <%} %>>공지</option>
+						<%} %>
 						<option value="2" <% if(bb.getBtype().equals("2")){ %>selected="selected" <%} %>>일반</option>
 						<option value="3" <% if(bb.getBtype().equals("3")){ %>selected="selected" <%} %>>자료</option>
 					</select>
@@ -76,7 +80,7 @@
 				<td colspan="3" align="right">
 				<%
 					if ( bb.getUid().equals(session.getAttribute("id"))){
-						// TODO : 계정 권한이 관리자인 경우에만 삭제 버튼 활성화 되도록 추가
+						// TODO : 계정 권한이 관리자인 경우에도 삭제 버튼 활성화 되도록 추가
 				%>
 					<input type="submit" value="수정완료" >
 					
