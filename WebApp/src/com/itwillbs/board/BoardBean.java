@@ -4,15 +4,37 @@ import java.sql.Date;
 
 public class BoardBean {
 
-	int bid;  // 게시글 id
-	String uid ; //유저 이름
-	String btype ; 
-	String bsubject ; 
-	String bcontent ; 
-	int user_score ; 
-	String file_name ;
-	Date bdate ; 
+	private int bid;  // 게시글 id
+	private String uid ; //유저 이름
+	private String btype ; 
+	private String bsubject ; 
+	private String bcontent ; 
+	private int user_score ; 
+	private String file_name ;
+	private Date bdate ; 
+	private int view_cnt; 
 	
+	private int comment_cnt ; //댓글 갯수 
+	//고민을 좀 했는데 여기에서 처리하는 게 좋을 거 같다. 
+	
+	public void setComment_cnt(int comment_cnt){
+		this.comment_cnt = comment_cnt; 
+	}
+	
+	public int getComment_cnt(){
+		return comment_cnt; 
+	}
+	// comment 테이블이랑 JOIN해서 처리된 댓글 수를 저장할 용도
+	// 매번 댓글 수 조회하려고 DB 쿼리 날려보는 것보다는 한번에 가져와서
+	// 저장하고 사용하는 편이 좀더 좋을 거라는 판단.
+	
+	
+	public int getView_cnt() {
+		return view_cnt;
+	}
+	public void setView_cnt(int view_cnt) {
+		this.view_cnt = view_cnt;
+	}
 	public int getUser_score() {
 		return user_score;
 	}
