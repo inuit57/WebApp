@@ -75,7 +75,12 @@
 	 
 %>
 
-<% if ( bb != null ){ %>
+<% if ( bb != null ){ 
+
+	//정상적으로 들어왔으니까 여기에서 조회수를 증가시켜주도록 하자. 
+	
+	bDAO.updateBoard(bb.getBid()); 
+%>
 <fieldset> 
 	<legend>게시글 내용</legend>
 		<table border="2">

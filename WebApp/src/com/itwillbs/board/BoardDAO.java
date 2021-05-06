@@ -75,6 +75,7 @@ public class BoardDAO extends ObjectDAO {
 				bb.setFile_name(rs.getString("file_name"));
 				bb.setBdate(rs.getDate("bdate"));
 				bb.setComment_cnt(rs.getInt("cm_count"));
+				bb.setView_cnt(rs.getInt("view_cnt"));
 				
 				arrBB.add(bb); 
 			}
@@ -199,10 +200,30 @@ public class BoardDAO extends ObjectDAO {
 		return true; 
 	} // deleteBoard() 
 	
+	public boolean updateBoard(int bid){
+		conn = getConnection(); 
+		String sql = "Update Board set view_cnt = view_cnt+1  where bid=?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,bid);
+			pstmt.executeUpdate();
+			
+			System.out.println("조회수 증가 완료!");
+			return true; 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false; 
+		}finally {
+			dbClose();
+		}
+		
+	}
+	
 	public boolean updateBoard(BoardBean bb){
 		
 		conn = getConnection(); 
-		String sql = "Update Board set btype=?, bsubject=?, bcontent=? ,file_name=?  where bid=?";
+		String sql = "Update Board set btype=?, bsubject=?, bcontent=? ,file_name=?, bdate=now()  where bid=?";
 		//String sql = "Update Board set btype=?, bsubject=?, bcontent=?  where bid=?";
 		//System.out.println(bb.getBcontent());
 		//System.out.println(bb.getBsubject());
@@ -215,9 +236,9 @@ public class BoardDAO extends ObjectDAO {
 			pstmt.setInt(5, bb.getBid());
 			
 			pstmt.executeUpdate(); 
-			System.out.println(bb.getBid());
-			System.out.println(bb.getBtype());
-			System.out.println("업데이트 완료");
+//			System.out.println(bb.getBid());
+//			System.out.println(bb.getBtype());
+			System.out.println(bb.getBid() +"번 게시물 업데이트 완료");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
