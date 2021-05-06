@@ -13,6 +13,8 @@ Kakao.init('발급받은 키 입력'); //발급받은 키 중 javascript키를 �
 console.log(Kakao.isInitialized()); // sdk초기화여부판단
 //카카오로그인
 
+</script>
+
 	<fieldset>
 		<legend>로그인</legend>
 		<!--  테스트 끝나고 get에서 post로 바꿀 것. -->
