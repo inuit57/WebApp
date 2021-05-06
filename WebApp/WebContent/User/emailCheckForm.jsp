@@ -15,13 +15,8 @@
 <%
 	request.setCharacterEncoding("UTF-8"); 
 	
-	String email_addr = (String)session.getAttribute("email");
+	String email_addr = request.getParameter("email");
 	
-	if(email_addr == ""){
-		email_addr = request.getParameter("email");
-	}else{
-		session.setAttribute("email", email_addr); 
-	}
 	  
 	// TODO : DB 상에서 email이 있는 경우, 아이디 찾기로 보내기? 
 			 
@@ -59,7 +54,6 @@
 
 			if(  document.referrer.includes("signUpForm.jsp") ) {
 				opener.document.fr.emailCheck.value = "Yes"; 
-				opener.document.fr.email.value = "<%=email_addr%>" ; //값 넣어주기
 			}else if( document.referrer.includes("idSearchPro.jsp") ){ // 아이디 찾기 처리
 				//아이디는 중간에 **을 넣어서 알려주기
 				alert("아이디는 <%=searchID%> 입니다."); 

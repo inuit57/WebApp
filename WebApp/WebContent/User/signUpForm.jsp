@@ -95,11 +95,6 @@
 			document.fr.email.focus(); 
 			return false; 
 		}
-		if (document.fr.email.value != "<%= session.getAttribute("email")%>"){
-			alert("인증하신 이메일과 다릅니다. 다시 인증해주세요!"); 
-			document.fr.email.focus(); 
-			return false;
-		}
 		 
 	}
 	
@@ -210,8 +205,8 @@
 				<tr>
 					<td>이메일</td>
 					<!-- TODO : 이메일을 한번 DB에서 조회해보고 만약 있다면 아이디/비밀번호 찾기로? -->
-					<td><input type="email" name="email" maxlength="30"> </td>
-					<td>
+					<td><input type="email" name="email" maxlength="30"> 
+					
 					<input type="button" value="이메일 인증" onclick="checkEmail()">
 					<input type="hidden" name="emailCheck" disabled="disabled">
 					</td>
