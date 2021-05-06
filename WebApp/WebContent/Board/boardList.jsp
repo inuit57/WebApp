@@ -1,3 +1,4 @@
+<%@page import="com.itwillbs.comment.CommentDAO"%>
 <%@page import="com.itwillbs.board.BoardBean"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.itwillbs.board.BoardDAO"%>
@@ -6,6 +7,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<style type="text/css">
+	a {
+	  text-decoration-line: none;
+	}
+</style>
+
+
 <script type="text/javascript">
 	function prePage(curr , min , listCnt){
 		//function prePage(curr){
@@ -52,6 +60,7 @@
 
 	
 	BoardDAO bDao = new BoardDAO(); 
+	
 	ArrayList<BoardBean> arrBB = bDao.getBoardList(); 
 
 	int size = arrBB.size();  // 전체 게시글 숫자
@@ -79,9 +88,9 @@
 <h1> 총 글 갯수 : <%=arrBB.size() %></h1>
 <h2> 현재 사용자 : <%=session.getAttribute("id") %></h2>
 
-<table border="1" >
+<table border="1"  id="tb">
 	<tr>
-		<td colspan="5" align="right">
+		<td id="max_size_td"  colspan="6" align="right">
 			한 페이지당 글 갯수 : 
 			<select name="listCut" onchange="listChange(this.value)">
 				<option value="3"  <%if(listCut == 3){%> selected="selected" <%} %>>3</option>
@@ -96,6 +105,7 @@
 		<th>제목</th>
 		<th>작성자</th>
 		<th>작성일</th>
+		<th>조회수</th>
 	</tr>
 	<%
 	int i ; 
@@ -118,9 +128,14 @@
 				%>
 				<%=typeStr %>
 			</td>
-			<td><a href="boardView.jsp?bID=<%=bb.getBid() %>"><%=bb.getBsubject() %></a></td>
+			<td>
+				<a href="boardView.jsp?bID=<%=bb.getBid() %>">
+					<%=bb.getBsubject() %>(<%=bb.getComment_cnt() %>)
+				</a>
+			</td>
 			<td><%=bb.getUid() %> </td>
 			<td><%=bb.getBdate() %></td>
+			<td align="center"><%=bb.getView_cnt() %></td>
 		</tr>
 	<%	
 	}%>
@@ -134,13 +149,15 @@
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
+				<td>&nbsp;</td>
 			</tr>
 				<%
 			}
 		}
 	%>
 	<tr>
-		<td colspan="5" align="right">
+		<td id="max_size_td"  colspan="6" align="right">
+			<input type="button" value="갤러리로 전환" onclick="location.href='ImageBoard.jsp'">
 			<input type="button" value="글 작성" onclick="location.href='insertForm.jsp'">
 			<input type="button" value="메인으로" onclick="location.href='../User/Login/main.jsp'">
 		</td>
@@ -165,7 +182,7 @@
 	%>
 		<input type="button" value="다음" onclick="postPage(<%=currentIndex%>,<%=maxIndex%>,<%=listCut%>)">
 	<%//}	%>
-	<input type="button" value="갤러리로 전환" onclick="location.href='ImageBoard.jsp'">
+	
 <%		
 	}else{
 	%>

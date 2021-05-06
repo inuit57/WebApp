@@ -68,6 +68,13 @@
 	if(session.getAttribute("id") != null ){
 		isAdmin = (uDAO.getUserBean((String)session.getAttribute("id")).getUserGrant() > 2) ;
 	}
+	
+	/// TODO : 조회수 늘여주는 로직 넣기 
+	// 단, 새로고침 등의 행위로 조회수가 늘어나지 않도록 조치를 취할 필요가 있다. 
+	// IP를 체크하는 것이 좋을까, 아니면...다른 좋은 방법이 있을까.
+	
+	// TODO : 이전글/다음글로 넘어갈 수 있는 기능 넣기 
+	
 %>
 
 
