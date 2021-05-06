@@ -3,7 +3,7 @@
 <%@page import="com.itwillbs.board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 
@@ -54,7 +54,7 @@
 <% if ( bb != null ){ %>
 <fieldset> 
 	<legend>게시글 내용</legend>
-	<form action="updatePro.jsp"  method="get" onsubmit="return update()">
+	<form action="updatePro.jsp" method="post" enctype="multipart/form-data" onsubmit="return update()">
 		<table border="2">
 			<tr> 
 				<td>
@@ -76,6 +76,31 @@
 					<textarea rows="20" cols="30" name="bcontent" placeholder="내용" ><%=bb.getBcontent() %></textarea>
 				</td>
 			</tr>
+			<tr>
+				<td colspan="3">
+				<input type="text" id="file_now" readonly="readonly"
+					value="<%= (bb.getFile_name()==null) ? "" : bb.getFile_name() %>">
+				<input type="button" name="file_delete" value="파일삭제" 
+					onclick="deleteFile()"> 
+				</td>				
+			</tr>
+			<tr>
+				<td colspan="3" >
+				<input type="file" name="file_name" id="file_name" onchange="updateFile(this)">
+				</td>
+			</tr>
+			<script>
+				function deleteFile(){
+					
+					console.log(document.getElementById("file_name"));
+					console.log(document.getElementById("file_now"));
+					document.getElementById("file_name").value="";
+					document.getElementById("file_now").value="";
+				}
+				function updateFile(fileName){
+					document.getElementsByName("file_now").value=fileName.value;  
+				}
+			</script>			
 			<tr>
 				<td colspan="3" align="right">
 				<%

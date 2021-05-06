@@ -143,7 +143,8 @@ public class BoardDAO extends ObjectDAO {
 	public boolean updateBoard(BoardBean bb){
 		
 		conn = getConnection(); 
-		String sql = "Update Board set btype=?, bsubject=?, bcontent=? where bid=?"; 
+		String sql = "Update Board set btype=?, bsubject=?, bcontent=? ,file_name=?  where bid=?";
+		//String sql = "Update Board set btype=?, bsubject=?, bcontent=?  where bid=?";
 		//System.out.println(bb.getBcontent());
 		//System.out.println(bb.getBsubject());
 		try {
@@ -151,10 +152,14 @@ public class BoardDAO extends ObjectDAO {
 			pstmt.setString(1,bb.getBtype());
 			pstmt.setString(2, bb.getBsubject());
 			pstmt.setString(3, bb.getBcontent());
-			pstmt.setInt(4, bb.getBid());
+			pstmt.setString(4, bb.getFile_name());
+			pstmt.setInt(5, bb.getBid());
 			
 			pstmt.executeUpdate(); 
+			System.out.println(bb.getBid());
+			System.out.println(bb.getBtype());
 			System.out.println("업데이트 완료");
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false; 
