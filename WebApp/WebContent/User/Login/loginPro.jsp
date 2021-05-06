@@ -64,10 +64,14 @@
 		// TODO : 아이디/비밀번호 어떤 것이 틀렸는지 여부? 
 		// TODO : 아이디조차 없는 경우, 회원가입을 유도할지? 
 		
-		alert("<%=loginType%>");
-		console.log(<%=id%>);
-		//alert("아이디나 비밀번호를 확인하세요.");
-		//location.href = "loginForm.jsp"; 
+		//alert("<%=loginType%>");
+
+		<% if( loginType.equals("normal")){ %>
+			alert("아이디나 비밀번호를 확인하세요.");
+		<%} else{ %>
+			alert("<%=loginType%>"+": 연동되지 않은 계정입니다.");
+		<%}%>
+		location.href = "loginForm.jsp"; 
 	}
 </script>
 </body>
