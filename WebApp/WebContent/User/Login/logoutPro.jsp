@@ -8,9 +8,13 @@
 </head>
 <body>
 <% 
+	String loginType = (String)session.getAttribute("loginType"); 
+	if(loginType == null) loginType="normal"; 
+	
 	session.invalidate();
 	//세션에 저장된 정보를 모두 삭제
 %>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script>
 Kakao.init('37f8964af0801ae7c162647308ed7997'); //발급받은 키 중 javascript키를 사용해준다.
 console.log(Kakao.isInitialized()); // sdk초기화여부판단
@@ -26,19 +30,27 @@ function kakaoLogout() {
           console.log(error)
         },
       })
-      Kakao.Auth.setAccessToken(undefined)
+      Kakao.Auth.setAccessToken(undefined); 
     }
   } 
-
 
 </script>
 
 <script type="text/javascript">
-
-	alert("정상적으로 로그아웃 되었습니다"); 
-	kakaoLogout();
-	location.href="main.jsp"; 
+	alert("정상적으로 로그아웃 되었습니다");
+	
+	<%if(loginType.equals("kakao")){%>
+		kakaoLogout();
+		console.log("카카오 로그아웃 완료"); 
+		
+	<%}else if(loginType.equals("normal")){%>
+		location.href="main.jsp";
+	<%}%>
+	
+	location.href="main.jsp";
 </script>
 
+
+<a href="main.jsp">메인으로</a>
 </body>
 </html>
