@@ -21,7 +21,7 @@ var name
 
 function kakaoLogin() {
 	
-    Kakao.Auth.login({
+    Kakao.Auth.loginForm({
       success: function (response) {
         Kakao.API.request({
           url: '/v2/user/me',

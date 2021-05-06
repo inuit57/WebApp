@@ -50,7 +50,5 @@ function kakaoLogout() {
 	location.href="main.jsp";
 </script>
 
-
-<a href="main.jsp">메인으로</a>
 </body>
 </html>
