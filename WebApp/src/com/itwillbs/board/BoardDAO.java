@@ -107,10 +107,8 @@ public class BoardDAO extends ObjectDAO {
 				bb.setUid(rs.getString("uid"));
 				bb.setUser_score(rs.getInt("user_score"));
 				bb.setFile_name(rs.getString("file_name"));
-				bb.setBdate(rs.getDate("bdate"));
-				 
-			}
-			
+				bb.setBdate(rs.getDate("bdate"));	 
+			}		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -119,6 +117,67 @@ public class BoardDAO extends ObjectDAO {
 		
 		return bb; 
 	} //public BoardBean getBoard(int bid){
+	
+	public BoardBean getNextBoard(int bid){
+		BoardBean bb = null; 
+		
+		try {
+			conn = getConnection(); 
+			String sql = "select * from board where bid > ? limit 1 ;  "; 
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1	, bid);
+			ResultSet rs = pstmt.executeQuery();  
+			if(rs.next()){
+				bb = new BoardBean(); 
+				bb.setBcontent(rs.getString("bcontent"));
+				bb.setBid(rs.getInt("bid"));
+				bb.setBsubject(rs.getString("bsubject"));
+				bb.setBtype(rs.getString("btype"));
+				bb.setUid(rs.getString("uid"));
+				bb.setUser_score(rs.getInt("user_score"));
+				bb.setFile_name(rs.getString("file_name"));
+				bb.setBdate(rs.getDate("bdate"));	 
+			}		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		} 
+		
+		return bb; 
+	} // 다음 글 찾기 
+	
+	public BoardBean getPreBoard(int bid){
+		BoardBean bb = null; 
+		
+		try {
+			conn = getConnection(); 
+			String sql = "select * from board where bid < ? order by bid desc limit 1 ;  "; 
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1	, bid);
+			ResultSet rs = pstmt.executeQuery();  
+			if(rs.next()){
+				bb = new BoardBean(); 
+				bb.setBcontent(rs.getString("bcontent"));
+				bb.setBid(rs.getInt("bid"));
+				bb.setBsubject(rs.getString("bsubject"));
+				bb.setBtype(rs.getString("btype"));
+				bb.setUid(rs.getString("uid"));
+				bb.setUser_score(rs.getInt("user_score"));
+				bb.setFile_name(rs.getString("file_name"));
+				bb.setBdate(rs.getDate("bdate"));	 
+			}		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		} 
+		
+		return bb; 
+	} // 다음 글 찾기 
+	
 	
 	public boolean deleteBoard(int bid){
 		try {
