@@ -43,6 +43,11 @@
 	request.setCharacterEncoding("UTF-8");
 	String curr = request.getParameter("currentIndex");
 	String listCnt = request.getParameter("listCnt"); 
+	String id = (String)session.getAttribute("id");
+	
+	if(id == null){
+		response.sendRedirect("../User/Login/main.jsp"); 
+	}
 	
 	//TODO : 세션 또는 쿠키에 저장하자. 
 	// curr, listCnt 

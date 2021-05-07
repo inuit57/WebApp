@@ -94,11 +94,17 @@
 					
 					console.log(document.getElementById("file_name"));
 					console.log(document.getElementById("file_now"));
+					
+					// TODO : Ajax로 처리하기 
+					// 파일 경로 + 이름 넘겨서 삭제 로직 처리. 
+					// window.open("deleteFile.jsp?file_name=<%=bb.getFile_name()%>");
+					//여기에서 할 게 아니라 submit 되면 거기에서 처리해야겠네. 
 					document.getElementById("file_name").value="";
 					document.getElementById("file_now").value="";
+					
 				}
-				function updateFile(fileName){
-					document.getElementsByName("file_now").value=fileName.value;  
+				function updateFile(fileName){ 
+					document.getElementById("file_now").value=fileName.value;  
 				}
 			</script>			
 			<tr>
