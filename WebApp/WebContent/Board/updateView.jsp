@@ -78,7 +78,7 @@
 			</tr>
 			<tr>
 				<td colspan="3">
-				<input type="text" id="file_now" readonly="readonly"
+				<input type="text" name="file_now" id="file_now" readonly="readonly"
 					value="<%= (bb.getFile_name()==null) ? "" : bb.getFile_name() %>">
 				<input type="button" name="file_delete" value="파일삭제" 
 					onclick="deleteFile()"> 

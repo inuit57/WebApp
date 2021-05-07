@@ -46,13 +46,16 @@
 		bb.setBsubject(multi.getParameter("bsubject"));
 		bb.setBcontent(multi.getParameter("bcontent"));
 		bb.setBtype(multi.getParameter("btype"));
-		bb.setFile_name(multi.getFilesystemName("file_name")); // 새로 넣어줄 파일 이름
-
 		
 		String file_name = bDao.getBoard(bid).getFile_name(); //기존에 저장된 파일이름 
 		if(file_name == null)  file_name = ""; 
-		//String file_now = multi.getParameter("file_now"); // 이 값을 못 받아온다. 타이밍이 안 맞는듯? 
-		String file_now = multi.getFilesystemName("file_name") ; //새로 넣어줄 파일 이름 또는 기존의 파일명. 
+		String file_now = multi.getParameter("file_now"); 
+		bb.setFile_name(file_now); 
+		
+		//String file_now = multi.getFilesystemName("file_name") ; //새로 넣어줄 파일 이름 또는 기존의 파일명. 
+		// 문제는 이렇게 접근하게 되면은 업데이트하면 무조건 기존 파일이 지워져버리게 된다. 
+		
+		// 이름이 다르게 붙여지게 되었을 경우, 이름이 다르다는 판정이 일어나서 삭제된다?
 		if(file_now == null) file_now =""; //
 		
 		System.out.println(path + "\\" +file_name);
@@ -62,6 +65,9 @@
 			if(fp.exists()){
 				fp.delete(); 
 				System.out.println(file_name + " 삭제 완료"); 
+				
+				bb.setFile_name(multi.getFilesystemName("file_name")); // 새로 넣어줄 파일 이름
+				//삭제했을 때 이름을 넣어줘야한다. 
 			} //기존에 들어가있는 것과 파일 이름이 다르면 지워주기 처리.
 		}
 		
