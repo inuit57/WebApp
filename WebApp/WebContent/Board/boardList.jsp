@@ -34,6 +34,16 @@
 	function listChange(listCnt){
 		location.href="boardList.jsp?listCnt="+listCnt; 
 	}
+	
+	function userGrantCheck(btype){
+		// 분류가 자료인 경우, 비회원은 볼 수 없도록 조치.
+		if( <%=session.getAttribute("id")%> == null && btype == 3 ){
+			if( confirm("비회원은 볼 수 없는 글입니다.로그인 하시겠습니까?") ) { 
+				location.href= "<%=request.getContextPath()%>"+"/User/Login/loginForm.jsp"; 
+			}
+			return false; 
+		}
+	}
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>글 목록</title>
@@ -46,12 +56,13 @@
 	String id = (String)session.getAttribute("id");
 	
 	if(id == null){
-		response.sendRedirect("../User/Login/main.jsp"); 
+		//response.sendRedirect("../User/Login/main.jsp");
+		//메인으로 이동시키는 대신, 비회원이더라도 기능 제한을 두고 
+		//글 내용을 확인하는 것은 가능하도록? 
 	}
 	
 	//TODO : 세션 또는 쿠키에 저장하자. 
-	// curr, listCnt 
-	// 빡치니까 이거 쿠키에 저장하고 여기저기에서 가져다가 쓰게끔 하자. 
+	// curr, listCnt  
 	// 세션에 저장하는 게 좋으려나. 
 	
 	int currentIndex =1 ; 
@@ -90,8 +101,8 @@
 	
 	if(size >0){
 %>
-<h1> 총 글 갯수 : <%=arrBB.size() %></h1>
-<h2> 현재 사용자 : <%=session.getAttribute("id") %></h2>
+<%-- <h1> 총 글 갯수 : <%=arrBB.size() %></h1> --%>
+<%-- <h2> 현재 사용자 : <%=session.getAttribute("id") %></h2> --%>
 
 <table border="1"  id="tb">
 	<tr>
@@ -134,7 +145,7 @@
 				<%=typeStr %>
 			</td>
 			<td>
-				<a href="boardView.jsp?bID=<%=bb.getBid() %>">
+				<a href="boardView.jsp?bID=<%=bb.getBid() %>" onclick="return userGrantCheck(<%=bb.getBtype()%>)">
 					<%=bb.getBsubject() %>(<%=bb.getComment_cnt() %>)
 				</a>
 			</td>
@@ -163,7 +174,9 @@
 	<tr>
 		<td id="max_size_td"  colspan="6" align="right">
 			<input type="button" value="갤러리로 전환" onclick="location.href='ImageBoard.jsp'">
+			<% if ( id != null){ %>
 			<input type="button" value="글 작성" onclick="location.href='insertForm.jsp'">
+			<% } %>
 			<input type="button" value="메인으로" onclick="location.href='../User/Login/main.jsp'">
 		</td>
 	</tr>
