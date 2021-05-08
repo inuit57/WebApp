@@ -47,9 +47,8 @@
 <%
 	request.setCharacterEncoding("UTF-8"); 
 	String bid = request.getParameter("bID"); 
-
-	 
 	
+	int bid_n = 0  ; 
 	BoardDAO bDAO = new BoardDAO(); 
 	CommentDAO cDAO = new CommentDAO(); 
 	UserDAO uDAO = new UserDAO(); 
@@ -58,9 +57,10 @@
 	if(bid == null){ 
 		response.sendRedirect("../User/Login/main.jsp");
 	}else{
-		bb = bDAO.getBoard(Integer.parseInt(bid)); 
+		bid_n = Integer.parseInt(bid) ; 
+		bb = bDAO.getBoard(bid_n); 
 		
-		arrCb = cDAO.getCommentList(Integer.parseInt(bid)); 
+		arrCb = cDAO.getCommentList(bid_n); 
 	}
 	
 	
@@ -72,14 +72,15 @@
 	/// TODO : 조회수 늘여주는 로직 넣기 
 	// 단, 새로고침 등의 행위로 조회수가 늘어나지 않도록 조치를 취할 필요가 있다. 
 	// IP를 체크하는 것이 좋을까, 아니면...다른 좋은 방법이 있을까.
-	
-	// TODO : 이전글/다음글로 넘어갈 수 있는 기능 넣기 
-	
+	 
 %>
 
+<% if ( bb != null ){ 
 
-
-<% if ( bb != null ){ %>
+	//정상적으로 들어왔으니까 여기에서 조회수를 증가시켜주도록 하자. 
+	
+	bDAO.updateBoard(bb.getBid()); 
+%>
 <fieldset> 
 	<legend>게시글 내용</legend>
 		<table border="2">
@@ -192,6 +193,40 @@
 					<td><input type="submit" value="작성" ></td>
 				</tr>
 			</form>
+			<tr>
+				<td>다음글</td>
+				<td colspan="5" align="center">
+				<%
+					BoardBean bb2 = bDAO.getNextBoard(bid_n); 
+					if(bb2 !=null){
+						%>
+						<a href="boardView.jsp?bID=<%=bb2.getBid() %>">
+							<%=bb2.getBsubject() %>(<%=bb2.getComment_cnt() %>)
+						</a>
+						<%
+					}else{
+				%>
+					다음 글이 없습니다.
+				<%} %>
+				</td>
+			</tr>
+			<tr>
+				<td>이전글</td>
+				<td colspan="5" align="center">
+				<%
+					BoardBean bb3 = bDAO.getPreBoard(bid_n); 
+					if(bb3 !=null){
+						%>
+						<a href="boardView.jsp?bID=<%=bb3.getBid() %>">
+							<%=bb3.getBsubject() %>(<%=bb3.getComment_cnt() %>)
+						</a>
+						<%
+					}else{
+				%>
+					이전 글이 없습니다.
+				<%} %>
+				</td>
+			</tr>
 		</table>
 		
 		

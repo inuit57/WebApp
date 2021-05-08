@@ -9,9 +9,7 @@
 <title>메인 페이지</title>
 </head>
 <body>
-
 <%
-
 	String id = (String)session.getAttribute("id");
 	
 	UserDAO uDao = new UserDAO(); 
@@ -23,17 +21,27 @@
 		if(ub != null){ String pwd = ub.getPwd(); }
 		// TODO : 정보 수정할 때 비밀번호 한번 입력하게 하기 
 	}else{
-		// 로그인 페이지로 이동.
+		
 		id = ""; 
-		response.sendRedirect("loginForm.jsp");
+		
+		// 비회원 페이지로 이동
+		//response.sendRedirect("loginForm.jsp");
 	}
 	
 %>
 
-<h2> <%=id %>님 환영합니다.</h2>
-
-<input type="button" value="로그아웃" onclick="location.href='logoutPro.jsp'">
-<input type="button" value="정보수정" onclick="location.href='../userUpdateForm.jsp'">
+<fieldset>
+	<legend>테스트</legend>
+<% if ( !id.equals("")){ %>
+	<h2> <%=id %>님 환영합니다.</h2>
+	<input type="button" value="로그아웃" onclick="location.href='logoutPro.jsp'">
+	<input type="button" value="정보수정" onclick="location.href='../userUpdateForm.jsp'">
+<%}else{ %>
+익명의 방문자 님 환영합니다.<br>
+	<input type="button" value="로그인" onclick="location.href='loginForm.jsp'">
+	<input type="button" value="회원가입" onclick="location.href='../signUpForm.jsp'"> 
+<%} %>
+</fieldset>
 <input type="button" value="게시판" onclick="location.href='../../Board/boardList.jsp'">
 
 <!--  TODO : 활동 내역 보기 ? 

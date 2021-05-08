@@ -9,6 +9,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <title>게시판 : 갤러리뷰</title>
+
+<script type="text/javascript">
+	function userGrantCheck(btype){
+		// 분류가 자료인 경우, 비회원은 볼 수 없도록 조치.
+		if( <%=session.getAttribute("id")%> == null && btype == 3 ){
+			if( confirm("비회원은 볼 수 없는 글입니다.로그인 하시겠습니까?") ) { 
+				location.href= "<%=request.getContextPath()%>"+"/User/Login/loginForm.jsp"; 
+			}
+			return false; 
+		}
+	}
+</script>
 </head>
 <body>
 
@@ -95,7 +107,7 @@
 			%>
 			<td> 
 		<!-- 제목 -->
-			<a href="boardView.jsp?bID=<%=bb.getBid() %>">
+			<a href="boardView.jsp?bID=<%=bb.getBid() %>" onclick="userGrantCheck(<%=bb.getBtype()%>">
 			 [<%= (bb.getBtype().equals("1")) ? "공지" : (bb.getBtype().equals("2")) ? "일반" : "자료"  %>]<%= bb.getBsubject() %></a>  </td>
 
 			<%} %>
