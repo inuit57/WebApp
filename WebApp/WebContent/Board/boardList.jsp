@@ -28,21 +28,77 @@
 	function prePage(curr , min , listCnt){
 		//function prePage(curr){
 		//location.href="boardList.jsp?currentIndex="+(curr-1);
+		var c_len = String(curr).length;
+		
 		curr = curr - 1; 
 		if(curr < min){ curr = min; }
-		location.href="boardList.jsp?currentIndex="+(curr) +"&listCnt="+listCnt;
+		
+		//alert(location.href); 
+		//location.href="boardList.jsp?currentIndex="+(curr) +"&listCnt="+listCnt;
+		
+		//location.href +="&currentIndex="+(curr) +"&listCnt="+listCnt;
+		
+		// 주소에 있는 정보는 내가 가지고 있다. 
+		// 여기에서 바뀌어야 하는 정보는 curr 정보.
+		
+		var curr_link = location.href ; 
+		if( curr_link.indexOf("?") < 0 ){
+			location.href =curr_link + "?currentIndex="+(curr) +"&listCnt="+listCnt;
+		}else if(curr_link.indexOf("currentIndex") < 0 ){
+			location.href =curr_link + "&currentIndex="+(curr) +"&listCnt="+listCnt;
+		}else{
+			var cut_idx = curr_link.indexOf("currentIndex=") ;
+			var tmp_len = "currentIndex=".length; 
+			 
+//			console.log("c_len : "+ c_len);
+//			console.log("cut_idx : "+ cut_idx) ; 
+//			console.log(curr_link.substr(0, cut_idx+tmp_len));
+//			console.log(curr_link.substr(cut_idx+tmp_len+c_len));  
+
+			location.href = curr_link.substr(0, cut_idx+tmp_len)+curr+curr_link.substr(cut_idx+tmp_len+c_len) ;
+		}
 	}
 
 	function postPage(curr, max,listCnt){
 		//function postPage(curr){
 		//location.href="boardList.jsp?currentIndex="+(curr+1);
+		var c_len = String(curr).length;  
 		curr = curr + 1; 
 		if(curr > max) { curr = max; }
-		location.href="boardList.jsp?currentIndex="+(curr)+"&listCnt="+listCnt;;
+		//location.href="boardList.jsp?currentIndex="+(curr)+"&listCnt="+listCnt;;
+		
+		var curr_link = location.href ; 
+		if( curr_link.indexOf("?") < 0 ){
+			location.href =curr_link + "?currentIndex="+(curr) +"&listCnt="+listCnt;
+		}else if(curr_link.indexOf("currentIndex") < 0 ){
+			location.href =curr_link + "&currentIndex="+(curr) +"&listCnt="+listCnt;
+		}else{
+			var cut_idx = curr_link.indexOf("currentIndex=") ;
+			var tmp_len = "currentIndex=".length; 
+			 
+//			console.log("c_len : "+ c_len);
+//			console.log("cut_idx : "+ cut_idx) ; 
+//			console.log(curr_link.substr(0, cut_idx+tmp_len));
+//			console.log(curr_link.substr(cut_idx+tmp_len+c_len));  
+
+			location.href = curr_link.substr(0, cut_idx+tmp_len)+curr+curr_link.substr(cut_idx+tmp_len+c_len) ;
+		}
 	}
 		
 	function listChange(listCnt){
-		location.href="boardList.jsp?listCnt="+listCnt; 
+		
+		var curr_link = location.href ; 
+		if( curr_link.indexOf("?") < 0 ){
+			location.href =curr_link + "?listCnt="+listCnt;
+		}else if(curr_link.indexOf("listCnt") < 0 ){
+			location.href =curr_link + "&listCnt="+listCnt;
+		}else{
+			var cut_idx = curr_link.indexOf("listCnt=") ;
+			var tmp_len = "listCnt=".length; 
+			 
+			location.href = curr_link.substr(0, cut_idx+tmp_len)+listCnt+curr_link.substr(cut_idx+tmp_len) ;
+		}
+		//location.href="boardList.jsp?listCnt="+listCnt; 
 	}
 	
 	function userGrantCheck(btype){
@@ -110,7 +166,7 @@
 		System.out.println(searchText); 
 		arrBB = bDao.getBoardList(btype, searchType, searchText); 				
 	}else{
-		System.out.println("아무것도 없사와요");
+		//System.out.println("아무것도 없사와요");
 	}
 	
 	
@@ -224,18 +280,26 @@
 <form action="boardList.jsp" class="form-inline">
  	<div class="form-group">
 		<select class="col-sm-2 form-control" name="btype">
-			<option value="_">전체</option>
-			<option value="1">공지</option>
-			<option value="2">일반</option>
-			<option value="3">자료</option>
+			<option value="_" 
+			<% if(btype!=null && btype.equals("_")){ %>selected="selected" <%} %>>전체</option>
+			<option value="1"
+			<% if(btype!=null && btype.equals("1")){ %>selected="selected" <%} %>>공지</option>
+			<option value="2"
+			<% if(btype!=null && btype.equals("2")){ %>selected="selected" <%} %>>일반</option>
+			<option value="3"
+			<% if(btype!=null && btype.equals("3")){ %>selected="selected" <%} %>>자료</option>
 		</select> 
 		<select class="col-sm-2 form-control" name="searchType">
-			<option value="bsubject">제목</option>
-			<option value="uid">작성자</option>
-			<option value="bcontent">내용</option>
+			<option value="bsubject" 
+			<% if(searchType!=null && searchType.equals("bsubject")){ %>selected="selected"<%} %>>제목</option>
+			<option value="uid"
+			<% if(searchType!=null && searchType.equals("uid")){ %>selected="selected"<%} %>>작성자</option>
+			<option value="bcontent"
+			<% if(searchType!=null && searchType.equals("bcontent")){ %>selected="selected"<%} %>>내용</option>
 		</select>
 		<div class="col-xs-4" align="center">
-			<input type="text"   class="form-control" name="searchText" placeholder="검색어를 입력하세요.">
+			<input type="text"   class="form-control" name="searchText" 
+				<%if (searchText!=null){ %>value=<%=searchText %> <%} %>	placeholder="검색어를 입력하세요.">
 		</div>
 	</div>
 	<input type="submit"  class="btn btn-default" value="검색">
