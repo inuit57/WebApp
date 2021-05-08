@@ -17,6 +17,8 @@
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+<link href="dashboard.css" rel="stylesheet">
+
 <style type="text/css">
 	a {
 	  text-decoration-line: none;
@@ -197,8 +199,55 @@
 <%-- <h1> 총 글 갯수 : <%=arrBB.size() %></h1> --%>
 <%-- <h2> 현재 사용자 : <%=session.getAttribute("id") %></h2> --%>
 
-<div align="center" class="col-md-10">
-<table border="1"  id="tb" class="col-md-8 table  table-hover table-bordered ">
+<!--  header 시작 -->
+ <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Nav item</a></li>
+            <li><a href="">Nav item again</a></li>
+            <li><a href="">One more nav</a></li>
+            <li><a href="">Another nav item</a></li>
+            <li><a href="">More navigation</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Nav item again</a></li>
+            <li><a href="">One more nav</a></li>
+            <li><a href="">Another nav item</a></li>
+          </ul>
+        </div>
+        
+<!--  header 끝 -->
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<h2 class="sub-header">게시판</h2>
+<div class="table-responsive">
+<table border="1"  id="tb" class="table table-hover table-bordered ">
 	<tr>
 		<td id="max_size_td"  colspan="6" align="right">
 			한 페이지당 글 갯수:
@@ -275,8 +324,10 @@
 		</td>
 	</tr>
 </table>
-<div align="center">
+</div>
+</div>
 
+<div align="center">
 <!-- 검색 기능 -->
 <form action="boardList.jsp" class="form-inline">
  	<div class="form-group">
