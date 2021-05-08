@@ -17,10 +17,13 @@
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+<link href="dashboard.css" rel="stylesheet">
+
 <style type="text/css">
 	a {
 	  text-decoration-line: none;
 	}
+	
 </style>
 
 
@@ -196,12 +199,20 @@
 <%-- <h1> 총 글 갯수 : <%=arrBB.size() %></h1> --%>
 <%-- <h2> 현재 사용자 : <%=session.getAttribute("id") %></h2> --%>
 
-<div align="center">
-<table border="1"  id="tb" class="table  table-hover table-bordered "">
+<!--  header 시작 -->
+ 
+ <jsp:include page="/layout/header.jsp"></jsp:include>
+ 
+<!--  header 끝 -->
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<h2 class="sub-header">게시판</h2>
+<div class="table-responsive">
+<table border="1"  id="tb" class="table table-hover table-bordered ">
 	<tr>
 		<td id="max_size_td"  colspan="6" align="right">
-			한 페이지당 글 갯수 : 
-			<select name="listCut" onchange="listChange(this.value)">
+			한 페이지당 글 갯수:
+			<select name="listCut" onchange="listChange(this.value)" >
 				<option value="3"  <%if(listCut == 3){%> selected="selected" <%} %>>3</option>
 				<option value="5"  <%if(listCut == 5){%> selected="selected" <%} %> >5</option>
 				<option value="10" <%if(listCut == 10){%> selected="selected" <%} %> >10</option>
@@ -266,16 +277,18 @@
 	%>
 	<tr>
 		<td id="max_size_td"  colspan="6" align="right">
-			<input type="button" value="갤러리로 전환" onclick="location.href='ImageBoard.jsp'">
+			<input type="button" class="btn btn-default" value="갤러리로 전환" onclick="location.href='ImageBoard.jsp'">
 			<% if ( id != null){ %>
-			<input type="button" value="글 작성" onclick="location.href='insertForm.jsp'">
+			<input type="button" class="btn btn-default" value="글 작성" onclick="location.href='insertForm.jsp'">
 			<% } %>
-			<input type="button" value="메인으로" onclick="location.href='../User/Login/main.jsp'">
+			<input type="button" class="btn btn-default" value="메인으로" onclick="location.href='../User/Login/main.jsp'">
 		</td>
 	</tr>
 </table>
-<div align="center">
+</div>
+</div>
 
+<div align="center">
 <!-- 검색 기능 -->
 <form action="boardList.jsp" class="form-inline">
  	<div class="form-group">
@@ -306,7 +319,7 @@
 </form>
 </div>
 
-</div>	
+	
 <div align="center">
 <%
 	//이전 버튼
@@ -327,6 +340,7 @@
 		<input type="button"  class="btn btn-default" value="다음" onclick="postPage(<%=currentIndex%>,<%=maxIndex%>,<%=listCut%>)">
 	<%//}	%>
 </div>	
+</div>
 <%		
 	}else{
 	%>

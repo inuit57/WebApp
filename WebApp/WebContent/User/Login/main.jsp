@@ -30,6 +30,13 @@
 	
 %>
 
+<!--  header 시작 -->
+ 
+ <jsp:include page="/layout/header.jsp"></jsp:include>
+ 
+<!--  header 끝 -->
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 <fieldset>
 	<legend>테스트</legend>
 <% if ( !id.equals("")){ %>
@@ -57,5 +64,7 @@
 	 <input type="button" value="회원관리" onclick="location.href='../userListForm.jsp'">
 	</fieldset>
 <%} %>
+
+</div>
 </body>
 </html>
