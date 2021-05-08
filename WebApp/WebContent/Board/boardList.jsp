@@ -198,11 +198,11 @@
 <%-- <h2> 현재 사용자 : <%=session.getAttribute("id") %></h2> --%>
 
 <div align="center" class="col-md-10">
-<table border="1"  id="tb" class="col-md-8 table  table-hover table-bordered table-condensed">
+<table border="1"  id="tb" class="col-md-8 table  table-hover table-bordered ">
 	<tr>
 		<td id="max_size_td"  colspan="6" align="right">
-			한 페이지당 글 갯수 : 
-			<select name="listCut" onchange="listChange(this.value)">
+			한 페이지당 글 갯수:
+			<select name="listCut" onchange="listChange(this.value)" >
 				<option value="3"  <%if(listCut == 3){%> selected="selected" <%} %>>3</option>
 				<option value="5"  <%if(listCut == 5){%> selected="selected" <%} %> >5</option>
 				<option value="10" <%if(listCut == 10){%> selected="selected" <%} %> >10</option>
@@ -267,11 +267,11 @@
 	%>
 	<tr>
 		<td id="max_size_td"  colspan="6" align="right">
-			<input type="button" value="갤러리로 전환" onclick="location.href='ImageBoard.jsp'">
+			<input type="button" class="btn btn-default" value="갤러리로 전환" onclick="location.href='ImageBoard.jsp'">
 			<% if ( id != null){ %>
-			<input type="button" value="글 작성" onclick="location.href='insertForm.jsp'">
+			<input type="button" class="btn btn-default" value="글 작성" onclick="location.href='insertForm.jsp'">
 			<% } %>
-			<input type="button" value="메인으로" onclick="location.href='../User/Login/main.jsp'">
+			<input type="button" class="btn btn-default" value="메인으로" onclick="location.href='../User/Login/main.jsp'">
 		</td>
 	</tr>
 </table>
