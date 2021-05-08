@@ -4,9 +4,19 @@
 <%@page import="com.itwillbs.board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- 부가적인 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 <style type="text/css">
 	a {
 	  text-decoration-line: none;
@@ -23,7 +33,7 @@
 		location.href="boardList.jsp?currentIndex="+(curr) +"&listCnt="+listCnt;
 	}
 
-	function postPage(curr , max,listCnt){
+	function postPage(curr, max,listCnt){
 		//function postPage(curr){
 		//location.href="boardList.jsp?currentIndex="+(curr+1);
 		curr = curr + 1; 
@@ -55,6 +65,14 @@
 	String listCnt = request.getParameter("listCnt"); 
 	String id = (String)session.getAttribute("id");
 	
+	
+	String btype = request.getParameter("btype");
+	
+	String searchType = request.getParameter("searchType");
+
+	String searchText = request.getParameter("searchText");
+	
+	
 	if(id == null){
 		//response.sendRedirect("../User/Login/main.jsp");
 		//메인으로 이동시키는 대신, 비회원이더라도 기능 제한을 두고 
@@ -77,8 +95,26 @@
 	
 	BoardDAO bDao = new BoardDAO(); 
 	
-	ArrayList<BoardBean> arrBB = bDao.getBoardList(); 
-
+	
+	ArrayList<BoardBean> arrBB = bDao.getBoardList(); //아무 조건도 안 주었을 경우에 나오는 경우
+	
+	//아래에 검색기능을 적용하였을 때를 좀 넣어보도록 하자. 
+	//검색한 정보도 내가 가지고 있다가 넣어줘야한다. 
+	
+	//먼저 분류만으로 조회한 경우 -> 이거는 따로 만들거나 하자. 
+	if(btype != null && !btype.equals("*")){
+		arrBB = bDao.getBoardList(btype); 
+	}
+	
+	if ( searchText != null) { 
+		System.out.println(searchText); 
+		arrBB = bDao.getBoardList(btype, searchType, searchText); 				
+	}else{
+		System.out.println("아무것도 없사와요");
+	}
+	
+	
+	
 	int size = arrBB.size();  // 전체 게시글 숫자
 	int listCut = 3; //한 페이지 목록에 보여질 게시글의 숫자.
 	if(listCnt != null){
@@ -104,7 +140,8 @@
 <%-- <h1> 총 글 갯수 : <%=arrBB.size() %></h1> --%>
 <%-- <h2> 현재 사용자 : <%=session.getAttribute("id") %></h2> --%>
 
-<table border="1"  id="tb">
+<div align="center">
+<table border="1"  id="tb" class="table  table-hover table-bordered "">
 	<tr>
 		<td id="max_size_td"  colspan="6" align="right">
 			한 페이지당 글 갯수 : 
@@ -151,7 +188,7 @@
 			</td>
 			<td><%=bb.getUid() %> </td>
 			<td><%=bb.getBdate() %></td>
-			<td align="center"><%=bb.getView_cnt() %></td>
+			<td><%=bb.getView_cnt() %></td>
 		</tr>
 	<%	
 	}%>
@@ -181,12 +218,37 @@
 		</td>
 	</tr>
 </table>
+<div align="center">
 
+<!-- 검색 기능 -->
+<form action="boardList.jsp" class="form-inline">
+ 	<div class="form-group">
+		<select class="col-sm-2 form-control" name="btype">
+			<option value="_">전체</option>
+			<option value="1">공지</option>
+			<option value="2">일반</option>
+			<option value="3">자료</option>
+		</select> 
+		<select class="col-sm-2 form-control" name="searchType">
+			<option value="bsubject">제목</option>
+			<option value="uid">작성자</option>
+			<option value="bcontent">내용</option>
+		</select>
+		<div class="col-xs-4" align="center">
+			<input type="text"   class="form-control" name="searchText" placeholder="검색어를 입력하세요.">
+		</div>
+	</div>
+	<input type="submit"  class="btn btn-default" value="검색">
+</form>
+</div>
+
+</div>	
+<div align="center">
 <%
 	//이전 버튼
 		//if(pageStart > pageCut){
 			%>
-			<input type="button" value="이전" onclick="prePage(<%=currentIndex%>,1,<%=listCut%>)">
+			<input type="button"  class="btn btn-default" value="이전" onclick="prePage(<%=currentIndex%>,1,<%=listCut%>)">
 			<%
 		//}
 		//페이지 번호 출력.
@@ -198,9 +260,9 @@
 	<%//다음 버튼
 	//if(pageEnd < maxIndex ){
 	%>
-		<input type="button" value="다음" onclick="postPage(<%=currentIndex%>,<%=maxIndex%>,<%=listCut%>)">
+		<input type="button"  class="btn btn-default" value="다음" onclick="postPage(<%=currentIndex%>,<%=maxIndex%>,<%=listCut%>)">
 	<%//}	%>
-	
+</div>	
 <%		
 	}else{
 	%>

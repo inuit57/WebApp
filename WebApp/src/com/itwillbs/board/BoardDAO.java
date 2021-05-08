@@ -89,6 +89,95 @@ public class BoardDAO extends ObjectDAO {
 		return arrBB; 
 	} //getBoardList
 	
+	public ArrayList<BoardBean> getBoardList(String btype){
+		ArrayList<BoardBean> arrBB = new ArrayList<>(); 
+		
+		try {
+			conn = getConnection(); 
+			//String sql = "select b.* , count(c.bid) from board b order by bid desc "; 
+			String sql = "select b.* , count(c.cm_id) as cm_count from board b left join comment c on b.bid = c.bid where b.btype= ?  group by(b.bid) order by bid desc" ; 
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, btype);
+			ResultSet rs = pstmt.executeQuery(); 
+			BoardBean bb = null ; 
+			while(rs.next()){
+				bb = new BoardBean(); 
+				bb.setBcontent(rs.getString("bcontent"));
+				bb.setBid(rs.getInt("bid"));
+				bb.setBsubject(rs.getString("bsubject"));
+				bb.setBtype(rs.getString("btype"));
+				bb.setUid(rs.getString("uid"));
+				bb.setUser_score(rs.getInt("user_score"));
+				bb.setFile_name(rs.getString("file_name"));
+				bb.setBdate(rs.getDate("bdate"));
+				bb.setComment_cnt(rs.getInt("cm_count"));
+				bb.setView_cnt(rs.getInt("view_cnt"));
+				
+				arrBB.add(bb); 
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		} 
+		
+		return arrBB; 
+	} //getBoardList
+	
+	public ArrayList<BoardBean> getBoardList(String btype , String searchType, String searchText){
+		ArrayList<BoardBean> arrBB = new ArrayList<>(); 
+		
+		try {
+			conn = getConnection(); 
+			//String sql = "select b.* , count(c.bid) from board b order by bid desc "; 
+			String sql = "select b.* , count(c.cm_id) as cm_count from board b left join comment c on b.bid = c.bid " ; 
+			
+			switch(searchType){
+			case "bsubject" : 
+				sql +=" where b.bsubject " ; 
+				break; 
+			case "bcontent" :
+				sql += " where b.bcontent "; 
+				break;
+			case "uid" : 
+				sql += " where b.uid " ; 
+				break; 
+			}
+			sql+= " like ? and b.btype Like ?  group by(b.bid) order by bid desc" ; 
+		
+			pstmt = conn.prepareStatement(sql);
+	//		pstmt.setString(1, searchType);
+			pstmt.setString(1, "%"+searchText+"%");
+			pstmt.setString(2, btype);
+			ResultSet rs = pstmt.executeQuery(); 
+			BoardBean bb = null ; 
+			while(rs.next()){
+				bb = new BoardBean(); 
+				bb.setBcontent(rs.getString("bcontent"));
+				bb.setBid(rs.getInt("bid"));
+				bb.setBsubject(rs.getString("bsubject"));
+				bb.setBtype(rs.getString("btype"));
+				bb.setUid(rs.getString("uid"));
+				bb.setUser_score(rs.getInt("user_score"));
+				bb.setFile_name(rs.getString("file_name"));
+				bb.setBdate(rs.getDate("bdate"));
+				bb.setComment_cnt(rs.getInt("cm_count"));
+				bb.setView_cnt(rs.getInt("view_cnt"));
+				
+				arrBB.add(bb); 
+			}
+			System.out.println("검색완료 !!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		} 
+		
+		return arrBB; 
+	} //getBoardList
+	
 	public BoardBean getBoard(int bid){
 		BoardBean bb = null; 
 		
