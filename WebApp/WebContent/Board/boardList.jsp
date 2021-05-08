@@ -21,6 +21,7 @@
 	a {
 	  text-decoration-line: none;
 	}
+	
 </style>
 
 
@@ -196,8 +197,8 @@
 <%-- <h1> 총 글 갯수 : <%=arrBB.size() %></h1> --%>
 <%-- <h2> 현재 사용자 : <%=session.getAttribute("id") %></h2> --%>
 
-<div align="center">
-<table border="1"  id="tb" class="table  table-hover table-bordered "">
+<div align="center" class="col-md-10">
+<table border="1"  id="tb" class="col-md-8 table  table-hover table-bordered table-condensed">
 	<tr>
 		<td id="max_size_td"  colspan="6" align="right">
 			한 페이지당 글 갯수 : 
@@ -306,7 +307,7 @@
 </form>
 </div>
 
-</div>	
+	
 <div align="center">
 <%
 	//이전 버튼
@@ -327,6 +328,7 @@
 		<input type="button"  class="btn btn-default" value="다음" onclick="postPage(<%=currentIndex%>,<%=maxIndex%>,<%=listCut%>)">
 	<%//}	%>
 </div>	
+</div>
 <%		
 	}else{
 	%>
