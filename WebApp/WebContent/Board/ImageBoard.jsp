@@ -8,8 +8,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<title>게시판 : 갤러리뷰</title>
+<style type="text/css">
+	td {
+	  align : "center";
+	}
+	
+</style>
 
+<title>게시판 : 갤러리뷰</title>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 	function userGrantCheck(btype){
 		// 분류가 자료인 경우, 비회원은 볼 수 없도록 조치.
@@ -53,7 +60,14 @@
 	}
 %>
 
-<table border="2"> 
+<!--  header 시작 -->
+ <jsp:include page="/layout/header.jsp"></jsp:include>
+<!--  header 끝 -->
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<h2 class="sub-header">갤러리</h2>
+<div class="table-responsive">
+<table border="1"  id="tb" class="table table-hover table-bordered "> 
 	<tr align="right">
 		<td colspan= "<%=listCut%>">
 		<input type="button" value="리스트로 전환" onclick="location.href='boardList.jsp'">
@@ -61,12 +75,28 @@
 		<select name="listCut" onchange="listChange(this.value)">
 			<option value="3"  <%if(listCut == 3){%> selected="selected" <%} %>>3</option>
 			<option value="4"  <%if(listCut == 4){%> selected="selected" <%} %> >4</option>
+			<%-- 
+			크기를 너무 줄여야해서 5는 막아두도록 하자.
 			<option value="5" <%if(listCut == 5){%> selected="selected" <%} %> >5</option>
+			--%>
 		</select>
 		<script type="text/javascript">
 		
+			$(document).ready(function () {
+				function resizing(value){
+					if(value == 4){
+						$("img").css("width", 128).css("hegith", 128); 
+					}else if(value == 3){
+						$("img").css("width", 256).css("hegith", 256);
+					}
+				}	
+				resizeFunc = resizing;
+			})
+			
 			function listChange(value){
 				location.href="ImageBoard.jsp?listCnt="+value;
+				
+				resizeFunc(value); 
 			}
 		</script>
 		</td>
@@ -78,7 +108,7 @@
 		<tr>
 			<% for(int j = 0 ; j<listCut ; j++){  %>			
 			<!-- 만약 등록된 파일이 이미지 파일이 아니거나 없는 경우 기본이미지를 보여주기 -->
-			<td>
+			<td align="center">
 			<%
 			 	String file_name = arrBB.get(i*listCut + j).getFile_name(); 
 			 	if( (file_name != null && !file_name.equals("")) 
@@ -93,6 +123,7 @@
 			 		%>
 			 	<img src="../fileTest/imgTest.jsp?file_name=<%=file_name %>" width="256" height="256">		
 			 	<%
+			 		 	
 			 	}else{
 			%>
 			
@@ -114,7 +145,8 @@
 		</tr>
 	<%} //for문 종료 %>
 </table>
-
+</div>
+</div>
 
 <!-- TODO : 밑에 숫자로 여러 개 보이게도 좀 해줘야한다.  -->
 

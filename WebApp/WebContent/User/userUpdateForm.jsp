@@ -125,13 +125,18 @@
 </script>
 </head>
 <body>
+<!--  header 시작 -->
+ <jsp:include page="/layout/header.jsp"></jsp:include>
+<!--  header 끝 -->
 
 <% if(ub != null){ %>
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<div class="table-responsive">
 	<fieldset  style="width: 600px;"> 
 		<legend> 회원 정보 수정 </legend>
 		<!-- TODO : 테스트 완료되면 get에서  post로 바꾸기 -->
 		<form action="userUpdatePro.jsp" method="get" name="fr" onsubmit="return checkUser()"> 
-			<table border="2">
+			<table border="1"  id="tb" class="table table-hover table-bordered "> 
 				<tr>
 					<td>아이디 :</td>
 					<td>
@@ -167,10 +172,13 @@
 				<tr>
 					<td>주소</td>
 					<td>
-						<input type="text" id="post_num" name="post_num" placeholder="우편번호" value='<%=ub.getPost_num() %>'>
+						<input type="text" id="post_num" name="post_num" placeholder="우편번호" 
+						<%if(ub.getPost_num() != null){ %> value='<%=ub.getPost_num() %>'  <%} %>>
 						<input type="button" value="검색" onclick="searchPostCode()"> <br> 
-						<input type="text" id="addr" name="addr" placeholder="도로명주소" value='<%=ub.getAddr() %>'>
-						<input type="text" id="addr2" name="addr2" placeholder="상세주소" value='<%=ub.getAddr2() %>'>
+						<input type="text" id="addr" name="addr" placeholder="도로명주소" 
+						<%if(ub.getAddr() != null){ %> value='<%=ub.getAddr() %>' <%} %>>
+						<input type="text" id="addr2" name="addr2" placeholder="상세주소" 
+						<%if(ub.getAddr2() != null){ %> value='<%=ub.getAddr2() %>' <%} %>>
 					</td>
 				</tr>
 				<tr>
@@ -187,6 +195,9 @@
 			</table>
 		</form>
 	</fieldset>
+	</div>
+	</div>
+	
 <%} %>
 
 </body>

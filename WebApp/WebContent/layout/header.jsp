@@ -12,24 +12,35 @@
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+<%
+	String path = request.getContextPath(); 
+%>
 
 <link href="<%=request.getContextPath()%>/layout/dashboard.css" rel="stylesheet">
-
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="<%=path%>/User/Login/main.jsp">메인</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Help</a></li>
+            
+            <% if(session.getAttribute("id") == null){ %>
+            <li><a href="#">Guest</a></li>
+            <li><a href="<%=path%>/User/Login/loginForm.jsp">로그인</a></li>
+            <%}else{ %>
+            <!--  회원 정보 수정으로 이동 -->
+            <li><a href="<%=path%>/User/userUpdateForm.jsp"><%=session.getAttribute("id") %></a></li>
+            <li><a href="<%=path%>/User/Login/logoutPro.jsp">로그아웃</a></li>
+            <%} %>
+            <li><a href="<%=path%>/Board/boardList.jsp">게시판</a></li>
+            <li><a href="<%=path%>/Board/ImageBoard.jsp">갤러리</a></li>
           </ul>
+          <!-- 이거는 쓸지 안 쓸지는 좀 고민해보자. 
           <form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="Search...">
-          </form>
+          </form> 
+          -->
         </div>
       </div>
     </nav>
