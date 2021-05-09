@@ -19,12 +19,19 @@
 </script>
 </head>
 <body>
+<!--  header 시작 -->
+ 
+ <jsp:include page="/layout/header.jsp"></jsp:include>
+ 
+<!--  header 끝 -->
 
-
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 <fieldset> 	
 	<legend>게시글 작성</legend>
-	<form action="insertPro.jsp" method="post" enctype="multipart/form-data">
-		<table border="2">
+	<form  class="form-inline" action="insertPro.jsp" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+		<div class="table-responsive">
+		<table border="1"  id="tb" class="table table-hover table-bordered ">
 			<tr> 
 				<td>
 					<select name="btype">
@@ -39,7 +46,7 @@
 			</tr>
 			<tr> 
 				<td colspan="3">
-					<textarea rows="20" cols="30" name="bcontent" placeholder="내용"></textarea>
+					<textarea class="form-control"  cols="20" rows="10" name="bcontent" placeholder="내용"></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -54,7 +61,10 @@
 				</td> 
 			</tr>
 		</table>
+		</div>
+		</div>
 	</form>
 </fieldset>
+</div>
 </body>
 </html>

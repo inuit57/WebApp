@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <title>Insert title here</title>
 </head>
 <body>
@@ -33,6 +34,15 @@ function kakaoLogout() {
       Kakao.Auth.setAccessToken(undefined); 
     }
   } 
+  
+ function googleLogout() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+    
+    auth2.disconnect();
+  }
 
 </script>
 
@@ -42,7 +52,6 @@ function kakaoLogout() {
 	<%if(loginType.equals("kakao")){%>
 		kakaoLogout();
 		console.log("카카오 로그아웃 완료"); 
-		
 	<%}else if(loginType.equals("normal")){%>
 		location.href="main.jsp";
 	<%}%>
