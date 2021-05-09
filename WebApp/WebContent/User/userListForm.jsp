@@ -23,8 +23,14 @@
 	ArrayList<UserBean> arrUser = udao.getUserList(); 
 	int size = arrUser.size(); 
 %>
+<!--  header 시작 -->
+ 
+ <jsp:include page="/layout/header.jsp"></jsp:include>
+ 
+<!--  header 끝 -->
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 <h2>회원 목록</h2>
-<table border="1">
+<table border="1" class="table table-bordered ">
 	<tr>
 	<!-- "select id, name, gender, age, userGrant, email,signInDate from userinfo"; -->
 		<th>ID</th>
@@ -35,7 +41,7 @@
 		<th>이메일</th>
 		<th>가입일자</th>
 		<th>수정</th>
-		<th>전체 선택<input type="checkbox" id="chk_all" onclick="checkAll(this)"></th>
+		<th>전체 선택<input class="form-control"  type="checkbox" id="chk_all" onclick="checkAll(this)"></th>
 	</tr>
 	<%
 	for(UserBean ub : arrUser){
@@ -49,7 +55,7 @@
 		<td><%=ub.getAge()%></td>
 		<%-- <td><%=(ub.getUserGrant() == 0 ? "비회원" : "정회원") %></td> --%>
 		<td>
-			<select name="grant" id="grant_<%=ub.getId() %>">
+			<select  class="form-control"  name="grant" id="grant_<%=ub.getId() %>">
 				<!-- <option name="g00">추방</option> -->
 				<option name="g01" value="0" <% if(userGrant == 0){ %>selected="selected" <%} %>>비회원</option>
 				<option name="g02" value="1" <% if(userGrant == 1){ %>selected="selected" <%} %>>정회원</option>
@@ -57,18 +63,28 @@
 		</td>
 		<td><%=ub.getEmail() %></td>
 		<td><%=ub.getSignInDate()%></td>
-		<td><input type="button" value="수정" id="btn_<%=ub.getId() %>" onclick="userGrantUpdate('<%=ub.getId() %>')"></td>
-		<td align="center"><input type="checkbox" name="chkbox" id="chk_<%=ub.getId() %>" ></td>
+		<td><input class="form-control"  type="button" value="수정" id="btn_<%=ub.getId() %>" onclick="userGrantUpdate('<%=ub.getId() %>')"></td>
+		<td align="center"><input class="form-control"  type="checkbox" name="chkbox" id="chk_<%=ub.getId() %>" ></td>
 	</tr>
 	<%	
 	}
 	%>
+
+<tr>
+<td colspan="11" align="right">
+	<form  class="form-inline" >
+		<div class="form-group" align="right">
+	<input class="form-control"  type="button" value="일괄 수정" onclick="userGrantUpdateAll()">
+	
+	<input class="form-control"  type="button" value="추방" onclick="kickUser()">
+	
+	<input class="form-control"  type="button" value="메인으로" onclick="location.href='Login/main.jsp'">
+		</div>
+	</form>
+</td>
+</tr>
 </table>
-<input type="button" value="일괄 수정" onclick="userGrantUpdateAll()">
-<input type="button" value="추방" onclick="kickUser()">
-
-<input type="button" value="메인으로" onclick="location.href='Login/main.jsp'">
-
+</div>
 
 <!-- TODO : Ajax로 변경?  -->
 <!-- <script  src="http://code.jquery.com/jquery-latest.min.js"></script> -->

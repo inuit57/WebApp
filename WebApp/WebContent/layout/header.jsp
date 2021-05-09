@@ -33,8 +33,8 @@
             <li><a href="<%=path%>/User/userUpdateForm.jsp"><%=session.getAttribute("id") %></a></li>
             <li><a href="<%=path%>/User/Login/logoutPro.jsp">로그아웃</a></li>
             <%} %>
-            <li><a href="<%=path%>/Board/boardList.jsp">게시판</a></li>
-            <li><a href="<%=path%>/Board/ImageBoard.jsp">갤러리</a></li>
+            <li><a href="<%=path%>/User/idPwSearch.jsp">회원정보찾기</a></li>
+            <%-- <li><a href="<%=path%>/Board/ImageBoard.jsp">갤러리</a></li> --%>
           </ul>
           <!-- 이거는 쓸지 안 쓸지는 좀 고민해보자. 
           <form class="navbar-form navbar-right">
