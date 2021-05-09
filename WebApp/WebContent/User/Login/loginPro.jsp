@@ -36,6 +36,8 @@
 			flag = !(id == null); 
 			//System.out.println("id 조회 결과 : " + id);
 			session.setAttribute("loginType", "kakao");
+
+			break;
 	}
 	//flag = uDAO.UserCheck(id, pwd); 
 	
@@ -70,6 +72,7 @@
 			alert("아이디나 비밀번호를 확인하세요.");
 		<%} else{ %>
 			alert("<%=loginType%>"+": 연동되지 않은 계정입니다.");
+
 		<%}%>
 		location.href = "loginForm.jsp"; 
 	}
