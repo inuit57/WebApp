@@ -8,14 +8,17 @@
 <title>로그인</title>
 </head>
 <body>
+
 <!--  카카오 로그인 -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <!--  카카오 로그인 -->
+
 <script
   src="https://code.jquery.com/jquery-3.6.0.js"
   integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
   crossorigin="anonymous"></script>
 <script>
+
 
 <!--  카카오 로그인 -->
 Kakao.init('37f8964af0801ae7c162647308ed7997'); //발급받은 키 중 javascript키를 사용해준다.
@@ -33,7 +36,7 @@ function kakaoLogin() {
           data: {
               property_keys: ["properties.nickname", "kakao_account.email"]
           }, // 여기에 넣은 것만 가져올 수도 있구나. 아하. 
-          	  success: function (response) {
+          success: function (response) {
         	  console.log(response);
         	  
         	  console.log(response.properties.nickname);
@@ -62,7 +65,7 @@ function kakaoLogin() {
     })
   }
 
-  
+
 </script>
 
 	<fieldset>
@@ -76,10 +79,9 @@ function kakaoLogin() {
 			<input type="hidden" id="loginType" name="loginType" value="normal">    
 			<input type="submit" value="로그인"> <br>
 			<!--  TODO 다른 방식으로 로그인? 카카오톡/네이버 아이디로? -->
-			
 			<input type="button" value="카카오 로그인" onclick="kakaoLogin()"> <br>
 			
-			
+
 			<input type="button" value="회원가입"
 				onclick="location.href='../signUpForm.jsp'">
 			<input type="button" value="아이디/비밀번호 찾기"
