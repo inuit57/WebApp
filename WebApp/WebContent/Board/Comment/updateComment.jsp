@@ -21,8 +21,7 @@
 <script type="text/javascript">
 
 	if(<%=flag%>){
-		//alert("댓글 작성 완료!");
-		//alert("<%=cb.getBid()%>")
+		console.log("댓글 업데이트 완료"); 
 	}
 	
 	location.href="../boardView.jsp?bID=<%=cb.getBid()%>" ;  

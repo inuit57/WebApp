@@ -81,12 +81,21 @@
 	
 	bDAO.updateBoard(bb.getBid()); 
 %>
+
+<!--  header 시작 -->
+ 
+ <jsp:include page="/layout/header.jsp"></jsp:include>
+ 
+<!--  header 끝 -->
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 <fieldset> 
 	<legend>게시글 내용</legend>
-		<table border="2">
+	<form  class="form-inline">
+	<div class="form-group">
+		<table border="1"  id="tb" class="table table-bordered ">
 			<tr> 
 				<td>
-					<select name="btype"  disabled="disabled" >
+					<select name="btype" class="col-sm-2 form-control"  disabled="disabled" >
 						<% if( isAdmin ){ %>
 							<option value="1" <% if(bb.getBtype().equals("1")){ %>selected="selected" <%} %>>공지</option>
 						<% } %>
@@ -95,34 +104,42 @@
 					</select>
 				</td>
 				<td colspan="5">
-					<input style="width:250px" type="text" name="bsubject" placeholder="제목"  
+					<input   class="form-control"   type="text" name="bsubject" placeholder="제목"  
 					readonly="readonly" value=<%=bb.getBsubject() %>>  
 
 				</td>
 			</tr>
 			<tr> 
 				<td colspan="6">
-					<textarea rows="20" cols="42" name="bcontent" placeholder="내용" 
+					<textarea   class="form-control"  rows="20" cols="35" name="bcontent" placeholder="내용" 
 					readonly="readonly" ><%=bb.getBcontent() %> </textarea>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="6" align="right">
+				<td colspan="6" align="right"> 
 				<!--  파일명 출력해주기  -->
-				<%if( bb.getFile_name() != null ){%> 
+				 
+				<%if( bb.getFile_name() != null ){%>
 					<a href="../fileTest/fileDownload.jsp?file_name=<%=bb.getFile_name() %>"><%=bb.getFile_name() %></a>
 				<%} %>
+				
 				<%
 					if ( bb.getUid().equals(session.getAttribute("id"))){
 						// TODO : 계정 권한이 관리자인 경우에도 삭제 버튼 활성화 되도록 추가
 				%>
-					<input type="button" id="editBtn" value="수정" onclick="updateView(<%=bid %>)" >
-					
-					<input type="button" value="삭제" onclick="location.href='deletePro.jsp?bid=<%=bid%>'">
+				
+					<input type="button"   class="form-control"  id="editBtn" value="수정" onclick="updateView(<%=bid %>)" >
+				
+				
+					<input type="button"   class="form-control"  value="삭제" onclick="location.href='deletePro.jsp?bid=<%=bid%>'">
+				
 				<%}else if( isAdmin ){ %>
-					<input type="button" value="삭제" onclick="location.href='deletePro.jsp?bid=<%=bid%>'">
+				
+					<input type="button"  class="form-control"  value="삭제" onclick="location.href='deletePro.jsp?bid=<%=bid%>'">
+				
 				<%} %>
-					<input type="button" value="목록" onclick="moveList()">
+				
+					<input type="button"  class="form-control"  value="목록" onclick="moveList()">
 				</td> 
 			</tr>
 			
@@ -141,15 +158,18 @@
 					<tr>
 						<td><%=cb.getUid() %></td>
 						<td colspan = "6">
-						<input type="text" id='comment<%=cb.getCm_id() %>' style="background-color: #e2e2e2;" 
+						
+						<input  class="form-control"  type="text" id='comment<%=cb.getCm_id() %>' style="background-color: #e2e2e2;" 
 						value='<%=arrCb.get(i).getContent() %>' readonly="readonly">
 						
 						<!-- TODO :  댓글 수정/삭제 버튼 -->
 						<% if ( session.getAttribute("id").equals(cb.getUid())){ %>
-						<input type="button" id='btn<%=cb.getCm_id() %>' value="수정" onclick="editComment('<%=cb.getCm_id() %>')">
-						<input type="button" value="삭제" onclick="deleteComment('<%=cb.getCm_id() %>')"></td>
+						<input  class="form-control"  type="button" id='btn<%=cb.getCm_id() %>' value="수정" onclick="editComment('<%=cb.getCm_id() %>')">
+						<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('<%=cb.getCm_id() %>')"></td>
 						<%} %>
+						
 						<script>
+							//이것도 Ajax로 동작을 변경할 것. 
 							function editComment(index){
 								var btn = document.getElementById('btn'+index); 
 								var input = document.getElementById('comment'+index); 
@@ -177,20 +197,30 @@
 								location.href="Comment/deleteComment.jsp?bid="+<%=bid%>+"&cm_id="+index;
 							}
 						</script>
+						
 					</tr>
 					<%
 				}
 			%>
 			<%} %>
 			<!--  댓글 유효성 검사 : required로 대체. -->
-		 	<form action="Comment/insertComment.jsp"  > 
+		 	<!-- <form class="form-inline"  action="Comment/insertComment.jsp"  > --> 
 				<tr>
-					<td align="center"><input style="width:50px" type="text" name="uid" value='<%=session.getAttribute("id") %>' readonly="readonly"></td>
+					<%-- <td align="center"><input  class="form-control" type="text" name="uid" value='<%=session.getAttribute("id") %>' readonly="readonly"></td> --%>
+					<td> <%=session.getAttribute("id") %> </td> 
 					<td colspan="4">
-						<input style="width:190px"  type="text" name="content" placeholder="댓글" required="required">
-						<input type="hidden" name="bid" value="<%=bid %>">
+						<input class="form-control"  type="text" id="content" name="content" placeholder="댓글" required="required">
+						<%-- <input type="hidden" name="bid" value="<%=bid %>"> --%>
 					</td>
-					<td><input type="submit" value="작성" ></td>
+					<td><input  class="form-control"  type="button" value="작성" onclick="insertComment()"></td>
+					<script>
+						function insertComment(){
+							// TODO : Ajax로 변경할 것.  
+							location.href="Comment/insertComment.jsp?uid=<%=session.getAttribute("id") %>"+"&content="+document.getElementById('content').value+"&bid=<%=bid%>";
+						}
+						
+						
+					</script>
 				</tr>
 			</form>
 			<tr>
@@ -228,7 +258,8 @@
 				</td>
 			</tr>
 		</table>
-		
+		</div>
+		</form>
 		
 </fieldset>
 <% } %>

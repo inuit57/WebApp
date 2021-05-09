@@ -52,13 +52,22 @@
 %>
 
 <% if ( bb != null ){ %>
+
+<!--  header 시작 -->
+ 
+ <jsp:include page="/layout/header.jsp"></jsp:include>
+ 
+<!--  header 끝 -->
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 <fieldset> 
 	<legend>게시글 내용</legend>
-	<form action="updatePro.jsp" method="post" enctype="multipart/form-data" onsubmit="return update()">
-		<table border="2">
+	<form  class="form-inline" action="updatePro.jsp" method="post" enctype="multipart/form-data" onsubmit="return update()">
+		<div class="form-group">
+		<table border="1"  id="tb" class="table table-bordered ">
 			<tr> 
 				<td>
-					<select name="btype" >
+					<select class="col-sm-2 form-control"  name="btype">
 						<% if( uDAO.getUserBean(bb.getUid()).getUserGrant() >2 ){ %>
 							<option value="1" <% if(bb.getBtype().equals("1")){ %>selected="selected" <%} %>>공지</option>
 						<%} %>
@@ -67,26 +76,26 @@
 					</select>
 				</td>
 				<td colspan="2">
-					<input type="text" name="bsubject" placeholder="제목"  value=<%=bb.getBsubject() %>>  
+					<input type="text"   class="form-control"  name="bsubject" placeholder="제목"  value=<%=bb.getBsubject() %>>  
 					<input type="hidden" name="bid" value=<%=bid%> >
 				</td>
 			</tr>
 			<tr> 
 				<td colspan="3">
-					<textarea rows="20" cols="30" name="bcontent" placeholder="내용" ><%=bb.getBcontent() %></textarea>
+					<textarea rows="20" cols="35"   class="form-control"  name="bcontent" placeholder="내용" ><%=bb.getBcontent() %></textarea>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="3">
-				<input type="text" name="file_now" id="file_now" readonly="readonly"
+				<input type="text" name="file_now"  class="form-control"   id="file_now" readonly="readonly"
 					value="<%= (bb.getFile_name()==null) ? "" : bb.getFile_name() %>">
-				<input type="button" name="file_delete" value="파일삭제" 
+				<input type="button" name="file_delete"   class="form-control"  value="파일삭제" 
 					onclick="deleteFile()"> 
 				</td>				
 			</tr>
 			<tr>
 				<td colspan="3" >
-				<input type="file" name="file_name" id="file_name" onchange="updateFile(this)">
+				<input type="file" name="file_name"   class="form-control"  id="file_name" onchange="updateFile(this)">
 				</td>
 			</tr>
 			<script>
@@ -113,16 +122,19 @@
 					if ( bb.getUid().equals(session.getAttribute("id"))){
 						// TODO : 계정 권한이 관리자인 경우에도 삭제 버튼 활성화 되도록 추가
 				%>
-					<input type="submit" value="수정완료" >
+					<input type="submit"  class="form-control"   value="수정완료" >
 					
-					<input type="button" value="취소" onclick="moveBack()">
+					<input type="button"  class="form-control"  value="취소" onclick="moveBack()">
 				<%} %>
-					<input type="button" value="목록" onclick="moveList()">
+					<input type="button"   class="form-control"  value="목록" onclick="moveList()">
 				</td> 
 			</tr>
 		</table>
+		</div>
 	</form>
+	
 </fieldset>
+</div>
 <% } %>
 </body>
 </html>

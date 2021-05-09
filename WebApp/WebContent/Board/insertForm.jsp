@@ -31,33 +31,33 @@
 	<form  class="form-inline" action="insertPro.jsp" method="post" enctype="multipart/form-data">
 		<div class="form-group">
 		<div class="table-responsive">
-		<table border="1"  id="tb" class="table table-hover table-bordered ">
+		<table border="1"  id="tb" class="table table-bordered ">
 			<tr> 
 				<td>
-					<select name="btype">
+					<select class="col-sm-2 form-control"  name="btype">
 						<option value="1">공지</option>
 						<option value="2" selected="selected">일반</option>
 						<option value="3">자료</option>
 					</select>
 				</td>
 				<td colspan="2">
-					<input type="text" name="bsubject" placeholder="제목">  
+					<input type="text"   class="form-control" name="bsubject" placeholder="제목">  
 				</td>
 			</tr>
 			<tr> 
 				<td colspan="3">
-					<textarea class="form-control"  cols="20" rows="10" name="bcontent" placeholder="내용"></textarea>
+					<textarea class="form-control"  cols="35" rows="10" name="bcontent" placeholder="내용"></textarea>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="3" align="right">
-				<input type="file" name="file_name" >
+				<input type="file" class="form-control"  name="file_name" >
 				</td>
 			</tr>
 			<tr>
 				<td colspan="3" align="right">
-					<input type="submit" value="작성">
-					<input type="button" value="취소" onclick="moveList()">
+					<input type="submit" class="form-control"  value="작성">
+					<input type="button"  class="form-control"  value="취소" onclick="moveList()">
 				</td> 
 			</tr>
 		</table>
