@@ -16,12 +16,28 @@
 	String id = request.getParameter("id"); 
 	String pwd = request.getParameter("pwd"); 
 	
+	String name = request.getParameter("name"); 
+	String email = request.getParameter("email"); 
+	String loginType = request.getParameter("loginType"); 
+	
 	UserDAO uDAO = new UserDAO(); 
 
 	//정보 확인하기 
 	//(비밀번호와 일치하는지). 
 	//
-	boolean flag = uDAO.UserCheck(id, pwd); 
+	boolean flag = false; 
+	
+	switch(loginType){
+		case "normal" :
+			flag = uDAO.UserCheck(id, pwd);
+			break;
+		case "kakao" :
+			id = uDAO.getId(name, email);
+			flag = !(id == null); 
+			//System.out.println("id 조회 결과 : " + id);
+			session.setAttribute("loginType", "kakao");
+	}
+	//flag = uDAO.UserCheck(id, pwd); 
 	
 	if(flag){
 		session.setAttribute("id", id); // 세션에 로그인 정보 저장 
@@ -47,7 +63,14 @@
 	}else{
 		// TODO : 아이디/비밀번호 어떤 것이 틀렸는지 여부? 
 		// TODO : 아이디조차 없는 경우, 회원가입을 유도할지? 
-		alert("아이디나 비밀번호를 확인하세요.");
+		
+		//alert("<%=loginType%>");
+
+		<% if( loginType.equals("normal")){ %>
+			alert("아이디나 비밀번호를 확인하세요.");
+		<%} else{ %>
+			alert("<%=loginType%>"+": 연동되지 않은 계정입니다.");
+		<%}%>
 		location.href = "loginForm.jsp"; 
 	}
 </script>
