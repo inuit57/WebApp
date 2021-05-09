@@ -68,26 +68,51 @@ function kakaoLogin() {
 
 </script>
 
+<!--  header 시작 -->
+ <jsp:include page="/layout/header.jsp"></jsp:include> 
+<!--  header 끝 -->
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 	<fieldset>
 		<legend>로그인</legend>
 		<!--  테스트 끝나고 get에서 post로 바꿀 것. -->
-		<form action="loginPro.jsp" id="loginForm" method="get">
-			아이디 : <input type="text" name="id"><br> 
-			비밀번호 : <input type="password" name="pwd"> <br>
-			<input type="hidden" id="name" name="name">  
-			<input type="hidden" id="email" name="email">
-			<input type="hidden" id="loginType" name="loginType" value="normal">    
-			<input type="submit" value="로그인"> <br>
-			<!--  TODO 다른 방식으로 로그인? 카카오톡/네이버 아이디로? -->
-			<input type="button" value="카카오 로그인" onclick="kakaoLogin()"> <br>
-			
 
-			<input type="button" value="회원가입"
-				onclick="location.href='../signUpForm.jsp'">
-			<input type="button" value="아이디/비밀번호 찾기"
+		<form class="form-inline" action="loginPro.jsp" id="loginForm" method="get">
+		<div class="form-group">
+		<table border="1"  id="tb" class="table table-bordered ">
+			<tr>
+			<td>아이디</td>
+			<td> <input class="form-control" type="text" name="id"></td>
+			</tr>
+			<tr>
+			<td>비밀번호</td> 
+			<td> <input class="form-control" type="password" name="pwd"></td> 
+			
+			
+			<input  type="hidden" id="name" name="name">  
+			<input  type="hidden" id="email" name="email">
+			<input  type="hidden" id="loginType" name="loginType" value="normal">
+			</tr>    
+			<tr>
+			<td colspan="2">
+				<input class="form-control"  type="submit" value="로그인">
+			 
+			<!--  TODO 다른 방식으로 로그인? 카카오톡/네이버 아이디로? -->
+
+				<input class="form-control"  type="button" value="카카오 로그인" onclick="kakaoLogin()"> 
+			</td>
+			</tr>
+			<tr>
+			<td>
+			<input class="form-control"  type="button" value="회원가입">
+			</td>
+			<td>
+			<input class="form-control"  type="button" value="아이디/비밀번호 찾기"
 				onclick="location.href='../idPwSearch.jsp'">
+			</td>
+			</tr>
+			</table>
 		</form>
 	</fieldset>
-
+</div>
 </body>
 </html>
