@@ -34,17 +34,9 @@ function kakaoLogout() {
       Kakao.Auth.setAccessToken(undefined); 
     }
   } 
-  
- function googleLogout() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signed out.');
-    });
-    
-    auth2.disconnect();
-  }
 
 </script>
+
 
 <script type="text/javascript">
 	alert("정상적으로 로그아웃 되었습니다");
