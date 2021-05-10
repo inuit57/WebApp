@@ -1,3 +1,4 @@
+<%@page import="com.itwillbs.user.UserDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -6,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>게시글 작성</title>
 <script type="text/javascript">
-	function moveList(){
+	function moveList(view){
 			
 			var curr = <%=(String)session.getAttribute("curr")%>; 
 			var listCnt = <%=(String)session.getAttribute("listCnt")%>
@@ -14,11 +15,35 @@
 			if (curr == null) curr = 1 ;
 			if (listCnt == null) listCnt = 3; 
 			
-			location.href="boardList.jsp?currentIndex="+curr+"&listCnt="+listCnt; 
+			if(view == "1"){
+				location.href="boardList.jsp?currentIndex="+curr+"&listCnt="+listCnt;
+			}else{
+				location.href="ImageBoard.jsp?listCnt="+listCnt;
+			}
 	}
 </script>
 </head>
 <body>
+
+<%
+	request.setCharacterEncoding("UTF-8"); 
+	String bid = request.getParameter("bID"); 
+
+	String view = request.getParameter("view"); 
+	
+	if(view == null){
+		view = "1"; 
+	}
+	
+	UserDAO uDAO = new UserDAO(); 
+	String uid = ""; 
+	
+	if(session.getAttribute("id")!=null){
+		uid = (String)session.getAttribute("id"); 
+	}
+
+
+%>
 <!--  header 시작 -->
  
  <jsp:include page="/layout/header.jsp"></jsp:include>
@@ -35,7 +60,9 @@
 			<tr> 
 				<td>
 					<select class="col-sm-2 form-control"  name="btype">
+					<% if( uDAO.getUserBean(uid).getUserGrant() >2 ){ %>
 						<option value="1">공지</option>
+					<%} %>
 						<option value="2" selected="selected">일반</option>
 						<option value="3">자료</option>
 					</select>
@@ -52,12 +79,13 @@
 			<tr>
 				<td colspan="3" align="right">
 				<input type="file" class="form-control"  name="file_name" >
+				<input type="hidden" name="view" value="<%=view%>">
 				</td>
 			</tr>
 			<tr>
 				<td colspan="3" align="right">
 					<input type="submit" class="form-control"  value="작성">
-					<input type="button"  class="form-control"  value="취소" onclick="moveList()">
+					<input type="button"  class="form-control"  value="취소" onclick="moveList(<%=view%>)">
 				</td> 
 			</tr>
 		</table>

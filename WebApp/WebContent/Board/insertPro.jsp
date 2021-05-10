@@ -1,3 +1,4 @@
+<%@page import="javax.swing.text.Document"%>
 <%@page import="com.itwillbs.board.BoardBean"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
@@ -67,15 +68,24 @@
 		bb.setFile_name(multi.getFilesystemName("file_name")); 
 		
 		boolean flag = bdao.insertBoard(bb);
-		System.out.println(flag);
-			
 		
-		response.sendRedirect("boardList.jsp?currentIndex="+curr+"&listCnt="+listCnt);
-
+		String view = multi.getParameter("view"); 
+		if(view == null){
+			view = "1"; 
+		}
+		
+		
+		if(flag){
+			if( view.equals("1")){
+				response.sendRedirect("boardList.jsp?currentIndex="+curr+"&listCnt="+listCnt);
+			}else{
+				response.sendRedirect("ImageBoard.jsp?listCnt="+listCnt);
+			}
+		}
+		
 	}
-	
-
 %>
+
 
 </body>
 </html>
