@@ -151,19 +151,25 @@
 <body>
 	<!-- 회원가입 페이지 입니다. -->
 
-	<!-- TODO : 크기 조정 필요 -->
+
+<!--  header 시작 -->
+ <jsp:include page="/layout/header.jsp"></jsp:include>
+<!--  header 끝 -->
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 	<fieldset  style="width: 600px;"> 
 		<legend> 회원 가입 </legend>
 		<!-- TODO : 테스트 완료되면 get에서  post로 바꾸기 -->
-		<form action="signUpPro.jsp" method="get" name="fr" onsubmit="return checkUser()">
-			<table border="2">
+		<form  class="form-inline" action="signUpPro.jsp" method="get" name="fr" onsubmit="return checkUser()">
+			<div class="form-group">
+			<table border="1"  id="tb" class="table table-hover table-bordered "> 
 				<tr>
 					<td>아이디 :</td>
-					<td><input style="width: 100px" type="text" name="id" id="id" maxlength="8" 
+					<td><input class="form-control"  type="text" name="id" id="id" maxlength="8" 
 					placeholder="영문,숫자(8자)" > 
-					<input type="button" value="중복확인" name="idChkBtn" 
+					<input class="form-control"  type="button" value="중복확인" name="idChkBtn" 
 								onclick="checkID()">
-					<input type="button" value="ID수정" name="idChangeBtn" disabled="disabled"
+					<input class="form-control"  type="button" value="ID수정" name="idChangeBtn" disabled="disabled"
 								onclick="changeID()">
 					<input type="hidden" name="idCheck" disabled="disabled"> 			
 					</td>
@@ -171,54 +177,55 @@
 				</tr>
 				<tr>
 					<td>비밀번호 :</td>
-					<td><input style="width: 180px" type="password" name="pwd" maxlength="14" placeholder="6~14자 이하의 영어,숫자 조합" ></td>
+					<td><input class="form-control"  type="password" name="pwd" maxlength="14" placeholder="6~14자 이하의 영어,숫자" ></td>
 					
 				</tr>
 				<tr>
 					<td>비밀번호 확인 :</td>
-					<td><input style="width: 180px" type="password" name="pwd2" maxlength="14" placeholder="6~14자 이하의 영어,숫자 조합" ></td>
+					<td><input class="form-control"  type="password" name="pwd2" maxlength="14" placeholder="6~14자 이하의 영어,숫자" ></td>
 				</tr>
 				<tr>
 					<td>이름</td>
-					<td><input style="width: 180px" type="text" name="name" maxlength="10"></td>
+					<td><input class="form-control"  type="text" name="name" maxlength="10"></td>
 				</tr>
 				<tr>
 					<td>성별</td>
 					<td>
-						<input type="radio" name="gender" value="M" checked="checked">남
-						<input type="radio" name="gender" value="F">여
+						<input class="form-control"  type="radio" name="gender" value="M" checked="checked">남
+						<input class="form-control"  type="radio" name="gender" value="F">여
 					</td>
 				</tr>
 				<tr>
 					<td>나이</td>
-					<td><input type="number" min="0" max="100" name="age" ></td>
+					<td><input class="form-control"  type="number" min="0" max="100" name="age" ></td>
 				</tr>
 				<tr>
 					<td>주소</td>
 					<td>
-						<input type="text" id="post_num" name="post_num" placeholder="우편번호">
-						<input type="button" value="검색" onclick="searchPostCode()"> <br> 
-						<input type="text" id="addr" name="addr" placeholder="도로명주소">
-						<input type="text" id="addr2" name="addr2" placeholder="상세주소">
+						<input class="form-control"  type="text" id="post_num" name="post_num" placeholder="우편번호">
+						<input class="form-control"  type="button" value="검색" onclick="searchPostCode()"> <br> 
+						<input class="form-control"  type="text" id="addr" name="addr" placeholder="도로명주소">
+						<input class="form-control"  type="text" id="addr2" name="addr2" placeholder="상세주소">
 					</td>
 				</tr>
 				<tr>
 					<td>이메일</td>
 					<!-- TODO : 이메일을 한번 DB에서 조회해보고 만약 있다면 아이디/비밀번호 찾기로? -->
-					<td><input type="email" name="email" maxlength="30"> 
+					<td><input class="form-control"  type="email" name="email" maxlength="30"> 
 					
-					<input type="button" value="이메일 인증" onclick="checkEmail()">
+					<input class="form-control"  type="button" value="이메일 인증" onclick="checkEmail()">
 					<input type="hidden" name="emailCheck" disabled="disabled">
 					</td>
 					
 				</tr>
 				<tr>
 					<td colspan="2" align="right">
-						<input type="submit" value="확인" >
-						<input type="button" value="취소" onclick="location.href='Login/main.jsp'">
+						<input class="form-control"  type="submit" value="확인" >
+						<input class="form-control"  type="button" value="취소" onclick="location.href='Login/main.jsp'">
 					</td>
 				</tr>
 			</table>
+			</div>
 		</form>
 	</fieldset>
 

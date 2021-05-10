@@ -111,6 +111,7 @@ function kakaoLogin() {
 			</td>
 			</tr>
 			</table>
+			</div>
 		</form>
 	</fieldset>
 </div>
