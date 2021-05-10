@@ -45,6 +45,14 @@ public class CommentDAO extends ObjectDAO{
 			
 			pstmt.executeUpdate();
 			
+			//댓글 작성할 때 comment_vote 테이블에도 같이 넣어주도록 한다. 
+			sql = "insert into comment_vote(bid, cm_id, up_vote,down_vote) values(? , ? , 0 , 0) ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cb.getBid());
+			pstmt.setInt(2, num+1);
+			pstmt.executeUpdate();
+			
+			
 			System.out.println("댓글 작성 완료!"); 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -110,24 +118,127 @@ public class CommentDAO extends ObjectDAO{
 	
 	public boolean deleteComment(CommentBean cb){
 		conn = getConnection(); 
-		String sql = "delete from comment where bid=? and cm_id=?"; 
+		 
+		// String sql = "delete from comment where bid=? and cm_id=?";
+		// 이거를 DB에서 지워버리는 대신 삭제된 댓글입니다. 하는 식으로 처리하기? 
+		// comment_vote, comment_vote_record 테이블에서 먼저 지워주는 작업이 필요하다.
 		
+		// 외래키에 on cascade 옵션을 결국 추가.  
+		 
+		
+		/*String sql =""; 
+		try {
+			// 댓글 추천 기록 관리하는 테이블에서 삭제 
+			sql = "delete from comment_vote_record where bid=? and cm_id=?";	
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cb.getBid());
+			pstmt.setInt(2, cb.getCm_id());
+			
+			pstmt.executeUpdate();
+			
+			//댓글 추천수 테이블에서도 삭제 
+			sql = "delete from comment_vote where bid=? and cm_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cb.getBid());
+			pstmt.setInt(2, cb.getCm_id());
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false ; 
+		} 
+		*/
+		//마지막으로 comment 테이블에서 삭제 진행 
+		//이 부분은 이후에 답글 기능 넣게 되면 변경해놓을 예정. 
+		//위의 동작은 그래도 그대로 실행해야 한다. (그래서 on cascade로 하지 않은 것) 
+		String sql = "delete from comment where bid=? and cm_id=?";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, cb.getBid());
 			pstmt.setInt(2, cb.getCm_id());
 			
 			pstmt.executeUpdate(); 
-			// 댓글 삭제 완료 
-			System.out.println("댓글 삭제 완료");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("댓글 삭제 실패 ");
+			return false; 
+		}finally{
+			dbClose();
+		}
+
+		// 댓글 삭제 완료 
+		System.out.println("댓글 삭제 완료");
+		
+		return true; 
+	} // deleteComment
+	
+	
+	//댓글 추천 여부 확인 함수 
+	public boolean isVoted(CommentBean cb , String uid ){ 
+		conn = getConnection(); 
+		String sql = "select uid from comment_vote_record where bid=? and cm_id =? and uid=? ";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cb.getBid());
+			pstmt.setInt(2, cb.getCm_id());
+			pstmt.setString(3, uid);
+			ResultSet rs = pstmt.executeQuery();
 			
+			if(rs.next()){
+				return false; 
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false ; 
-		} finally {
+		}finally{
 			dbClose();
 		}
 		
 		return true; 
-	} // deleteComment
+	} //댓글 추천 여부 확인 함수  
+	
+	
+	//댓글 추천 관리 함수
+	public boolean updownvote(CommentBean cb, String uid , int updown){
+		if(isVoted(cb , uid)){
+			conn = getConnection();
+			String sql = ""; 
+			
+			if(updown > 0){
+				sql = "update comment_vote set upvote = upvote+1 where bid=? and cm_id=?" ; 
+			}else{
+				sql = "update comment_vote set downvote = downvote+1 where bid=? and cm_id=?" ;
+			}
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, cb.getBid());
+				pstmt.setInt(2, cb.getCm_id());
+				pstmt.executeQuery(); 
+				
+				sql = "insert into comment_vote_record values(?,?,?)";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, cb.getBid());
+				pstmt.setInt(2, cb.getCm_id());
+				pstmt.setString(3,uid) ; 
+				pstmt.executeQuery();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false ; 
+			} finally{
+				dbClose();
+			}
+			
+			return true; 
+		}else{
+			// 다른 값을 주는게 좋으려나. 
+			// 이미 추천된 경우로 가야하긴 한데. 
+			// SQLException과는 다른 형태로 반환해주는 것이 좋을까. 
+			return false; 
+		}
+	} //댓글 추천 관리 함수 끝.
+	
+
 }

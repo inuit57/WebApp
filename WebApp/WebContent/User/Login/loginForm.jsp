@@ -97,8 +97,8 @@ function kakaoLogin() {
 				<input class="form-control"  type="submit" value="로그인">
 			 
 			<!--  TODO 다른 방식으로 로그인? 카카오톡/네이버 아이디로? -->
-
-				<input class="form-control"  type="button" value="카카오 로그인" onclick="kakaoLogin()"> 
+				<img src="<%=request.getContextPath() %>/img/kakao_login_medium.png"  onclick="kakaoLogin()">
+				<!-- <input class="form-control"  type="button" value="카카오 로그인" onclick="kakaoLogin()"> --> 
 			</td>
 			</tr>
 			<tr>

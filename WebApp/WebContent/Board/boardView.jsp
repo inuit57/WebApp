@@ -107,7 +107,7 @@
 				</td>
 				<td colspan="5">
 					<input   class="form-control"   type="text" name="bsubject" placeholder="제목"  
-					readonly="readonly" value=<%=bb.getBsubject() %>>  
+					readonly="readonly" value="<%=bb.getBsubject() %>">  
 
 				</td>
 			</tr>
@@ -145,6 +145,9 @@
 				</td> 
 			</tr>
 			
+			
+			<!-- TODO : 베스트 댓글 3개 정도 넣어주기  -->
+			
 			<!--  댓글들 읽어서 테이블 형태로 찍어주기 -->
 			<%
 			if(arrCb.size() > 0){
@@ -159,17 +162,26 @@
 					%>
 					<tr>
 						<td><%=cb.getUid() %></td>
-						<td colspan = "6">
+						<td colspan = "3">
 						
 						<input  class="form-control"  type="text" id='comment<%=cb.getCm_id() %>' style="background-color: #e2e2e2;" 
 						value='<%=arrCb.get(i).getContent() %>' readonly="readonly">
 						
-						<!-- TODO :  댓글 수정/삭제 버튼 -->
+						</td>
+						<!-- TODO : 추천 /비추천 갯수 -->
+						<td align="center"><a href="#">0<br>[▲]</a></td>
+						<td align="center"><a href="#">0<br>[▼]</a></td>
+					</tr>
+						<!-- 댓글 수정/삭제 버튼 -->
 						<% if ( uid.equals(cb.getUid())){ %>
+						<tr>
+						<td align="right" colspan="6">
 						<input  class="form-control"  type="button" id='btn<%=cb.getCm_id() %>' value="수정" onclick="editComment('<%=cb.getCm_id() %>')">
-						<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('<%=cb.getCm_id() %>')"></td>
-						<%} %>
+						<!-- TODO : 답글 기능 넣기 -->
+						<input  class="form-control"  type="button" id='add_cm<%=cb.getCm_id() %>' value="답글" onclick="">
+						<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('<%=cb.getCm_id() %>')">
 						
+						</td>
 						<script>
 							//이것도 Ajax로 동작을 변경할 것. 
 							function editComment(index){
@@ -201,6 +213,7 @@
 						</script>
 						
 					</tr>
+					<%} %>
 					<%
 				}
 			%>
