@@ -57,8 +57,12 @@
 	if(listCnt != null){
 		listCut = Integer.parseInt(listCnt);
 		session.setAttribute("listCnt", listCnt);
-	}else if( Integer.parseInt(listCnt) > 4){
-		listCnt ="4"; 
+		if(listCut > 4){
+			listCut = 4 ; 
+		}
+	}else{
+		//listCnt ="3";
+		listCut = 3; 
 	}
 %>
 
