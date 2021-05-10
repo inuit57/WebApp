@@ -1,3 +1,4 @@
+<%@page import="com.itwillbs.user.UserDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -19,6 +20,20 @@
 </script>
 </head>
 <body>
+
+<%
+	request.setCharacterEncoding("UTF-8"); 
+	String bid = (String)request.getParameter("bID"); 
+
+	UserDAO uDAO = new UserDAO(); 
+	String uid = ""; 
+	
+	if(session.getAttribute("id")!=null){
+		uid = (String)session.getAttribute("id"); 
+	}
+
+
+%>
 <!--  header 시작 -->
  
  <jsp:include page="/layout/header.jsp"></jsp:include>
@@ -35,7 +50,9 @@
 			<tr> 
 				<td>
 					<select class="col-sm-2 form-control"  name="btype">
+					<% if( uDAO.getUserBean(uid).getUserGrant() >2 ){ %>
 						<option value="1">공지</option>
+					<%} %>
 						<option value="2" selected="selected">일반</option>
 						<option value="3">자료</option>
 					</select>

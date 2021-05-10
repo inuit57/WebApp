@@ -53,6 +53,12 @@
 	int listCut = 3; 
 	BoardBean bb = null; 
 	
+	String id = null ; 
+	
+	if(session.getAttribute("id")!=null){
+		id = (String)session.getAttribute("id"); 
+	}
+	
 	String listCnt = request.getParameter("listCnt"); 
 	if(listCnt != null){
 		listCut = Integer.parseInt(listCnt);
@@ -76,6 +82,10 @@
 <table border="1"  id="tb" class="table table-hover table-bordered "> 
 	<tr align="right">
 		<td colspan= "<%=listCut%>">
+		<% if ( id != null){ %>
+			<input type="button" class="btn btn-default" value="글 작성" onclick="location.href='insertForm.jsp'">
+		<% } %>
+		
 		<input type="button" value="리스트로 전환" onclick="location.href='boardList.jsp'">
 		한 열에 보이는 갯수 : 
 		<select name="listCut" onchange="listChange(this.value)">
@@ -117,8 +127,8 @@
 			<td align="center">
 			<%
 			 	String file_name = arrBB.get(i*listCut + j).getFile_name(); 
-			 	if( (file_name != null && !file_name.equals("")) 
-			 		 && ((file_name.indexOf(".jpg") > -1) || (file_name.indexOf(".png") > -1))){
+			 	if( (file_name != null && !file_name.equals(""))){
+			 		if((file_name.indexOf(".jpg") > -1) || (file_name.indexOf(".png") > -1)){
 			 		//System.out.println((file_name.indexOf(".png")) ); 
 			 		// 파일 이름이 jpg , png 인 경우에 처리하도록. 
 			 		ServletContext ctx = getServletContext(); 
@@ -127,16 +137,31 @@
 			 		// 그래서 이미지가 출력되지 않는다. (not allowed to load local resource)
 			 		
 			 		%>
-			 	<img src="../fileTest/imgTest.jsp?file_name=<%=file_name %>" width="256" height="256">		
-			 	<%
-			 		 	
-			 	}else{
-			%>
-			
-			 <img src="../img/test.png" width="256" height="256">
-			 <%} %>
+				 	<img src="../fileTest/imgTest.jsp?file_name=<%=file_name %>" width="256" height="256">		
+				 	<%	 	
+				 	}else if( file_name.indexOf(".pdf") > -1 || file_name.indexOf(".PDF") > -1){
+				 	%>
+				 	<img src="../img/pdf.png" width="256" height="256">
+				 	<%		
+				 	}else if( file_name.indexOf(".txt") > -1){
+				 	%>	
+				 	<img src="../img/txt.jpg" width="256" height="256">
+				 	<%
+				 	}else if( file_name.indexOf(".zip") > -1){
+					%>
+					<img src="../img/zip.jpg" width="256" height="256">
+					<%
+				 	}else{ //분류되지 않은 파일의 경우
+					%>
+				 	<img src="../img/file.png" width="256" height="256">
+				 <% } 
+			 }else{//if( (file_name != null && !file_name.equals(""))) %>
+			 	<!-- 파일이 없는 경우 -->
+			 	<img src="../img/test.png" width="256" height="256">
+			 <%}//if( (file_name != null && !file_name.equals(""))) %>
 			 </td>
-			<%} %>
+			 <%} %>
+			
 		</tr>
 		<tr align="center">
 			<% for(int j = 0 ; j< listCut ; j++){ 

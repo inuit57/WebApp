@@ -32,6 +32,8 @@
 			flag = uDAO.UserCheck(id, pwd);
 			break;
 		case "kakao" :
+			System.out.println("카카오 로그인 시도----"); 
+			System.out.println(name+","+email);
 			id = uDAO.getId(name, email);
 			flag = !(id == null); 
 			//System.out.println("id 조회 결과 : " + id);
@@ -65,8 +67,6 @@
 	}else{
 		// TODO : 아이디/비밀번호 어떤 것이 틀렸는지 여부? 
 		// TODO : 아이디조차 없는 경우, 회원가입을 유도할지? 
-		
-		//alert("<%=loginType%>");
 
 		<% if( loginType.equals("normal")){ %>
 			alert("아이디나 비밀번호를 확인하세요.");
