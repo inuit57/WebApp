@@ -103,7 +103,7 @@ function kakaoLogin() {
 			</tr>
 			<tr>
 			<td>
-			<input class="form-control"  type="button" value="회원가입">
+			<input class="form-control"  type="button" value="회원가입" onclick="location.href='../signUpForm.jsp'">
 			</td>
 			<td>
 			<input class="form-control"  type="button" value="아이디/비밀번호 찾기"
@@ -111,6 +111,7 @@ function kakaoLogin() {
 			</td>
 			</tr>
 			</table>
+			</div>
 		</form>
 	</fieldset>
 </div>
