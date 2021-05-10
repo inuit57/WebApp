@@ -175,7 +175,7 @@
 						<!-- 댓글 수정/삭제 버튼 -->
 						<% if ( uid.equals(cb.getUid())){ %>
 						<tr>
-						<td>
+						<td align="right" colspan="6">
 						<input  class="form-control"  type="button" id='btn<%=cb.getCm_id() %>' value="수정" onclick="editComment('<%=cb.getCm_id() %>')">
 						<!-- TODO : 답글 기능 넣기 -->
 						<input  class="form-control"  type="button" id='add_cm<%=cb.getCm_id() %>' value="답글" onclick="">
