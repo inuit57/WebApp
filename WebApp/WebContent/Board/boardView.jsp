@@ -65,8 +65,10 @@
 	
 	
 	boolean isAdmin = false; 
+	String uid ="";
 	if(session.getAttribute("id") != null ){
 		isAdmin = (uDAO.getUserBean((String)session.getAttribute("id")).getUserGrant() > 2) ;
+		uid = (String)session.getAttribute("id"); 
 	}
 	
 	/// TODO : 조회수 늘여주는 로직 넣기 
@@ -124,7 +126,7 @@
 				<%} %>
 				
 				<%
-					if ( bb.getUid().equals(session.getAttribute("id"))){
+					if ( bb.getUid().equals(uid)){
 						// TODO : 계정 권한이 관리자인 경우에도 삭제 버튼 활성화 되도록 추가
 				%>
 				
@@ -163,7 +165,7 @@
 						value='<%=arrCb.get(i).getContent() %>' readonly="readonly">
 						
 						<!-- TODO :  댓글 수정/삭제 버튼 -->
-						<% if ( session.getAttribute("id").equals(cb.getUid())){ %>
+						<% if ( uid.equals(cb.getUid())){ %>
 						<input  class="form-control"  type="button" id='btn<%=cb.getCm_id() %>' value="수정" onclick="editComment('<%=cb.getCm_id() %>')">
 						<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('<%=cb.getCm_id() %>')"></td>
 						<%} %>
@@ -205,9 +207,11 @@
 			<%} %>
 			<!--  댓글 유효성 검사 : required로 대체. -->
 		 	<!-- <form class="form-inline"  action="Comment/insertComment.jsp"  > --> 
+		 	<% if(!uid.equals("")){ %>
 				<tr>
 					<%-- <td align="center"><input  class="form-control" type="text" name="uid" value='<%=session.getAttribute("id") %>' readonly="readonly"></td> --%>
-					<td> <%=session.getAttribute("id") %> </td> 
+					
+					<td> <%=uid %> </td> 
 					<td colspan="4">
 						<input class="form-control"  type="text" id="content" name="content" placeholder="댓글" required="required">
 						<%-- <input type="hidden" name="bid" value="<%=bid %>"> --%>
@@ -218,11 +222,9 @@
 							// TODO : Ajax로 변경할 것.  
 							location.href="Comment/insertComment.jsp?uid=<%=session.getAttribute("id") %>"+"&content="+document.getElementById('content').value+"&bid=<%=bid%>";
 						}
-						
-						
 					</script>
 				</tr>
-			</form>
+			<%} %>
 			<tr>
 				<td>다음글</td>
 				<td colspan="5" align="center">
