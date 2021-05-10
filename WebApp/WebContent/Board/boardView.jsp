@@ -107,7 +107,7 @@
 				</td>
 				<td colspan="5">
 					<input   class="form-control"   type="text" name="bsubject" placeholder="제목"  
-					readonly="readonly" value=<%=bb.getBsubject() %>>  
+					readonly="readonly" value="<%=bb.getBsubject() %>">  
 
 				</td>
 			</tr>

@@ -48,9 +48,8 @@ public class CommentDAO extends ObjectDAO{
 			//댓글 작성할 때 comment_vote 테이블에도 같이 넣어주도록 한다. 
 			sql = "insert into comment_vote(bid, cm_id, up_vote,down_vote) values(? , ? , 0 , 0) ";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, num+1);
-			pstmt.setInt(2, cb.getBid());
-			
+			pstmt.setInt(1, cb.getBid());
+			pstmt.setInt(2, num+1);
 			pstmt.executeUpdate();
 			
 			
@@ -119,11 +118,35 @@ public class CommentDAO extends ObjectDAO{
 	
 	public boolean deleteComment(CommentBean cb){
 		conn = getConnection(); 
-		String sql = "delete from comment where bid=? and cm_id=?"; 
+		 
+		// String sql = "delete from comment where bid=? and cm_id=?";
 		// 이거를 DB에서 지워버리는 대신 삭제된 댓글입니다. 하는 식으로 처리하기? 
-		// 만약 지운다고 한다면 comment_vote, comment_vote_record 테이블에서도 같이 작업이 필요하다. 
+		// comment_vote, comment_vote_record 테이블에서 먼저 지워주는 작업이 필요하다.
+		
+		// 테이블을 생성할 때 외래키에 on cascade 옵션을 주면 된다고는 하는데 
+		// 다음에 작업할 때 그렇게 하는 걸로 하고 우선, 각각 지워주는 동작을 수행합시다. 
 		
 		try {
+			// 댓글 추천 기록 관리하는 테이블에서 삭제 
+			String sql = "delete from comment_vote_record where bid=? and cm_id=?";	
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cb.getBid());
+			pstmt.setInt(2, cb.getCm_id());
+			
+			pstmt.executeUpdate();
+			
+			//댓글 추천수 테이블에서도 삭제 
+			sql = "delete from comment_vote where bid=? and cm_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cb.getBid());
+			pstmt.setInt(2, cb.getCm_id());
+			
+			pstmt.executeUpdate();
+			
+			//마지막으로 comment 테이블에서 삭제 진행 
+			//이 부분은 이후에 답글 기능 넣게 되면 변경해놓을 예정. 
+			//위의 동작은 그래도 그대로 실행해야 한다. (그래서 on cascade로 하지 않은 것) 
+			sql = "delete from comment where bid=? and cm_id=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, cb.getBid());
 			pstmt.setInt(2, cb.getCm_id());
