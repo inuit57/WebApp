@@ -312,7 +312,7 @@
 		</select>
 		<div class="col-xs-4" align="center">
 			<input type="text"   class="form-control" name="searchText" 
-				<%if (searchText!=null){ %>value=<%=searchText %> <%} %>	placeholder="검색어를 입력하세요.">
+				<%if (searchText!=null){ %>value=<%=searchText %> <%} %> > <!-- placeholder="검색어를 입력하세요."> -->
 		</div>
 	</div>
 	<input type="submit"  class="btn btn-default" value="검색">
