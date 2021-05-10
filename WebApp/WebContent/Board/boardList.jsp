@@ -99,7 +99,7 @@
 			var cut_idx = curr_link.indexOf("listCnt=") ;
 			var tmp_len = "listCnt=".length; 
 			 
-			location.href = curr_link.substr(0, cut_idx+tmp_len)+listCnt+curr_link.substr(cut_idx+tmp_len) ;
+			location.href = curr_link.substr(0, cut_idx+tmp_len)+listCnt ;//+curr_link.substr(cut_idx+tmp_len) ;
 		}
 		//location.href="boardList.jsp?listCnt="+listCnt; 
 	}
