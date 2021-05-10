@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>게시글 작성</title>
 <script type="text/javascript">
-	function moveList(){
+	function moveList(view){
 			
 			var curr = <%=(String)session.getAttribute("curr")%>; 
 			var listCnt = <%=(String)session.getAttribute("listCnt")%>
@@ -15,7 +15,11 @@
 			if (curr == null) curr = 1 ;
 			if (listCnt == null) listCnt = 3; 
 			
-			location.href="boardList.jsp?currentIndex="+curr+"&listCnt="+listCnt; 
+			if(view == "1"){
+				location.href="boardList.jsp?currentIndex="+curr+"&listCnt="+listCnt;
+			}else{
+				location.href="ImageBoard.jsp?listCnt="+listCnt;
+			}
 	}
 </script>
 </head>
@@ -23,8 +27,14 @@
 
 <%
 	request.setCharacterEncoding("UTF-8"); 
-	String bid = (String)request.getParameter("bID"); 
+	String bid = request.getParameter("bID"); 
 
+	String view = request.getParameter("view"); 
+	
+	if(view == null){
+		view = "1"; 
+	}
+	
 	UserDAO uDAO = new UserDAO(); 
 	String uid = ""; 
 	
@@ -69,12 +79,13 @@
 			<tr>
 				<td colspan="3" align="right">
 				<input type="file" class="form-control"  name="file_name" >
+				<input type="hidden" name="view" value="<%=view%>">
 				</td>
 			</tr>
 			<tr>
 				<td colspan="3" align="right">
 					<input type="submit" class="form-control"  value="작성">
-					<input type="button"  class="form-control"  value="취소" onclick="moveList()">
+					<input type="button"  class="form-control"  value="취소" onclick="moveList(<%=view%>)">
 				</td> 
 			</tr>
 		</table>

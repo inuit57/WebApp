@@ -279,7 +279,7 @@
 		<td id="max_size_td"  colspan="6" align="right">
 			<input type="button" class="btn btn-default" value="갤러리로 전환" onclick="location.href='ImageBoard.jsp'">
 			<% if ( id != null){ %>
-			<input type="button" class="btn btn-default" value="글 작성" onclick="location.href='insertForm.jsp'">
+			<input type="button" class="btn btn-default" value="글 작성" onclick="location.href='insertForm.jsp?view=1'">
 			<% } %>
 			<input type="button" class="btn btn-default" value="메인으로" onclick="location.href='../User/Login/main.jsp'">
 		</td>

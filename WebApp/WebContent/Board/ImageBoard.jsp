@@ -83,10 +83,10 @@
 	<tr align="right">
 		<td colspan= "<%=listCut%>">
 		<% if ( id != null){ %>
-			<input type="button" class="btn btn-default" value="글 작성" onclick="location.href='insertForm.jsp'">
+			<input type="button" class="btn btn-default" value="글 작성" onclick="location.href='insertForm.jsp?view=2'">
 		<% } %>
 		
-		<input type="button" value="리스트로 전환" onclick="location.href='boardList.jsp'">
+		<input type="button" class="btn btn-default" value="리스트로 전환" onclick="location.href='boardList.jsp'">
 		한 열에 보이는 갯수 : 
 		<select name="listCut" onchange="listChange(this.value)">
 			<option value="3"  <%if(listCut == 3){%> selected="selected" <%} %>>3</option>
