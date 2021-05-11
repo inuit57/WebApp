@@ -169,8 +169,8 @@
 						
 						</td>
 						<!-- TODO : 추천 /비추천 갯수 -->
-						<td align="center"><a href="#">0<br>[▲]</a></td>
-						<td align="center"><a href="#">0<br>[▼]</a></td>
+						<td align="center"><a href="#"><%=arrCb.get(i).getUpvote() %><br>[▲]</a></td>
+						<td align="center"><a href="#"><%=arrCb.get(i).getDownvote() %><br>[▼]</a></td>
 					</tr>
 						<!-- 댓글 수정/삭제 버튼 -->
 						<% if ( uid.equals(cb.getUid())){ %>

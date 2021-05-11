@@ -6,9 +6,27 @@ public class CommentBean {
 	private int bid;  // 글 번호 
 	private String uid; //댓글 작성자
 	private String content ; //댓글 내용 
+	
 	//댓글의 답글?? 
 	//댓글 작성 시간
-	//댓글 추천/비추천 숫자? 
+	
+	//댓글 추천/비추천 숫자?
+	private int upvote ; 
+	private int downvote; 
+	
+	
+	public int getUpvote() {
+		return upvote;
+	}
+	public void setUpvote(int upvote) {
+		this.upvote = upvote;
+	}
+	public int getDownvote() {
+		return downvote;
+	}
+	public void setDownvote(int downvote) {
+		this.downvote = downvote;
+	}
 	
 	public int getCm_id() {
 		return cm_id;
