@@ -9,6 +9,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
 <script type="text/javascript">
 
 	function moveList(){
@@ -38,11 +40,11 @@
 	}
 	
 </script>
+
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>게시글 내용</title>
 </head>
-
-
 <body>
 <%
 	request.setCharacterEncoding("UTF-8"); 
@@ -113,6 +115,48 @@
 	
 %>
 
+<script type="text/javascript">
+ 
+	$(document).ready(function(){
+		
+		$.ajax({ 
+			url : "<%=request.getContextPath()%>/Board/Comment/commentList.jsp" , 
+			type : "get", 
+			data : {bid : "<%=bid%>" },
+			dataType: "json", 
+			success:function(data){
+				$.each(data, function(index,item ){
+					var t = ""; 
+					t+="<tr>"; 
+					t+="<td>"+ item.uid +"</td>";
+					t+="<td colspan = '3'><input  class='form-control'  type='text'style='background-color: #e2e2e2;' "+ 
+						"value="+item.content+" readonly='readonly'> </td>"; 
+//					item.content +"</td>";
+					t+="<td align='center'><span id=upvote"+item.cm_id+" >"+ item.upvote +"</span><br>[▲]</td>";
+					t+="<td align='center'><span id=downvote"+item.cm_id+" >"+ item.downvote +"</span><br>[▼]</td>";
+					t+="</tr>";
+					<!-- 댓글 수정/삭제 버튼 -->
+					
+					if(item.uid == '<%=uid%>'){
+						t+="<tr>"; 
+						t+='<td align="right" colspan="6">' ; 
+						t+='<input  class="form-control"  type="button" value="수정" onclick="editComment('+item.cm_id+ ')">' ;
+						<!-- TODO : 답글 기능 넣기 -->
+						t+='<input  class="form-control"  type="button" value="답글" onclick="">'
+						t+='<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('+item.cm_id+')">' ;
+					}
+					
+					
+					$('#commentList').append(t);
+					
+				})
+			}
+		})
+	}); 
+
+</script>
+
+
 <!--  header 시작 -->
  
  <jsp:include page="/layout/header.jsp"></jsp:include>
@@ -180,7 +224,7 @@
 			<!--  댓글들 읽어서 테이블 형태로 찍어주기 -->
 			<tr>
 			<td colspan="7">
-			<table id="comment" class="table table-bordered " >
+			<table id="commentList" class="table table-bordered " >
 			<%
 			if(arrCb.size() > 0){
 				%>
@@ -269,8 +313,9 @@
 						<input class="form-control"  type="text" id="content" name="content" placeholder="댓글" required="required">
 						<%-- <input type="hidden" name="bid" value="<%=bid %>"> --%>
 					</td>
-					<td><input  class="form-control"  type="button" value="작성" onclick="insertComment()"></td>
+					<td><input  class="form-control"  id="comment_write" type="button" value="작성" onclick="insertComment()"></td>
 					<script>
+					
 						function insertComment(){
 							// TODO : Ajax로 변경할 것.  
 							location.href="Comment/insertComment.jsp?uid=<%=session.getAttribute("id") %>"+"&content="+document.getElementById('content').value+"&bid=<%=bid%>";
