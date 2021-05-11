@@ -80,7 +80,33 @@
 	//정상적으로 들어왔으니까 여기에서 조회수를 증가시켜주도록 하자. 
 	// TODO : 조회수 계속 증가하지 못하도록 막을 것. 
 	// 쿠키를 사용해볼까. 
-	bDAO.updateBoard(bb.getBid()); 
+	
+	Cookie[] cookies = request.getCookies();
+	String str_bid = Integer.toString(bb.getBid()); 
+	boolean flag = true; 
+	if(cookies != null && cookies.length >0){
+		for(Cookie c : cookies){
+			if(c.getName().equals(str_bid)){
+				flag = false; 			
+			}
+		}
+	}
+	
+	if(flag){
+		//조회수 증가!
+		// 유저 id, 그리고 게시글 번호를 같이 저장해야 한다.
+		// 무엇을 키로 줘야하지. 게시글 번호를 키로 주고 유저id를 저장하자.
+		// 그리고 유저가 로그아웃 한다면 쿠키를 다 지워버리는 식으로 구현하자. 
+		//(유저마다 쿠키를 다르게 가져갈 수 있도록)
+		
+		Cookie cookie = new Cookie(str_bid, (String)session.getAttribute("id")) ;
+		cookie.setMaxAge(3600) ; // 단위 : 초
+		response.addCookie(cookie);
+		System.out.println("쿠키 생성 완료"); 
+		
+		bDAO.updateBoard(bb.getBid());
+	}
+	
 %>
 
 <!--  header 시작 -->
