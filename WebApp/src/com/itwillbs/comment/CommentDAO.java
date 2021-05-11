@@ -68,7 +68,9 @@ public class CommentDAO extends ObjectDAO{
 		ArrayList<CommentBean> arrCb = new ArrayList<>();
 		conn = getConnection(); 
 		CommentBean cb = null ; 
-		String sql = "select * from comment where bid= ? "; 
+		//String sql = "select * from comment where bid= ? ";
+		String sql = "select c.* , cv.up_vote as upvote, cv.down_vote as downvote "
+					 + "from comment c join comment_vote cv on c.cm_id = cv.cm_id where c.bid= ?" ; 
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bid);
@@ -79,6 +81,8 @@ public class CommentDAO extends ObjectDAO{
 				cb.setCm_id(rs.getInt("cm_id"));
 				cb.setContent(rs.getString("content"));
 				cb.setUid(rs.getString("uid"));
+				cb.setUpvote(rs.getInt("upvote"));
+				cb.setDownvote(rs.getInt("downvote"));
 				arrCb.add(cb); 
 			}
 			//System.out.println("댓글 갯수 총 "+ arrCb.size()+"개");
@@ -123,10 +127,7 @@ public class CommentDAO extends ObjectDAO{
 		// 이거를 DB에서 지워버리는 대신 삭제된 댓글입니다. 하는 식으로 처리하기? 
 		// comment_vote, comment_vote_record 테이블에서 먼저 지워주는 작업이 필요하다.
 		
-		// 외래키에 on cascade 옵션을 결국 추가.  
-		 
-		
-		/*String sql =""; 
+		String sql =""; 
 		try {
 			// 댓글 추천 기록 관리하는 테이블에서 삭제 
 			sql = "delete from comment_vote_record where bid=? and cm_id=?";	
@@ -143,30 +144,44 @@ public class CommentDAO extends ObjectDAO{
 			pstmt.setInt(2, cb.getCm_id());
 			
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false ; 
-		} 
-		*/
-		//마지막으로 comment 테이블에서 삭제 진행 
-		//이 부분은 이후에 답글 기능 넣게 되면 변경해놓을 예정. 
-		//위의 동작은 그래도 그대로 실행해야 한다. (그래서 on cascade로 하지 않은 것) 
-		String sql = "delete from comment where bid=? and cm_id=?";
-		try {
+			
+			sql = "delete from comment where bid=? and cm_id=?";
+			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, cb.getBid());
 			pstmt.setInt(2, cb.getCm_id());
 			
 			pstmt.executeUpdate(); 
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("댓글 삭제 실패 ");
-			return false; 
-		}finally{
+			return false ; 
+		} finally{
 			dbClose();
 		}
-
+		
+		//마지막으로 comment 테이블에서 삭제 진행 
+		//이 부분은 이후에 답글 기능 넣게 되면 변경해놓을 예정. 
+		//댓글의 삭제 동작을 답글 기능 추가한 뒤 변경하게 된다면 이 부분도 약간 수정이 필요할 수도 있다.
+		
+		// 
+//		sql = "delete from comment where bid=? and cm_id=?";
+//		try {
+//			pstmt = conn.prepareStatement(sql);
+//			pstmt.setInt(1, cb.getBid());
+//			pstmt.setInt(2, cb.getCm_id());
+//			
+//			pstmt.executeUpdate(); 
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			System.out.println("댓글 삭제 실패 ");
+//			return false; 
+//		}finally{
+//			dbClose();
+//		}
+//
 		// 댓글 삭제 완료 
 		System.out.println("댓글 삭제 완료");
 		
@@ -206,23 +221,23 @@ public class CommentDAO extends ObjectDAO{
 			String sql = ""; 
 			
 			if(updown > 0){
-				sql = "update comment_vote set upvote = upvote+1 where bid=? and cm_id=?" ; 
+				sql = "update comment_vote set up_vote = up_vote+1 where bid=? and cm_id=?" ; 
 			}else{
-				sql = "update comment_vote set downvote = downvote+1 where bid=? and cm_id=?" ;
+				sql = "update comment_vote set down_vote = down_vote+1 where bid=? and cm_id=?" ;
 			}
 			
 			try {
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, cb.getBid());
 				pstmt.setInt(2, cb.getCm_id());
-				pstmt.executeQuery(); 
+				pstmt.executeUpdate(); 
 				
 				sql = "insert into comment_vote_record values(?,?,?)";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, cb.getBid());
 				pstmt.setInt(2, cb.getCm_id());
 				pstmt.setString(3,uid) ; 
-				pstmt.executeQuery();
+				pstmt.executeUpdate();
 				
 			} catch (SQLException e) {
 				e.printStackTrace();

@@ -71,17 +71,46 @@
 		uid = (String)session.getAttribute("id"); 
 	}
 	
-	/// TODO : 조회수 늘여주는 로직 넣기 
-	// 단, 새로고침 등의 행위로 조회수가 늘어나지 않도록 조치를 취할 필요가 있다. 
-	// IP를 체크하는 것이 좋을까, 아니면...다른 좋은 방법이 있을까.
+	
 	 
 %>
 
 <% if ( bb != null ){ 
 
 	//정상적으로 들어왔으니까 여기에서 조회수를 증가시켜주도록 하자. 
+	// TODO : 조회수 계속 증가하지 못하도록 막을 것. 
+	// 쿠키를 사용해볼까. 
 	
-	bDAO.updateBoard(bb.getBid()); 
+	Cookie[] cookies = request.getCookies();
+	String str_bid = Integer.toString(bb.getBid());  
+	boolean flag = true; 
+	if(cookies != null && cookies.length >0){
+		for(Cookie c : cookies){
+			if(c.getName().equals(str_bid)){
+				if(c.getValue().equals(uid)){
+					flag = false; 			
+				}
+			}
+			
+		}
+	}
+	
+	if(flag){
+		//조회수 증가!
+		// 유저 id, 그리고 게시글 번호를 같이 저장해야 한다.
+		// 무엇을 키로 줘야하지. 게시글 번호를 키로 주고 유저id를 저장하자.
+		// 그리고 유저가 로그아웃 한다면 쿠키를 다 지워버리는 식으로 구현하자. 
+		//(유저마다 쿠키를 다르게 가져갈 수 있도록)
+		
+		if( !uid.equals("")) { //비회원은 굳이...조회수 증가 중복은 신경쓰지 말자. 일단은 
+			Cookie cookie = new Cookie(str_bid, uid) ;
+			cookie.setMaxAge(3600) ; // 단위 : 초
+			response.addCookie(cookie);
+			System.out.println("쿠키 생성 완료"); 
+		}
+		bDAO.updateBoard(bb.getBid());
+	}
+	
 %>
 
 <!--  header 시작 -->
@@ -169,8 +198,13 @@
 						
 						</td>
 						<!-- TODO : 추천 /비추천 갯수 -->
-						<td align="center"><a href="#">0<br>[▲]</a></td>
-						<td align="center"><a href="#">0<br>[▼]</a></td>
+						<td align="center"><a href="#" onclick="voteComment('<%=cb.getCm_id() %>','up')"><%=arrCb.get(i).getUpvote() %><br>[▲]</a></td>
+						<td align="center"><a href="#" onclick="voteComment('<%=cb.getCm_id() %>','down')"><%=arrCb.get(i).getDownvote() %><br>[▼]</a></td>
+						<script>
+							function voteComment(index, updown){
+								location.href="Comment/updateComment.jsp?bid="+<%=bid%>+"&cm_id="+index+"&vote="+updown ;
+							}
+						</script>
 					</tr>
 						<!-- 댓글 수정/삭제 버튼 -->
 						<% if ( uid.equals(cb.getUid())){ %>

@@ -14,17 +14,45 @@
 <jsp:setProperty property="*" name="cb"/>
 
 <%
-	CommentDAO cDAO = new CommentDAO(); 
-	boolean flag = cDAO.updateComment(cb);
+	CommentDAO cDAO = new CommentDAO();
+
+	String uid = (String)session.getAttribute("id"); 
+	String vote = request.getParameter("vote"); 
+	if(vote == null) vote =""; 
+	if(uid == null) uid="" ; 
+	
+	boolean flag = false; 
+	
+	int updown = 0 ; 
+	
+	if(vote.equals("")){
+		flag = cDAO.updateComment(cb);
+	}else if(!uid.equals("")){
+		if(vote.equals("up")){
+			updown =1 ; 
+		}else{
+			updown =0 ; 
+		}
+		flag = cDAO.updownvote(cb, uid, updown); 
+	}
+	
 %>
 
 <script type="text/javascript">
 
 	if(<%=flag%>){
 		console.log("댓글 업데이트 완료"); 
+		location.href="../boardView.jsp?bID=<%=cb.getBid()%>" ;
+	}else if("<%=uid%>" ==""){
+		if(confirm("추천/비추천을 하시려면 로그인 하셔야 합니다. 로그인 하시겠습니까?")){
+			location.href="<%=request.getContextPath()%>/User/Login/loginForm.jsp"; 
+		}
+	}else if("<%=vote%>" != ""){
+		alert("이미 추천/비추천을 주셨습니다.");
+		location.href="../boardView.jsp?bID=<%=cb.getBid()%>" ;
 	}
 	
-	location.href="../boardView.jsp?bID=<%=cb.getBid()%>" ;  
+	  
 </script>
 </body>
 </html>
