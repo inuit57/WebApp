@@ -82,13 +82,16 @@
 	// 쿠키를 사용해볼까. 
 	
 	Cookie[] cookies = request.getCookies();
-	String str_bid = Integer.toString(bb.getBid()); 
+	String str_bid = Integer.toString(bb.getBid());  
 	boolean flag = true; 
 	if(cookies != null && cookies.length >0){
 		for(Cookie c : cookies){
 			if(c.getName().equals(str_bid)){
-				flag = false; 			
+				if(c.getValue().equals(uid)){
+					flag = false; 			
+				}
 			}
+			
 		}
 	}
 	
@@ -99,11 +102,12 @@
 		// 그리고 유저가 로그아웃 한다면 쿠키를 다 지워버리는 식으로 구현하자. 
 		//(유저마다 쿠키를 다르게 가져갈 수 있도록)
 		
-		Cookie cookie = new Cookie(str_bid, (String)session.getAttribute("id")) ;
-		cookie.setMaxAge(3600) ; // 단위 : 초
-		response.addCookie(cookie);
-		System.out.println("쿠키 생성 완료"); 
-		
+		if( !uid.equals("")) { //비회원은 굳이...조회수 증가 중복은 신경쓰지 말자. 일단은 
+			Cookie cookie = new Cookie(str_bid, uid) ;
+			cookie.setMaxAge(3600) ; // 단위 : 초
+			response.addCookie(cookie);
+			System.out.println("쿠키 생성 완료"); 
+		}
 		bDAO.updateBoard(bb.getBid());
 	}
 	
