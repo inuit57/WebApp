@@ -14,7 +14,11 @@
 	
 	session.invalidate(); //세션에 저장된 정보를 모두 삭제
 	
-
+/* 	Cookie[] cookies = request.getCookies(); 
+	for(Cookie c : cookies){
+		c.setMaxAge(0); // 모든 쿠키도 삭제
+		response.addCookie(c);
+	} */
 	
 %>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
