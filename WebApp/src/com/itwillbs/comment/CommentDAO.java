@@ -221,23 +221,23 @@ public class CommentDAO extends ObjectDAO{
 			String sql = ""; 
 			
 			if(updown > 0){
-				sql = "update comment_vote set upvote = upvote+1 where bid=? and cm_id=?" ; 
+				sql = "update comment_vote set up_vote = up_vote+1 where bid=? and cm_id=?" ; 
 			}else{
-				sql = "update comment_vote set downvote = downvote+1 where bid=? and cm_id=?" ;
+				sql = "update comment_vote set down_vote = down_vote+1 where bid=? and cm_id=?" ;
 			}
 			
 			try {
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, cb.getBid());
 				pstmt.setInt(2, cb.getCm_id());
-				pstmt.executeQuery(); 
+				pstmt.executeUpdate(); 
 				
 				sql = "insert into comment_vote_record values(?,?,?)";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, cb.getBid());
 				pstmt.setInt(2, cb.getCm_id());
 				pstmt.setString(3,uid) ; 
-				pstmt.executeQuery();
+				pstmt.executeUpdate();
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
