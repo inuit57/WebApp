@@ -178,6 +178,9 @@
 			<!-- TODO : 베스트 댓글 3개 정도 넣어주기  -->
 			
 			<!--  댓글들 읽어서 테이블 형태로 찍어주기 -->
+			<tr>
+			<td colspan="7">
+			<table id="comment" class="table table-bordered " >
 			<%
 			if(arrCb.size() > 0){
 				%>
@@ -252,6 +255,9 @@
 				}
 			%>
 			<%} %>
+			</table>
+			</td>
+			</tr>
 			<!--  댓글 유효성 검사 : required로 대체. -->
 		 	<!-- <form class="form-inline"  action="Comment/insertComment.jsp"  > --> 
 		 	<% if(!uid.equals("")){ %>
