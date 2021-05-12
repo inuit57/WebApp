@@ -42,17 +42,17 @@
 
 	if(<%=flag%>){
 		console.log("댓글 업데이트 완료"); 
-		location.href="../boardView.jsp?bID=<%=cb.getBid()%>" ;
+		//location.href="../boardView.jsp?bID=<%=cb.getBid()%>" ;
 	}else if("<%=uid%>" ==""){
 		if(confirm("추천/비추천을 하시려면 로그인 하셔야 합니다. 로그인 하시겠습니까?")){
-			location.href="<%=request.getContextPath()%>/User/Login/loginForm.jsp"; 
+			//location.href="<%=request.getContextPath()%>/User/Login/loginForm.jsp"; 
 		}
 	}else if("<%=vote%>" != ""){
 		alert("이미 추천/비추천을 주셨습니다.");
-		location.href="../boardView.jsp?bID=<%=cb.getBid()%>" ;
+		//location.href="../boardView.jsp?bID=<%=cb.getBid()%>" ;
 	}
-	
-	  
 </script>
+
+<%=flag %>
 </body>
 </html>

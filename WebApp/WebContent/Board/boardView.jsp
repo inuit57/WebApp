@@ -127,20 +127,18 @@
 			dataType: "json", 
 			success:function(data){
 				var t = ""; 
-// 				t+= "<tr>"; 
-// 				t+= "<td colspan='6' align='right'> [댓글 목록]" ;      
-// 				t+= "<input class='form-control' type='button' onclick='commentLoad()' value='댓글 새로고침'>" ; 
-// 				t+="</td>"; 
 				
 				$.each(data, function(index,item ){
 					
 					t+="<tr>"; 
 					t+="<td>"+ item.uid +"</td>";
 					t+="<td colspan = '3'><input  class='form-control'  type='text'style='background-color: #e2e2e2;' "+ 
-						"value="+item.content+" readonly='readonly'> </td>"; 
+						"value="+item.content+" id='comment"+item.cm_id+ "' readonly='readonly'> </td>"; 
 
-					t+="<td align='center'><a  id=upvote"+item.cm_id+" onclick=''>"+ item.upvote +"<br>[▲]</a></td>";
-					t+="<td align='center'><a  id=downvote"+item.cm_id+" onclick=''>"+ item.downvote +"<br>[▼]</a></td>";
+					t+="<td align='center'><a href='javascript:void(0);' id='upvote"+item.cm_id+"' onclick=''>"+ item.upvote +"<br>[▲]</a></td>";
+					t+="<td align='center'><a href='javascript:void(0);' id='downvote"+item.cm_id+"' onclick=''>"+ item.downvote +"<br>[▼]</a></td>";
+					// 이렇게 하면 함수 리턴 값 출력 신경안쓰고 할 수 있다.
+					// 클릭해도 최상위로 안가고 좋아 좋아. 
 					
 // 					t+="<td align='center'><span id=upvote"+item.cm_id+" >"+ item.upvote +"</span><br>[▲]</td>";
 // 					t+="<td align='center'><span id=downvote"+item.cm_id+" >"+ item.downvote +"</span><br>[▼]</td>";
@@ -151,20 +149,13 @@
 					if(item.uid == '<%=uid%>'){
 						t+="<tr>"; 
 						t+='<td align="right" colspan="6">' ; 
-						t+='<input  class="form-control"  type="button" value="수정" onclick="editComment('+item.cm_id+ ')">' ;
+						t+='<input  class="form-control"  type="button" id="btn'+item.cm_id+'" value="수정" onclick="editComment('+item.cm_id+ ')">' ;
 						<!-- TODO : 답글 기능 넣기 -->
 						t+='<input  class="form-control"  type="button" value="답글" onclick="">'
 						t+='<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('+item.cm_id+')">' ;
-					}
-					
-					
-					
-					//$('#commentList').empty(); //append하기 전에 비워주기
-					$('#commentHead').nextAll().remove(); 
-					//$('#commentList').attr("class" ,"table table-bordered " );
-					//$('#commentList').attr("border", "1"); 
+					}	
+					$('#commentHead').nextAll().remove(); //append전에 비워주기 
 					$('#commentList').append(t);
-					
 				})
 			}
 		}) //ajax끝.
@@ -174,6 +165,62 @@
 		commentLoad(); //댓글 가져오기 
 	}); 
 </script>
+<script>
+	//이것도 Ajax로 동작을 변경할 것. 
+	function editComment(index){
+		
+		console.log('btn'+index); 
+		
+		var btn = document.getElementById('btn'+index); 
+		console.log(btn); 
+		var input = document.getElementById('comment'+index); 
+		
+		if(btn.value == '수정'){
+			btn.value = '완료'; 
+			input.style="background-color: white;"
+			input.removeAttribute("readonly"); 
+		}else{
+			btn.value='수정'; 
+			input.style="background-color: #e2e2e2;"
+			input.setAttribute("readonly", "readonly");
+			
+			if(input.value == ""){
+				alert("내용을 작성해주세요!"); 
+			}else{
+				//DB에 업데이트
+				//location.href="Comment/updateComment.jsp?bid="+<%=bid%>+"&cm_id="+index+"&content="+input.value ; 
+				
+				$.ajax({ 
+					url : "Comment/updateComment.jsp",
+					type : "get", 
+					data : {bid : "<%=bid%>" , cm_id : index , content : input.value }, 
+					success:function(data){
+						console.log(data); 
+						//commentLoad();
+					}
+				});
+					
+			}
+		}
+										
+	}//editComment(index)
+	
+	function deleteComment(index){
+		//location.href="Comment/deleteComment.jsp?bid="+<%=bid%>+"&cm_id="+index;
+		
+		$.ajax({ 
+			url : "Comment/deleteComment.jsp",
+			type : "get", 
+			data : {bid : "<%=bid%>" , cm_id : index }, 
+			success:function(data){
+				commentLoad();
+				console.log(data); 
+			}
+		});
+	}
+</script>
+						
+
 
 
 <!--  header 시작 -->
@@ -285,10 +332,14 @@
 						<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('<%=cb.getCm_id() %>')">
 						
 						</td>
-						<script>
+					<%-- 	<script>
 							//이것도 Ajax로 동작을 변경할 것. 
 							function editComment(index){
+								
+								console.log('btn'+index); 
+								
 								var btn = document.getElementById('btn'+index); 
+								console.log(btn); 
 								var input = document.getElementById('comment'+index); 
 								
 								if(btn.value == '수정'){
@@ -304,17 +355,38 @@
 										alert("내용을 작성해주세요!"); 
 									}else{
 										//DB에 업데이트
-										location.href="Comment/updateComment.jsp?bid="+<%=bid%>+"&cm_id="+index+"&content="+input.value ; 
+										//location.href="Comment/updateComment.jsp?bid="+<%=bid%>+"&cm_id="+index+"&content="+input.value ; 
+										
+										$.ajax({ 
+											url : "Comment/updateComment.jsp",
+											type : "get", 
+											data : {bid : "<%=bid%>" , cm_id : index , content : input.value }, 
+											success:function(data){
+												console.log(data); 
+												//commentLoad();
+											}
+										});
+											
 									}
 								}
 																
 							}//editComment(index)
 							
 							function deleteComment(index){
-								location.href="Comment/deleteComment.jsp?bid="+<%=bid%>+"&cm_id="+index;
+								//location.href="Comment/deleteComment.jsp?bid="+<%=bid%>+"&cm_id="+index;
+								
+								$.ajax({ 
+									url : "Comment/deleteComment.jsp",
+									type : "get", 
+									data : {bid : "<%=bid%>" , cm_id : index }, 
+									success:function(data){
+										commentLoad();
+										console.log(data); 
+									}
+								});
 							}
 						</script>
-						
+						 --%>
 					</tr>
 					<%} %>
 					<%
