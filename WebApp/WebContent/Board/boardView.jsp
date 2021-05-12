@@ -117,23 +117,34 @@
 
 <script type="text/javascript">
  
-	$(document).ready(function(){
-		
+
+		// 댓글창 업데이트 
+	function commentLoad(){
 		$.ajax({ 
 			url : "<%=request.getContextPath()%>/Board/Comment/commentList.jsp" , 
 			type : "get", 
 			data : {bid : "<%=bid%>" },
 			dataType: "json", 
 			success:function(data){
+				var t = ""; 
+// 				t+= "<tr>"; 
+// 				t+= "<td colspan='6' align='right'> [댓글 목록]" ;      
+// 				t+= "<input class='form-control' type='button' onclick='commentLoad()' value='댓글 새로고침'>" ; 
+// 				t+="</td>"; 
+				
 				$.each(data, function(index,item ){
-					var t = ""; 
+					
 					t+="<tr>"; 
 					t+="<td>"+ item.uid +"</td>";
 					t+="<td colspan = '3'><input  class='form-control'  type='text'style='background-color: #e2e2e2;' "+ 
 						"value="+item.content+" readonly='readonly'> </td>"; 
-//					item.content +"</td>";
-					t+="<td align='center'><span id=upvote"+item.cm_id+" >"+ item.upvote +"</span><br>[▲]</td>";
-					t+="<td align='center'><span id=downvote"+item.cm_id+" >"+ item.downvote +"</span><br>[▼]</td>";
+
+					t+="<td align='center'><a  id=upvote"+item.cm_id+" onclick=''>"+ item.upvote +"<br>[▲]</a></td>";
+					t+="<td align='center'><a  id=downvote"+item.cm_id+" onclick=''>"+ item.downvote +"<br>[▼]</a></td>";
+					
+// 					t+="<td align='center'><span id=upvote"+item.cm_id+" >"+ item.upvote +"</span><br>[▲]</td>";
+// 					t+="<td align='center'><span id=downvote"+item.cm_id+" >"+ item.downvote +"</span><br>[▼]</td>";
+
 					t+="</tr>";
 					<!-- 댓글 수정/삭제 버튼 -->
 					
@@ -147,13 +158,21 @@
 					}
 					
 					
+					
+					//$('#commentList').empty(); //append하기 전에 비워주기
+					$('#commentHead').nextAll().remove(); 
+					//$('#commentList').attr("class" ,"table table-bordered " );
+					//$('#commentList').attr("border", "1"); 
 					$('#commentList').append(t);
 					
 				})
 			}
-		})
+		}) //ajax끝.
+	}
+	 
+	$(document).ready(function(){
+		commentLoad(); //댓글 가져오기 
 	}); 
-
 </script>
 
 
@@ -228,10 +247,13 @@
 			<%
 			if(arrCb.size() > 0){
 				%>
-				<tr>
-				<td colspan="6">댓글 목록</td>
+				<tr id="commentHead">
+				<td colspan="6" align="right"> [댓글 목록]     
+				<input class="form-control" type="button" onclick="commentLoad()" value="댓글 새로고침">
+				</td>
 				<!--  TODO : 댓글도 페이징 넣기?  -->
 				</tr>
+				
 				<%
 				for(int i = 0 ; i< arrCb.size(); i++){
 					CommentBean cb = arrCb.get(i) ; 
@@ -298,6 +320,7 @@
 					<%
 				}
 			%>
+			</div>
 			<%} %>
 			</table>
 			</td>
