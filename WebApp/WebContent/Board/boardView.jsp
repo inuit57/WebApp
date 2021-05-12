@@ -276,10 +276,7 @@
 			}
 		});
 	}
-</script>
-						
-
-
+</script>					
 
 <!--  header 시작 -->
  
@@ -358,51 +355,12 @@
 				</td>
 				<!--  TODO : 댓글도 페이징 넣기?  -->
 				</tr>
-				
-				<%
-				for(int i = 0 ; i< arrCb.size(); i++){
-					CommentBean cb = arrCb.get(i) ; 
-					%>
-					<tr>
-						<td><%=cb.getUid() %></td>
-						<td colspan = "3">
-						
-						<input  class="form-control"  type="text" id='comment<%=cb.getCm_id() %>' style="background-color: #e2e2e2;" 
-						value='<%=arrCb.get(i).getContent() %>' readonly="readonly">
-						
-						</td>
-						<!-- TODO : 추천 /비추천 갯수 -->
-						<td align="center"><a href="#" onclick="voteComment('<%=cb.getCm_id() %>','up')"><%=arrCb.get(i).getUpvote() %><br>[▲]</a></td>
-						<td align="center"><a href="#" onclick="voteComment('<%=cb.getCm_id() %>','down')"><%=arrCb.get(i).getDownvote() %><br>[▼]</a></td>
-				<%-- 		<script>
-							function voteComment(index, updown){
-								location.href="Comment/updateComment.jsp?bid="+<%=bid%>+"&cm_id="+index+"&vote="+updown ;
-							}
-						</script> --%>
-					</tr>
-						<!-- 댓글 수정/삭제 버튼 -->
-						<% if ( uid.equals(cb.getUid())){ %>
-						<tr>
-						<td align="right" colspan="6">
-						<input  class="form-control"  type="button" id='btn<%=cb.getCm_id() %>' value="수정" onclick="editComment('<%=cb.getCm_id() %>')">
-						<!-- TODO : 답글 기능 넣기 -->
-						<input  class="form-control"  type="button" id='add_cm<%=cb.getCm_id() %>' value="답글" onclick="">
-						<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('<%=cb.getCm_id() %>')">
-						
-						</td>
-				
-					</tr>
-					<%} %>
-					<%
-				}
-			%>
-			</div>
+			
 			<%} %>
 			</table>
 			</td>
 			</tr>
 			<!--  댓글 유효성 검사 : required로 대체. -->
-		 	<!-- <form class="form-inline"  action="Comment/insertComment.jsp"  > --> 
 		 	<% if(!uid.equals("")){ %>
 				<tr>
 					<%-- <td align="center"><input  class="form-control" type="text" name="uid" value='<%=session.getAttribute("id") %>' readonly="readonly"></td> --%>
@@ -417,7 +375,23 @@
 					
 						function insertComment(){
 							// TODO : Ajax로 변경할 것.  
-							location.href="Comment/insertComment.jsp?uid=<%=session.getAttribute("id") %>"+"&content="+document.getElementById('content').value+"&bid=<%=bid%>";
+							//location.href="Comment/insertComment.jsp?uid=<%=session.getAttribute("id") %>"+"&content="+document.getElementById('content').value+"&bid=<%=bid%>";
+							
+							var content = $("#content").val() ; 
+							
+							$.ajax({ 
+								url : "Comment/insertComment.jsp",
+								type : "post", 
+								data : {uid : "<%=uid %>" ,content : content , bid : "<%=bid%>" }, 
+								//datayType :"json" , 
+								success:function(data){
+									commentLoad(); 
+									console.log("댓글 작성 완료!") ; 
+								},
+								error:function(data){
+									console.log("error") ; 
+								}
+							});
 						}
 					</script>
 				</tr>
