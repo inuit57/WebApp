@@ -161,7 +161,6 @@
 					}	
 					
 				})
-				//$('#commentHead').nextAll().remove(); //append전에 비워주기 
 				$('#commentList').append(t);
 			}
 		}) //ajax끝.
@@ -385,10 +384,13 @@
 								datayType :"json" , 
 								success:function(data){
 									commentLoad(); 
-									$("#content").val(""); 
-// 									if ( data.grantUpdate == "yes"){
-// 										alert("축하합니다. 정회원으로 등업되었습니다."); 
-// 									}
+									$("#content").val(""); //댓글 내용 지워주기 
+									if ( data.grantUpdate == "yes"){
+										alert("축하합니다. 정회원으로 등업되었습니다.");
+										//일단은 보여주기 용도...입니다. 
+										//관리자에 의해서 강등되거나 하였을 경우 
+										//그리고 댓글을 지우고 다시 등업을 시도하는 등의 꼼수는 막아야할 겁니다. 
+									}
 									console.log("댓글 작성 완료!") ; 
 								},
 								error:function(data){
