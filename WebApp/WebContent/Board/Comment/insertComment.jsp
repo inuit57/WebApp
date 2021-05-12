@@ -17,15 +17,7 @@
 	CommentDAO cDAO = new CommentDAO(); 
 	boolean flag = cDAO.insertComment(cb);
 %>
-<script type="text/javascript">
 
-	if(<%=flag%>){
-		//alert("댓글 작성 완료!");
-		//alert("<%=cb.getBid()%>")
-	}
-	
-	location.href="../boardView.jsp?bID=<%=cb.getBid()%>" ;  
-</script>
 
 </body>
 </html>

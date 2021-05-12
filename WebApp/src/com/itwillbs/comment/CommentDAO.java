@@ -15,7 +15,32 @@ import com.itwillbs.dao.ObjectDAO;
 
 public class CommentDAO extends ObjectDAO{
 
-	
+	public CommentBean getComment(int cm_id){
+		CommentBean cb = null; 
+		conn = getConnection() ; 
+		
+		String sql = "select * from comment where cm_id = ?"; 
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cm_id);
+			ResultSet rs= pstmt.executeQuery();
+			
+			if(rs.next()){
+				cb = new CommentBean(); 
+				cb.setBid(rs.getInt("bid"));
+				cb.setCm_id(rs.getInt("cm_id"));
+				cb.setContent(rs.getString("content"));
+				cb.setUid(rs.getString("uid"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null; 
+		}finally {
+			dbClose();
+		}
+		
+		return cb; 
+	}
 	public boolean insertComment(CommentBean cb){
 		int num = 0 ; 
 		try {
