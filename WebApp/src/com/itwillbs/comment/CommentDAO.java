@@ -40,7 +40,27 @@ public class CommentDAO extends ObjectDAO{
 		}
 		
 		return cb; 
-	}
+	} //getComment(int cm_id){
+	
+	public int getCommentCnt(String uid){
+		conn = getConnection();
+		try {
+			String sql = "select count(cm_id) from comment where uid = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, uid);
+			
+			ResultSet rs = pstmt.executeQuery(); 
+			if(rs.next()){
+				return rs.getInt(1); 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			dbClose();
+		}
+		return 0 ; 
+	} // getCommentCnt(String uid){
+	
 	public boolean insertComment(CommentBean cb){
 		int num = 0 ; 
 		try {
@@ -170,6 +190,7 @@ public class CommentDAO extends ObjectDAO{
 			
 			pstmt.executeUpdate();
 			
+			//마지막으로 comment 테이블에서 삭제 진행 
 			sql = "delete from comment where bid=? and cm_id=?";
 			
 			pstmt = conn.prepareStatement(sql);

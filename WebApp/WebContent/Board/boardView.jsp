@@ -120,6 +120,7 @@
 
 		// 댓글창 업데이트 
 	function commentLoad(){
+		$('#commentHead').nextAll().remove(); //append전에 비워주기
 		$.ajax({ 
 			url : "<%=request.getContextPath()%>/Board/Comment/commentList.jsp" , 
 			type : "post", 
@@ -158,9 +159,10 @@
 						t+='<input  class="form-control"  type="button" value="답글" onclick="">'
 						t+='<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('+item.cm_id+')">' ;
 					}	
-					$('#commentHead').nextAll().remove(); //append전에 비워주기 
-					$('#commentList').append(t);
+					
 				})
+				//$('#commentHead').nextAll().remove(); //append전에 비워주기 
+				$('#commentList').append(t);
 			}
 		}) //ajax끝.
 	}
@@ -217,7 +219,7 @@
 			data : {bid : "<%=bid%>" , cm_id : index }, 
 			success:function(data){
 				commentLoad();
-				console.log(data); 
+				//console.log(data); 
 			}
 		});
 	}
@@ -346,17 +348,14 @@
 			<tr>
 			<td colspan="7">
 			<table id="commentList" class="table table-bordered " >
-			<%
-			if(arrCb.size() > 0){
-				%>
+
 				<tr id="commentHead">
 				<td colspan="6" align="right"> [댓글 목록]     
 				<input class="form-control" type="button" onclick="commentLoad()" value="댓글 새로고침">
 				</td>
 				<!--  TODO : 댓글도 페이징 넣기?  -->
 				</tr>
-			
-			<%} %>
+
 			</table>
 			</td>
 			</tr>
@@ -383,9 +382,13 @@
 								url : "Comment/insertComment.jsp",
 								type : "post", 
 								data : {uid : "<%=uid %>" ,content : content , bid : "<%=bid%>" }, 
-								//datayType :"json" , 
+								datayType :"json" , 
 								success:function(data){
 									commentLoad(); 
+									$("#content").val(""); 
+// 									if ( data.grantUpdate == "yes"){
+// 										alert("축하합니다. 정회원으로 등업되었습니다."); 
+// 									}
 									console.log("댓글 작성 완료!") ; 
 								},
 								error:function(data){
