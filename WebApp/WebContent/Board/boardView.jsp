@@ -122,7 +122,7 @@
 	function commentLoad(){
 		$.ajax({ 
 			url : "<%=request.getContextPath()%>/Board/Comment/commentList.jsp" , 
-			type : "get", 
+			type : "post", 
 			data : {bid : "<%=bid%>" },
 			dataType: "json", 
 			success:function(data){
@@ -135,8 +135,12 @@
 					t+="<td colspan = '3'><input  class='form-control'  type='text'style='background-color: #e2e2e2;' "+ 
 						"value="+item.content+" id='comment"+item.cm_id+ "' readonly='readonly'> </td>"; 
 
-					t+="<td align='center'><a href='javascript:void(0);' id='upvote"+item.cm_id+"' onclick=''>"+ item.upvote +"<br>[▲]</a></td>";
-					t+="<td align='center'><a href='javascript:void(0);' id='downvote"+item.cm_id+"' onclick=''>"+ item.downvote +"<br>[▼]</a></td>";
+					
+					
+					t+="<td align='center'><a href='javascript:void(0);' id='upvote"+item.cm_id+ "' "+ 
+						"onclick='upvoteComment("+item.cm_id+")'>"+ item.upvote +"<br>[▲]</a></td>";
+					t+="<td align='center'><a href='javascript:void(0);' id='downvote"+item.cm_id+"' "+
+						"onclick='downvoteComment("+item.cm_id + " )'>"+ item.downvote +"<br>[▼]</a></td>";
 					// 이렇게 하면 함수 리턴 값 출력 신경안쓰고 할 수 있다.
 					// 클릭해도 최상위로 안가고 좋아 좋아. 
 					
@@ -164,15 +168,13 @@
 	$(document).ready(function(){
 		commentLoad(); //댓글 가져오기 
 	}); 
-</script>
-<script>
-	//이것도 Ajax로 동작을 변경할 것. 
+
 	function editComment(index){
 		
 		console.log('btn'+index); 
 		
 		var btn = document.getElementById('btn'+index); 
-		console.log(btn); 
+		//console.log(btn); 
 		var input = document.getElementById('comment'+index); 
 		
 		if(btn.value == '수정'){
@@ -192,8 +194,9 @@
 				
 				$.ajax({ 
 					url : "Comment/updateComment.jsp",
-					type : "get", 
+					type : "post", 
 					data : {bid : "<%=bid%>" , cm_id : index , content : input.value }, 
+					datayType :"json" , 
 					success:function(data){
 						console.log(data); 
 						//commentLoad();
@@ -210,11 +213,66 @@
 		
 		$.ajax({ 
 			url : "Comment/deleteComment.jsp",
-			type : "get", 
+			type : "post", 
 			data : {bid : "<%=bid%>" , cm_id : index }, 
 			success:function(data){
 				commentLoad();
 				console.log(data); 
+			}
+		});
+	}
+	
+	function upvoteComment(index){
+		//location.href="Comment/updateComment.jsp?bid="+<%=bid%>+"&cm_id="+index+"&vote="+updown ;
+		
+		$.ajax({ 
+			url : "Comment/updateComment.jsp",
+			type : "post", 
+			data : {bid : "<%=bid%>" , cm_id : index , vote : "up" }, 
+			datayType :"json" , 
+			success:function(data){
+				commentLoad(); 
+				if(data.result == 0){
+					console.log("정상 업데이트 완료!");
+				}else if(data.result == 1){
+					if(confirm("추천/비추천을 하시려면 로그인 하셔야 합니다. 로그인 하시겠습니까?")){
+						location.href="<%=request.getContextPath()%>/User/Login/loginForm.jsp"; 
+					}
+				}else if(data.result == 2){
+					alert("이미 추천/비추천한 댓글입니다.");
+				}else if(data.result == 3){
+					alert("자신의 댓글에는 추천/비추천할 수 없습니다."); 
+				} 
+			},
+			error:function(data){
+				console.log("error") 
+			}
+		});
+	}
+	function downvoteComment(index){
+		//location.href="Comment/updateComment.jsp?bid="+<%=bid%>+"&cm_id="+index+"&vote="+updown ;
+		
+		$.ajax({ 
+			url : "Comment/updateComment.jsp",
+			type : "post", 
+			data : {bid : "<%=bid%>" , cm_id : index , vote : "down" }, 
+			datayType :"json" , 
+			success:function(data){
+				commentLoad();
+				if(data.result == 0){
+					console.log("정상 업데이트 완료!");
+				}else if(data.result == 1){
+					if(confirm("추천/비추천을 하시려면 로그인 하셔야 합니다. 로그인 하시겠습니까?")){
+						location.href="<%=request.getContextPath()%>/User/Login/loginForm.jsp"; 
+					}
+				}else if(data.result == 2){
+					alert("이미 추천/비추천한 댓글입니다.");
+				}else if(data.result == 3){
+					alert("자신의 댓글에는 추천/비추천할 수 없습니다."); 
+				}  
+			},
+			error:function(data){
+				console.log("error") 
 			}
 		});
 	}
@@ -316,11 +374,11 @@
 						<!-- TODO : 추천 /비추천 갯수 -->
 						<td align="center"><a href="#" onclick="voteComment('<%=cb.getCm_id() %>','up')"><%=arrCb.get(i).getUpvote() %><br>[▲]</a></td>
 						<td align="center"><a href="#" onclick="voteComment('<%=cb.getCm_id() %>','down')"><%=arrCb.get(i).getDownvote() %><br>[▼]</a></td>
-						<script>
+				<%-- 		<script>
 							function voteComment(index, updown){
 								location.href="Comment/updateComment.jsp?bid="+<%=bid%>+"&cm_id="+index+"&vote="+updown ;
 							}
-						</script>
+						</script> --%>
 					</tr>
 						<!-- 댓글 수정/삭제 버튼 -->
 						<% if ( uid.equals(cb.getUid())){ %>
@@ -332,61 +390,7 @@
 						<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('<%=cb.getCm_id() %>')">
 						
 						</td>
-					<%-- 	<script>
-							//이것도 Ajax로 동작을 변경할 것. 
-							function editComment(index){
-								
-								console.log('btn'+index); 
-								
-								var btn = document.getElementById('btn'+index); 
-								console.log(btn); 
-								var input = document.getElementById('comment'+index); 
-								
-								if(btn.value == '수정'){
-									btn.value = '완료'; 
-									input.style="background-color: white;"
-									input.removeAttribute("readonly"); 
-								}else{
-									btn.value='수정'; 
-									input.style="background-color: #e2e2e2;"
-									input.setAttribute("readonly", "readonly");
-									
-									if(input.value == ""){
-										alert("내용을 작성해주세요!"); 
-									}else{
-										//DB에 업데이트
-										//location.href="Comment/updateComment.jsp?bid="+<%=bid%>+"&cm_id="+index+"&content="+input.value ; 
-										
-										$.ajax({ 
-											url : "Comment/updateComment.jsp",
-											type : "get", 
-											data : {bid : "<%=bid%>" , cm_id : index , content : input.value }, 
-											success:function(data){
-												console.log(data); 
-												//commentLoad();
-											}
-										});
-											
-									}
-								}
-																
-							}//editComment(index)
-							
-							function deleteComment(index){
-								//location.href="Comment/deleteComment.jsp?bid="+<%=bid%>+"&cm_id="+index;
-								
-								$.ajax({ 
-									url : "Comment/deleteComment.jsp",
-									type : "get", 
-									data : {bid : "<%=bid%>" , cm_id : index }, 
-									success:function(data){
-										commentLoad();
-										console.log(data); 
-									}
-								});
-							}
-						</script>
-						 --%>
+				
 					</tr>
 					<%} %>
 					<%
