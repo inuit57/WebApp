@@ -362,4 +362,41 @@ public class UserDAO extends ObjectDAO {
 		
 		return userList; 
 	}
+	
+	
+	public ArrayList<Integer> getUserActivity(String uid){ 
+		
+		ArrayList<Integer> arr = new ArrayList<>(); 
+		
+		try {
+			conn = getConnection();
+			
+			// join 으로 한번에 가져오는 좋은 방법이 없었으려나.
+			
+			String sql =  " select count(bid) count from board where uid= ?"
+						 +" union"
+						 +" select count(cm_id) count from comment where uid =?"
+						 +" union" 
+						 +" select count(uid) count from comment_vote_record where uid= ?" ;
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, uid);
+			pstmt.setString(2, uid);
+			pstmt.setString(3, uid);
+			
+			ResultSet rs = pstmt.executeQuery(); 
+			while(rs.next()){
+				arr.add(rs.getInt(1)); 
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null ; 
+		}finally {
+			dbClose();
+		}
+		return arr; 
+	}
+	
+	
 }
