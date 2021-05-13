@@ -141,6 +141,39 @@ public class CommentDAO extends ObjectDAO{
 		
 	}//getCommentList 
 	
+	public ArrayList<CommentBean> getBestCommentList(int bid){
+		ArrayList<CommentBean> arrCb = new ArrayList<>();
+		conn = getConnection(); 
+		CommentBean cb = null ; 
+		//String sql = "select * from comment where bid= ? ";
+		String sql = "select c.* , cv.up_vote as upvote, cv.down_vote as downvote "
+					 + "from comment c join comment_vote cv on c.cm_id = cv.cm_id "
+					 +" where c.bid= ? and  cv.up_vote  >=  cv.down_vote + 10" ; 
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bid);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				cb = new CommentBean(); 
+				//cb.setBid(bid);
+				cb.setCm_id(rs.getInt("cm_id"));
+				cb.setContent(rs.getString("content"));
+				cb.setUid(rs.getString("uid"));
+				cb.setUpvote(rs.getInt("upvote"));
+				cb.setDownvote(rs.getInt("downvote"));
+				arrCb.add(cb); 
+			}
+			//System.out.println("댓글 갯수 총 "+ arrCb.size()+"개");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			dbClose();
+		} 
+		
+		return arrCb; 
+		
+	}//getCommentList 
+	
 	public boolean updateComment(CommentBean cb){
 		conn = getConnection(); 
 		String sql = "update comment set content = ? where bid=? and cm_id=?"; 

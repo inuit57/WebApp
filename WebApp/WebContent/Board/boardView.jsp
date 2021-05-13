@@ -118,13 +118,13 @@
 <script type="text/javascript">
  
 
-		// 댓글창 업데이트 
+	// 댓글창 업데이트 
 	function commentLoad(){
 		$('#commentHead').nextAll().remove(); //append전에 비워주기
 		$.ajax({ 
 			url : "<%=request.getContextPath()%>/Board/Comment/commentList.jsp" , 
 			type : "post", 
-			data : {bid : "<%=bid%>" },
+			data : {bid : "<%=bid%>" , isBest : "no" },
 			dataType: "json", 
 			success:function(data){
 				var t = ""; 
@@ -165,8 +165,56 @@
 			}
 		}) //ajax끝.
 	}
+	
+	function bestCommentLoad(){
+		$('#bestCommentHead').nextAll().remove(); //append전에 비워주기
+		$.ajax({ 
+			url : "<%=request.getContextPath()%>/Board/Comment/commentList.jsp" , 
+			type : "post", 
+			data : {bid : "<%=bid%>" , isBest : "yes" },
+			dataType: "json", 
+			success:function(data){
+				var t = ""; 
+				
+				$.each(data, function(index,item ){
+					
+					t+="<tr>"; 
+					t+="<td>"+ item.uid +"</td>";
+					t+="<td colspan = '3'><input  class='form-control'  type='text'style='background-color: #e2e2e2;' "+ 
+						"value="+item.content+" id='comment"+item.cm_id+ "' readonly='readonly'> </td>"; 
+
+					
+					
+					t+="<td align='center'><a href='javascript:void(0);' id='upvote"+item.cm_id+ "' "+ 
+						"onclick='upvoteComment("+item.cm_id+")'>"+ item.upvote +"<br>[▲]</a></td>";
+					t+="<td align='center'><a href='javascript:void(0);' id='downvote"+item.cm_id+"' "+
+						"onclick='downvoteComment("+item.cm_id + " )'>"+ item.downvote +"<br>[▼]</a></td>";
+					// 이렇게 하면 함수 리턴 값 출력 신경안쓰고 할 수 있다.
+					// 클릭해도 최상위로 안가고 좋아 좋아. 
+					
+// 					t+="<td align='center'><span id=upvote"+item.cm_id+" >"+ item.upvote +"</span><br>[▲]</td>";
+// 					t+="<td align='center'><span id=downvote"+item.cm_id+" >"+ item.downvote +"</span><br>[▼]</td>";
+
+					t+="</tr>";
+					<!-- 댓글 수정/삭제 버튼 -->
+					
+					<%--if(item.uid == '<%=uid%>'){
+						t+="<tr>"; 
+						t+='<td align="right" colspan="6">' ; 
+						t+='<input  class="form-control"  type="button" id="btn'+item.cm_id+'" value="수정" onclick="editComment('+item.cm_id+ ')">' ;
+						<!-- TODO : 답글 기능 넣기 -->
+						t+='<input  class="form-control"  type="button" value="답글" onclick="">'
+						t+='<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('+item.cm_id+')">' ;
+					}	 --%>
+					
+				})
+				$('#bestCommentList').append(t);
+			}
+		}) //ajax끝.
+	}
 	 
 	$(document).ready(function(){
+		bestCommentLoad(); 
 		commentLoad(); //댓글 가져오기 
 	}); 
 
@@ -233,6 +281,7 @@
 			datayType :"json" , 
 			success:function(data){
 				commentLoad(); 
+				bestCommentLoad(); 
 				if(data.result == 0){
 					console.log("정상 업데이트 완료!");
 				}else if(data.result == 1){
@@ -260,6 +309,7 @@
 			datayType :"json" , 
 			success:function(data){
 				commentLoad();
+				bestCommentLoad(); 
 				if(data.result == 0){
 					console.log("정상 업데이트 완료!");
 				}else if(data.result == 1){
@@ -346,16 +396,31 @@
 			<!--  댓글들 읽어서 테이블 형태로 찍어주기 -->
 			<tr>
 			<td colspan="7">
-			<table id="commentList" class="table table-bordered " >
-
-				<tr id="commentHead">
-				<td colspan="6" align="right"> [댓글 목록]     
-				<input class="form-control" type="button" onclick="commentLoad()" value="댓글 새로고침">
-				</td>
-				<!--  TODO : 댓글도 페이징 넣기?  -->
-				</tr>
-
-			</table>
+			<div role="tabpanel">
+			 <ul class="nav nav-tabs" role="tablist">
+			    <li role="presentation" class="active"><a href="#bestComment" aria-controls="bestComment" role="tab" data-toggle="tab">베스트 댓글</a></li>
+			    <li role="presentation" ><a href="#allComment" aria-controls="allComment" role="tab" data-toggle="tab">전체 댓글</a></li>
+			 </ul>
+			 <div class="tab-content">
+			    <div role="tabpanel" class="tab-pane active" id="bestComment">
+			    	<table id="bestCommentList" class="table table-bordered " >
+			    		<tr id="bestCommentHead">
+							<td colspan="6" align="center"> [베스트 댓글 목록]</td>
+						</tr>
+					</table>
+			    </div>
+			    <div role="tabpanel" class="tab-pane" id="allComment">
+			    	<table id="commentList" class="table table-bordered " >
+						<tr id="commentHead">
+						<td colspan="6" align="right"> [댓글 목록]     
+						<input class="form-control" type="button" onclick="commentLoad()" value="댓글 새로고침">
+						</td>
+						<!--  TODO : 댓글도 페이징 넣기?  -->
+						</tr>
+					</table>
+			    </div>
+			  </div>
+			</div>
 			</td>
 			</tr>
 			<!--  댓글 유효성 검사 : required로 대체. -->
