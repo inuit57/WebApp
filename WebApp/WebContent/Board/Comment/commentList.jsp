@@ -10,9 +10,6 @@
 
 <%
 
-// 	Class.forName("com.mysql.jdbc.Driver"); 
-// 	Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3308/itwill" ,"root", "1234"); 
-
 	CommentDAO cdao = new CommentDAO(); 
 	
 	int bid = Integer.parseInt( request.getParameter("bid") ) ; 

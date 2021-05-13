@@ -148,7 +148,7 @@ public class CommentDAO extends ObjectDAO{
 		//String sql = "select * from comment where bid= ? ";
 		String sql = "select c.* , cv.up_vote as upvote, cv.down_vote as downvote "
 					 + "from comment c join comment_vote cv on c.cm_id = cv.cm_id "
-					 +" where c.bid= ? and  cv.up_vote  >=  cv.down_vote + 10" ; 
+					 +" where c.bid= ? and  cv.up_vote  >=  cv.down_vote + 10 order by cv.up_vote desc limit 3" ; 
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bid);
