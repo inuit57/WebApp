@@ -272,15 +272,40 @@ public class BoardDAO extends ObjectDAO {
 	public boolean deleteBoard(int bid){
 		try {
 			conn = getConnection(); 
-			String sql = "delete from board where bid = ?"; 
 			
+			String sql = "";
+			
+			sql = "delete from comment_vote_record where bid= ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bid);
+			pstmt.executeUpdate(); 
+			
+			sql = "delete from comment_vote where bid= ?"; 
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bid);
+			pstmt.executeUpdate(); 
+			
+			sql = "delete from comment where bid= ?"; 
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bid);
+			pstmt.executeUpdate(); 
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false; 
+		}finally {
+			dbClose();
+		}
+		
+		try{
+			conn = getConnection(); 
+			String sql = "delete from board where bid = ?"; 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bid);
 			
 			pstmt.executeUpdate(); 
 			System.out.println("삭제 완료!");
-			
-		} catch (SQLException e) {
+		}catch (SQLException e) {
 			e.printStackTrace();
 			return false; 
 		}finally {

@@ -59,7 +59,7 @@
 	<input class="form-control"  type="button" value="회원가입" onclick="location.href='../signUpForm.jsp'"> 
 <%} %>
 	</form>
-<form  class="form-inline">
+
 
 <!--  TODO : 활동 내역 보기 ? 
 		작성글 , 작성 댓글 추려서 보여주기? 
@@ -68,19 +68,18 @@
  
  <!--  TODO : 관리자 메뉴  -->
 <!-- 권한 조회해서 3인지 확인하는 로직 넣을 것. -->
- <% if(id.equals("admin")){ %>
+<%--  <% if(id.equals("admin")){ %>
 	 <h3>관리자 메뉴</h3>
 	 <hr>
 	 <input class="form-control"  type="button" value="회원관리" onclick="location.href='../userListForm.jsp'">
-<%} %>
-</form>
+<%} %> --%>
 
 <!--  TODO : 활동 내역 보기 ? 
 		작성글 , 작성 댓글 추려서 보여주기? 
 		혹은 작성 글 갯수 , 댓글 갯수 같은 것들 적어서 보여주기 
  -->
- <%-- 
-<% if ( !id.equals("")){ 
+ 
+<%-- <% if ( !id.equals("")){ 
 
 	ArrayList<Integer> arr =  uDao.getUserActivity(id); 
 	if(arr!= null){
@@ -104,27 +103,59 @@
 		</table>
 	</div>
 </form>
-<%} } %> --%>
+<%} } %>  --%>
 
-<!-- <div role="tabpanel">
+<% if ( !id.equals("")){ 
 
-  Nav tabs
+	ArrayList<Integer> arr =  uDao.getUserActivity(id); 
+	if(arr!= null){
+%>
+<div role="tabpanel">
+
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
-    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+    <li role="presentation" class="active"><a href="#actInfo" aria-controls="actInfo" role="tab" data-toggle="tab">활동내역</a></li>
+    <li role="presentation"><a href="#setting" aria-controls="setting" role="tab" data-toggle="tab">환경설정</a></li>
+    <% if(id.equals("admin")){ %>
+    <li role="presentation"><a href="#amdinOnly" aria-controls="amdinOnly" role="tab" data-toggle="tab">관리자 메뉴</a></li>
+    <%} %>
   </ul>
 
-  Tab panes
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="home">...</div>
-    <div role="tabpanel" class="tab-pane" id="profile">...</div>
-    <div role="tabpanel" class="tab-pane" id="messages">...</div>
-    <div role="tabpanel" class="tab-pane" id="settings">...</div>
+    <div role="tabpanel" class="tab-pane active" id="actInfo">
+	    <form  class="form-inline">
+		<div class="form-group">
+			<h3>활동내역</h3>
+			<hr>
+			<table border="1"  id="tb" class="table table-bordered ">
+			<!--  하나의 컬럼으로 조회할 수 없을까?  -->
+				<tr>
+					<th>작성글 갯수</th>
+					<th>작성댓글 갯수</th>
+					<th>추천/비추천 갯수</th>
+				</tr>
+				<tr>
+					<td><%=arr.get(0) %></td>
+					<td><%=arr.get(1) %></td>
+					<td><%=arr.get(2) %></td>
+				</tr>
+			</table>
+		</div>
+		</form>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="setting">...</div>
+    <% if(id.equals("admin")){ %>
+    <div role="tabpanel" class="tab-pane" id="amdinOnly">
+	     <form  class="form-inline">
+			<div class="form-group">
+    		<input class="form-control"  type="button" value="회원관리" onclick="location.href='../userListForm.jsp'">
+    		</div>
+    	</form>
+    </div>
+    <%} %>
   </div>
 
-</div> -->
+</div>
+<%} } %> 
 
 </div> <!--  div 끝  -->
 

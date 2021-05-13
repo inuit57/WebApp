@@ -47,6 +47,7 @@
 	for(UserBean ub : arrUser){
 		if(ub.getUserGrant()==3) continue; //관리자는 건너뛰도록
 		int userGrant = ub.getUserGrant(); 
+		if(ub.getId().equals("") || ub.getId().contains("탈퇴")) continue; //정상적인 가입이 아니다. 이거는. 
 	%>
 	<tr>
 		<td><%=ub.getId() %></td>

@@ -187,8 +187,39 @@ public class UserDAO extends ObjectDAO {
 	public boolean deleteUser(String id){
 		try {
 			conn = getConnection(); 
+			String kick_id = id+"(탈퇴)"; 
+			String sql =""; 
+			//String sql = "update board set uid = uid+'(탈퇴)' where uid = ?"; 
 			
-			String sql = "delete from userinfo where id = ?"; 
+			//FK를 사용하는 테이블 중에서 지워도 되는 놈부터 먼저 처리 
+			sql = "delete from comment_vote_record where uid = ?" ; 
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate(); 
+			
+			// "아이디명(탈퇴)" 라는 이름의 id만 있는 컬럼을 넣어준다.
+			// 다른 연관된 테이블에 처리하기 위함. 
+			sql = "insert into userinfo(id) values(?)";
+			pstmt = conn.prepareStatement(sql); 
+			pstmt.setString(1, kick_id);
+			pstmt.executeUpdate(); 
+			
+			// 관련된 다른 테이블에서 사용되고 있는 id를 kick_id 로 업데이트
+			sql = "update board set uid = ? where uid = ? "; 
+			pstmt = conn.prepareStatement(sql); 
+			pstmt.setString(1, kick_id);
+			pstmt.setString(2, id);
+			pstmt.executeUpdate();
+			
+			//댓글도 업데이트
+			sql = "update comment set uid = ? where uid = ? "; 
+			pstmt = conn.prepareStatement(sql); 
+			pstmt.setString(1, kick_id);
+			pstmt.setString(2, id);
+			pstmt.executeUpdate();
+			
+			
+			sql = "delete from userinfo where id = ?"; 
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
@@ -211,7 +242,40 @@ public class UserDAO extends ObjectDAO {
 		try {
 			conn = getConnection(); 
 			for(String id : list){
-				String sql = "delete from userinfo where id = ?"; 
+				String kick_id = id+"(탈퇴)"; 
+				String sql =""; 
+				//String sql = "update board set uid = uid+'(탈퇴)' where uid = ?"; 
+				
+				//FK를 사용하는 테이블 중에서 지워도 되는 놈부터 먼저 처리 
+				sql = "delete from comment_vote_record where uid = ?" ; 
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, id);
+				pstmt.executeUpdate(); 
+				
+				// "아이디명(탈퇴)" 라는 이름의 id만 있는 컬럼을 넣어준다.
+				// 다른 연관된 테이블에 처리하기 위함. 
+				sql = "insert into userinfo(id) values(?)";
+				pstmt = conn.prepareStatement(sql); 
+				pstmt.setString(1, kick_id);
+				pstmt.executeUpdate(); 
+				
+				// 관련된 다른 테이블에서 사용되고 있는 id를 kick_id 로 업데이트
+				sql = "update board set uid = ? where uid = ? "; 
+				pstmt = conn.prepareStatement(sql); 
+				pstmt.setString(1, kick_id);
+				pstmt.setString(2, id);
+				pstmt.executeUpdate();
+				
+				//댓글도 업데이트
+				sql = "update comment set uid = ? where uid = ? "; 
+				pstmt = conn.prepareStatement(sql); 
+				pstmt.setString(1, kick_id);
+				pstmt.setString(2, id);
+				pstmt.executeUpdate();
+				
+				//userinfo 테이블에서 삭제하는 것은 가장 마지막에 이뤄져야 하는 동작.
+				//더이상 해당 id를 사용하는 곳이 없으므로 안전하게 삭제가 가능해진다. 
+				sql = "delete from userinfo where id = ?"; 
 				
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, id);
@@ -374,9 +438,9 @@ public class UserDAO extends ObjectDAO {
 			// join 으로 한번에 가져오는 좋은 방법이 없었으려나.
 			
 			String sql =  " select count(bid) count from board where uid= ?"
-						 +" union"
+						 +" union all"
 						 +" select count(cm_id) count from comment where uid =?"
-						 +" union" 
+						 +" union all" 
 						 +" select count(uid) count from comment_vote_record where uid= ?" ;
 		
 			pstmt = conn.prepareStatement(sql);
