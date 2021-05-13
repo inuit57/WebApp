@@ -19,14 +19,6 @@
 
 	boolean flag = cDao.deleteComment(cb); 
 %>
-<script type="text/javascript">
 
-	if(<%=flag%>) {
-		//alert("댓글 삭제 완료!");
-		console.log("댓글 삭제 완료"); 
-	}
-	
-	location.href="../boardView.jsp?bID=<%=cb.getBid()%>" ;
-</script>
 </body>
 </html>

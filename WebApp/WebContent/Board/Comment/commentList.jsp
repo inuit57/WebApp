@@ -16,8 +16,15 @@
 	CommentDAO cdao = new CommentDAO(); 
 	
 	int bid = Integer.parseInt( request.getParameter("bid") ) ; 
+	String isBest = request.getParameter("isBest"); 
 	
-	ArrayList<CommentBean> cbList = cdao.getCommentList(bid); 
+	ArrayList<CommentBean> cbList = null ; 
+	
+	if(isBest.equals("no")){
+		cbList = cdao.getCommentList(bid);
+	}else{
+		cbList = cdao.getBestCommentList(bid); 
+	}
 	 
 	JSONArray cmList = null ; 
 	if(cbList.size() > 0){

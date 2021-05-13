@@ -1,13 +1,9 @@
+<%@page import="com.itwillbs.user.UserBean"%>
+<%@page import="com.itwillbs.user.UserDAO"%>
 <%@page import="com.itwillbs.comment.CommentDAO"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="application/json; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+
 <% request.setCharacterEncoding("UTF-8"); %>
 
 <jsp:useBean id="cb" class="com.itwillbs.comment.CommentBean"></jsp:useBean>
@@ -16,8 +12,26 @@
 <%
 	CommentDAO cDAO = new CommentDAO(); 
 	boolean flag = cDAO.insertComment(cb);
+	
+	String id = (String)session.getAttribute("id"); 
+	if(id == null){ id ="";} 
+ 
+	
+	UserDAO uDAO = new UserDAO() ; 
+	UserBean ub = uDAO.getUserBean(id);
+	
+	String grantUpdate = "no";  
+	
+
+	
+	// 여기에서 유저 권한 업데이트도 같이 처리해주도록 합시다.	
+	if((ub.getUserGrant() < 1)  && (cDAO.getCommentCnt(id) >= 3) ) {
+		//비회원이고 댓글 갯수가 3개 이상이라면 정회원으로 등업시켜준다. 		
+		if(uDAO.updateUser(id, 1)){  // 정회원으로 등업! 
+			// 등업완료 메시지를 json에 담아주도록 하자.
+			grantUpdate = "yes" ; 
+		}		
+	}
 %>
 
-
-</body>
-</html>
+{ "grantUpdate" : "<%=grantUpdate %>" } 

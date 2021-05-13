@@ -138,6 +138,7 @@
 			 		
 			 		%>
 				 	<img src="../fileTest/imgTest.jsp?file_name=<%=file_name %>" width="256" height="256">		
+					
 				 	<%	 	
 				 	}else if( file_name.indexOf(".pdf") > -1 || file_name.indexOf(".PDF") > -1){
 				 	%>
