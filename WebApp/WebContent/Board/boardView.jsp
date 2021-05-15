@@ -181,7 +181,7 @@
 					t+="<tr>"; 
 					t+="<td>"+ item.uid +"</td>";
 					t+="<td colspan = '3'><input  class='form-control'  type='text'style='background-color: #e2e2e2;' "+ 
-						"value="+item.content+" id='comment"+item.cm_id+ "' readonly='readonly'> </td>"; 
+						"value="+item.content+" id='bestComment"+item.cm_id+ "' readonly='readonly'> </td>"; 
 
 					
 					
@@ -266,6 +266,7 @@
 			data : {bid : "<%=bid%>" , cm_id : index }, 
 			success:function(data){
 				commentLoad();
+				bestCommentLoad();
 				//console.log(data); 
 			}
 		});
