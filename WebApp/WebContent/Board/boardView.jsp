@@ -133,10 +133,8 @@
 					
 					t+="<tr>"; 
 					t+="<td>"+ item.uid +"</td>";
-					t+="<td colspan = '3'><input  class='form-control'  type='text'style='background-color: #e2e2e2;' "+ 
+					t+="<td colspan = '3'><input  class='form-control'  type='text' style='background-color:white; border:none;' "+ 
 						"value="+item.content+" id='comment"+item.cm_id+ "' readonly='readonly'> </td>"; 
-
-					
 					
 					t+="<td align='center'><a href='javascript:void(0);' id='upvote"+item.cm_id+ "' "+ 
 						"onclick='upvoteComment("+item.cm_id+")'>"+ item.upvote +"<br>[▲]</a></td>";
@@ -180,7 +178,7 @@
 					
 					t+="<tr>"; 
 					t+="<td>"+ item.uid +"</td>";
-					t+="<td colspan = '3'><input  class='form-control'  type='text'style='background-color: #e2e2e2;' "+ 
+					t+="<td colspan = '3'><input  class='form-control'  type='text' style='background-color:white; border:none; ' "+ 
 						"value="+item.content+" id='bestComment"+item.cm_id+ "' readonly='readonly'> </td>"; 
 
 					
@@ -228,11 +226,12 @@
 		
 		if(btn.value == '수정'){
 			btn.value = '완료'; 
-			input.style="background-color: white;"
+			input.style="background-color: white;border:solid 1px;" ;
 			input.removeAttribute("readonly"); 
 		}else{
 			btn.value='수정'; 
-			input.style="background-color: #e2e2e2;"
+			input.style="background-color: white;border:none;"
+			//input.style="background-color: #e2e2e2;"
 			input.setAttribute("readonly", "readonly");
 			
 			if(input.value == ""){
@@ -343,7 +342,7 @@
 		<table border="1"  id="tb" class="table table-bordered ">
 			<tr> 
 				<td>
-					<select name="btype" class="col-sm-2 form-control"  disabled="disabled" >
+					<select style='background-color:white;' name="btype" class="col-sm-2 form-control"  disabled="disabled" >
 						<% if( isAdmin ){ %>
 							<option value="1" <% if(bb.getBtype().equals("1")){ %>selected="selected" <%} %>>공지</option>
 						<% } %>
@@ -352,14 +351,14 @@
 					</select>
 				</td>
 				<td colspan="5">
-					<input   class="form-control"   type="text" name="bsubject" placeholder="제목"  
+					<input style='background-color:white; border:none;' class="form-control"   type="text" name="bsubject" placeholder="제목"  
 					readonly="readonly" value="<%=bb.getBsubject() %>">  
 
 				</td>
 			</tr>
 			<tr> 
 				<td colspan="6">
-					<textarea   class="form-control"  rows="20" cols="35" name="bcontent" placeholder="내용" 
+					<textarea style="border:none; background-color: white;"  class="form-control"  rows="20" cols="35" name="bcontent" placeholder="내용" 
 					readonly="readonly" ><%=bb.getBcontent() %> </textarea>
 				</td>
 			</tr>
@@ -424,6 +423,8 @@
 			</div>
 			</td>
 			</tr>
+			
+			
 			<!--  댓글 유효성 검사 : required로 대체. -->
 		 	<% if(!uid.equals("")){ %>
 				<tr>
