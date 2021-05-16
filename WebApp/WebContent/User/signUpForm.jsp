@@ -3,6 +3,62 @@
 <!DOCTYPE html>
 <html>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+
+<script type="text/javascript">
+
+	$(document).ready(function () {
+		if($("#id").val() == ""){
+			$("#idCheck22").text("아이디를 입력하세요.");
+			$("#idCheck22").css("color" , "red");
+		}
+		
+		// TODO : 다른 항목들도 밑에 뜨게끔 기본적으로 세팅하기
+		// Ajax로 다 적용해보고 말이다. 
+	})
+	
+	
+ 	function idCheckAjax() {		
+		$.ajax({
+		
+			url : "idCheckPro.jsp",
+			data : {id : $("#id").val()} ,
+			dataType : "json",
+			success: function(data){
+							
+				console.log(data.flag); 
+				if(data.flag == "true"){
+					console.log("true!"); 
+					 
+					$("#idCheck22").text("사용 가능한 아이디입니다.");
+					$("#idCheck22").css("color" , "blue"); 
+					 
+					
+				}else{
+					$("#idCheck22").text("이미 사용 중이거나 탈퇴한 아이디입니다.");
+					$("#idCheck22").css("color" , "red");
+					 
+				}
+				
+				if($("#id").val() == ""){
+					$("#idCheck22").text("아이디를 입력하세요.");
+					$("#idCheck22").css("color" , "red");
+					
+				}
+			},
+			
+			error : function(data) {
+				console.log(data);
+				console.log("error") ; 
+				
+			}
+		}); //ajax 끝
+	}
+
+</script>
+
 <script type="text/javascript">
 
 	function deletepwd(){
@@ -14,8 +70,6 @@
 		// 1) 비밀번호 일치 여부 확인
 		// 2) 입력하지 않은 값이 있는지 확인 
 		
-		// 3) 
-		
 		var pwd = document.fr.pwd.value ; 
 		
 		//아이디
@@ -25,8 +79,9 @@
 			return false; 
 		}
 		
-		if (document.fr.idCheck.value == ""){
-			alert("아이디 중복 체크를 진행하세요!");
+		//if (document.fr.idCheck.value == ""){
+		if( $("#idCheck22").text() != "사용 가능한 아이디입니다."){
+			alert("사용할 수 없는 아이디입니다.");
 			document.fr.id.focus(); 
 			return false; 
 		}
@@ -57,11 +112,6 @@
 				deletepwd();
 				return false; 
 			}
-			/* else if(!/[a-zA-z]/.test(pwd) || !/[0-9]/.test(pwd)){
-				alert("영어와 숫자를 모두 사용해야 합니다."); 
-				deletepwd();
-				return false ; 
-			} */
 			
 		}
 		 	
@@ -99,8 +149,6 @@
 	}
 	
 	function checkID(){
-		// TODO - idCheckPro.jsp 에서 DB 조회해서 중복된 아이디인지 확인하는 로직 필요. 
-		//location.href = "idCheckPro.jsp?id=" + document.fr.id.value ; 
 		if ( document.fr.id.value == "" ){
 			alert("아이디를 입력하세요!") ; 
 			return;
@@ -125,12 +173,10 @@
             oncomplete: function(data) {
 
                 var roadAddr = data.roadAddress; // 도로명 주소 변수
-              
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById('post_num').value = data.zonecode;
                 document.getElementById("addr").value = roadAddr;            
-              
             }
         }).open();
     }
@@ -165,16 +211,15 @@
 			<table border="1"  id="tb" class="table table-hover table-bordered "> 
 				<tr>
 					<td>아이디 :</td>
-					<td><input class="form-control"  type="text" name="id" id="id" maxlength="8" 
-					placeholder="영문,숫자(8자)" > 
-					<input class="form-control"  type="button" value="중복확인" name="idChkBtn" 
-								onclick="checkID()">
-					<input class="form-control"  type="button" value="ID수정" name="idChangeBtn" disabled="disabled"
-								onclick="changeID()">
+					<td><input class="form-control"  type="text" name="id" id="id" maxlength="8" autocomplete=”off”
+					placeholder="영문,숫자(8자)"  onkeyup="idCheckAjax()" onchange="idCheckAjax()"><br> 
+					<div id="idCheck22" ></div>
+
 					<input type="hidden" name="idCheck" disabled="disabled"> 			
 					</td>
 					
 				</tr>
+
 				<tr>
 					<td>비밀번호 :</td>
 					<td><input class="form-control"  type="password" name="pwd" maxlength="14" placeholder="6~14자 이하의 영어,숫자" ></td>
