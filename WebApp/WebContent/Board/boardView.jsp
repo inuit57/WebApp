@@ -408,10 +408,10 @@
 			    <div role="tabpanel" class="tab-pane" id="allComment">
 			    	<table id="commentList" class="table table-bordered" >
 						<tr id="commentHead">
-						<td colspan="4" align="center"> [댓글 목록] </td>
-						<td colspan="3" align="center">     
-						<input class="form-control" type="button" onclick="commentLoad()" value="새로고침">
-						</td>
+							<td colspan="4" align="center"> [댓글 목록] </td>
+							<td colspan="3" align="center">     
+								<input class="form-control" type="button" onclick="commentLoad()" value="새로고침">
+							</td>
 						<!--  TODO : 댓글도 페이징 넣기?  -->
 						</tr>
 					</table>
