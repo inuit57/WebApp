@@ -6,7 +6,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 
-
 <script type="text/javascript">
 
 	$(document).ready(function () {
@@ -15,9 +14,74 @@
 			$("#idCheck22").css("color" , "red");
 		}
 		
+		if($("#pwd").val() == "" ){
+			$("#pwdCheck22").text("비밀번호를 입력하세요.");
+			$("#pwdCheck22").css("color" , "red");
+		}
+		
+		if($("#pwd2").val() == "" ){
+			$("#pwd2Check22").text("비밀번호를 입력하세요.");
+			$("#pwd2Check22").css("color" , "red");
+		}
+		
+		if($("#name").val() == "" ){
+			$("#nameCheck22").text("이름을 입력하세요.");
+			$("#nameCheck22").css("color" , "red");
+		}
+
+		if($("#email").val() == ""){
+			//alert("이메일 인증!!"); 
+			$("#emailCheck22").text("이메일 인증을 진행하세요.");
+			$("#emailCheck22").css("color" , "red");
+		}
+		
 		// TODO : 다른 항목들도 밑에 뜨게끔 기본적으로 세팅하기
 		// Ajax로 다 적용해보고 말이다. 
 	})
+
+	//이메일을 다르게 입력할 경우 다시 인증을 진행하도록 하기. 
+	//이메일 인증을 진행하고 변경하더라도 다시 하도록. 
+	function eamilCheckAgain(){ 
+		$("#emailCheck22").text("이메일 인증을 진행하세요.");
+		$("#emailCheck22").css("color" , "red");
+	}
+	
+	function pwdCheck(){
+		var pwd_v = $("#pwd").val()
+		var pwd2_v = $("#pwd2").val()
+		
+		//일반 비밀번호 검사
+		if(pwd_v == "" ){
+			$("#pwdCheck22").text("비밀번호를 입력하세요.");
+		}else if( pwd_v.length < 6){
+			$("#pwdCheck22").text("비밀번호는 6자 이상이어야합니다.");
+		}else if(pwd_v.search(document.fr.id.value)){
+			$("#pwdCheck22").text("비밀번호에 아이디가 포함될 수는 없습니다.");
+		}else if(/[^a-zA-Z0-9]/g.test(pwd_v)){
+			$("#pwdCheck22").text("비밀번호는 숫자와 영문자로만 구성되어야합니다."); 
+		}else{
+			$("#pwdCheck22").text("");
+			$("#pwd2Check22").text(""); 
+		}
+		
+		//비밀번호 확인 검사 
+		if(pwd2_v != pwd_v ){
+			$("#pwd2Check22").text("입력하신 비밀번호가 다릅니다."); 
+			$("#pwd2Check22").css("color" , "red");
+		}else{
+			$("#pwd2Check22").text("");
+		}
+	}
+
+	function nameCheck(){
+		var name_v = $("#name").val(); 
+		
+		if( name_v == ""){
+			$("#nameCheck22").text("이름을 입력하세요.");
+		}else{
+			$("#nameCheck22").text("");
+		}
+	}
 	
 	
  	function idCheckAjax() {		
@@ -112,7 +176,6 @@
 				deletepwd();
 				return false; 
 			}
-			
 		}
 		 	
 		//이름
@@ -160,10 +223,16 @@
 	}
 	
 	function checkEmail(){
-		if ( document.fr.email.value == "" ){
+		
+		var email_v = document.fr.email.value ; 
+		if ( email_v == "" ){
 			alert("이메일을 입력하세요!") ; 
 			return;
-		} 
+		}else if( email_v.search("@") < 0){
+			alert("잘못된 이메일 주소입니다!") ;
+			return ;
+		}
+		
 		window.open( "emailCheckPro.jsp?email="+document.fr.email.value  , "이메일 인증","width=500,height=600")
 		 
 	}
@@ -211,27 +280,34 @@
 			<table border="1"  id="tb" class="table table-hover table-bordered "> 
 				<tr>
 					<td>아이디 :</td>
-					<td><input class="form-control"  type="text" name="id" id="id" maxlength="8" autocomplete=”off”
+					<td><input class="form-control" type="text" name="id" id="id" maxlength="8" autocomplete="off" 
 					placeholder="영문,숫자(8자)"  onkeyup="idCheckAjax()" onchange="idCheckAjax()"><br> 
 					<div id="idCheck22" ></div>
-
-					<input type="hidden" name="idCheck" disabled="disabled"> 			
-					</td>
-					
+					</td>					
 				</tr>
-
 				<tr>
 					<td>비밀번호 :</td>
-					<td><input class="form-control"  type="password" name="pwd" maxlength="14" placeholder="6~14자 이하의 영어,숫자" ></td>
-					
+					<td>
+					<input class="form-control"  type="password" name="pwd" id="pwd" maxlength="14" 
+					placeholder="6~14자 이하의 영어,숫자" onkeyup="pwdCheck()" onchange="pwdCheck()" >
+					<br><div id="pwdCheck22" ></div>
+					</td>
 				</tr>
 				<tr>
 					<td>비밀번호 확인 :</td>
-					<td><input class="form-control"  type="password" name="pwd2" maxlength="14" placeholder="6~14자 이하의 영어,숫자" ></td>
+					<td>
+					<input class="form-control"  type="password" name="pwd2" id="pwd2" maxlength="14" 
+					placeholder="6~14자 이하의 영어,숫자" onkeyup="pwdCheck()" onchange="pwdCheck()" >
+					<br><div id="pwd2Check22" ></div>
+					</td>
 				</tr>
 				<tr>
 					<td>이름</td>
-					<td><input class="form-control"  type="text" name="name" maxlength="10"></td>
+					<td>
+					<input class="form-control"  type="text" name="name" id="name" maxlength="10" autocomplete="off"
+					onkeyup="nameCheck()" onchange="nameCheck()" >
+					<br><div id="nameCheck22" ></div>
+					</td>
 				</tr>
 				<tr>
 					<td>성별</td>
@@ -247,18 +323,20 @@
 				<tr>
 					<td>주소</td>
 					<td>
-						<input class="form-control"  type="text" id="post_num" name="post_num" placeholder="우편번호">
+						<input class="form-control"  type="text" id="post_num" name="post_num" placeholder="우편번호" autocomplete=”off”>
 						<input class="form-control"  type="button" value="검색" onclick="searchPostCode()"> <br> 
-						<input class="form-control"  type="text" id="addr" name="addr" placeholder="도로명주소">
-						<input class="form-control"  type="text" id="addr2" name="addr2" placeholder="상세주소">
+						<input class="form-control"  type="text" id="addr" name="addr" placeholder="도로명주소" autocomplete="off">
+						<input class="form-control"  type="text" id="addr2" name="addr2" placeholder="상세주소" autocomplete="off">
 					</td>
 				</tr>
 				<tr>
 					<td>이메일</td>
 					<!-- TODO : 이메일을 한번 DB에서 조회해보고 만약 있다면 아이디/비밀번호 찾기로? -->
-					<td><input class="form-control"  type="email" name="email" maxlength="30"> 
+					<td><input class="form-control"  type="email" name="email" id="email" maxlength="30" autocomplete="off"
+					onkeyup="eamilCheckAgain()" onchange="eamilCheckAgain()" > 
 					
 					<input class="form-control"  type="button" value="이메일 인증" onclick="checkEmail()">
+					<div id="emailCheck22" style="color:red"></div>
 					<input type="hidden" name="emailCheck" disabled="disabled">
 					</td>
 					
@@ -273,6 +351,7 @@
 			</div>
 		</form>
 	</fieldset>
+</div>
 
 
 </body>
