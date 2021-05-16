@@ -31,11 +31,6 @@
 	}
 	
 	function updateView(bid){
-		//UpdateView를 따로 만들지 않고
-		//여기 안에서 disable을 풀어주고 수정을 바로 할 수 있게 시도했으나 잘 되지 않는다.
-		//제이쿼리 검색해서도 해보았는데 잘 되지는 않는다... ㅠㅠ 
-		
-		//TODO : 비밀번호를 한번더 받도록 한다? -> 굳이? 
 		location.href="updateView.jsp?bID="+bid; 
 	}
 	
@@ -80,8 +75,7 @@
 <% if ( bb != null ){ 
 
 	//정상적으로 들어왔으니까 여기에서 조회수를 증가시켜주도록 하자. 
-	// TODO : 조회수 계속 증가하지 못하도록 막을 것. 
-	// 쿠키를 사용해볼까. 
+	// TODO : 조회수 계속 증가하지 못하도록 막을 것. (쿠키로 구현)
 	
 	Cookie[] cookies = request.getCookies();
 	String str_bid = Integer.toString(bb.getBid());  
@@ -132,36 +126,50 @@
 				$.each(data, function(index,item ){
 					
 					t+="<tr>"; 
-					t+="<td>"+ item.uid +"</td>";
+					t+="<td>"+ item.uid +"<br><input  class='form-control' type='button' value='답글' onclick='openReply("+item.cm_id+")' "+
+						" data-toggle='collapse' data-target='#reply"+item.cm_id+"' aria-expanded='false' aria-controls='collapseExample'>"+"</td>";
 					t+="<td colspan = '3'><input  class='form-control'  type='text' style='background-color:white; border:none;' "+ 
 						"value="+item.content+" id='comment"+item.cm_id+ "' readonly='readonly'> </td>"; 
 					
-					t+="<td align='center'><a href='javascript:void(0);' id='upvote"+item.cm_id+ "' "+ 
+					t+="<td align='center' style='vertical-align:middle;'><a href='javascript:void(0);' id='upvote"+item.cm_id+ "' "+ 
 						"onclick='upvoteComment("+item.cm_id+")'>"+ item.upvote +"<br>[▲]</a></td>";
-					t+="<td align='center'><a href='javascript:void(0);' id='downvote"+item.cm_id+"' "+
+					t+="<td align='center' style='vertical-align:middle;'><a href='javascript:void(0);' id='downvote"+item.cm_id+"' "+
 						"onclick='downvoteComment("+item.cm_id + " )'>"+ item.downvote +"<br>[▼]</a></td>";
+											
 					// 이렇게 하면 함수 리턴 값 출력 신경안쓰고 할 수 있다.
 					// 클릭해도 최상위로 안가고 좋아 좋아. 
-					
-// 					t+="<td align='center'><span id=upvote"+item.cm_id+" >"+ item.upvote +"</span><br>[▲]</td>";
-// 					t+="<td align='center'><span id=downvote"+item.cm_id+" >"+ item.downvote +"</span><br>[▼]</td>";
 
-					t+="</tr>";
-					<!-- 댓글 수정/삭제 버튼 -->
-					
-					if(item.uid == '<%=uid%>'){
-						t+="<tr>"; 
-						t+='<td align="right" colspan="6">' ; 
-						t+='<input  class="form-control"  type="button" id="btn'+item.cm_id+'" value="수정" onclick="editComment('+item.cm_id+ ')">' ;
-						<!-- TODO : 답글 기능 넣기 -->
-						t+='<input  class="form-control"  type="button" value="답글" onclick="">'
-						t+='<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('+item.cm_id+')">' ;
+					t+="<td>" ;
+					//수정 기능은 당사자만 가능하도록 
+					if(item.uid == '<%=uid%>'){						 
+						t+='<input  class="form-control"  type="button" id="btn'+item.cm_id+'" value="수정" onclick="editComment('+item.cm_id+ ')"><br>' ;
 					}	
+					//삭제 기능은 관리자 또는 당사자가 가능하도록.
+					if( (item.uid == '<%=uid%>') || (<%=isAdmin%>) ){
+						t+='<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('+item.cm_id+')">' ;
+					}
+					t+="</td>"; 
+					t+="</tr>"; 
 					
+					//답글 칸 만들기					 
+					//id : reply+댓글번호
+					t+="<tr id='reply"+item.cm_id+"' class='collapse'>" ; 
+					t+="<td> <%=uid %> </td> "; 
+					t+="<td colspan='5'>" ;
+					t+="<input class='form-control' type='text' id='replyContent' name='replyContent' placeholder='답글' required='required'>";
+					t+="</td>";
+	 				t+="<td><input class='form-control' id='reply_write' type='button' value='작성' onclick='insertComment()'></td>";
+										
+					t+="</tr>" ;
 				})
 				$('#commentList').append(t);
 			}
 		}) //ajax끝.
+	}
+	
+	function openReply(index){
+		
+		$('#reply'+index)
 	}
 	
 	function bestCommentLoad(){
@@ -181,8 +189,6 @@
 					t+="<td colspan = '3'><input  class='form-control'  type='text' style='background-color:white; border:none; ' "+ 
 						"value="+item.content+" id='bestComment"+item.cm_id+ "' readonly='readonly'> </td>"; 
 
-					
-					
 					t+="<td align='center'><a href='javascript:void(0);' id='upvote"+item.cm_id+ "' "+ 
 						"onclick='upvoteComment("+item.cm_id+")'>"+ item.upvote +"<br>[▲]</a></td>";
 					t+="<td align='center'><a href='javascript:void(0);' id='downvote"+item.cm_id+"' "+
@@ -190,32 +196,22 @@
 					// 이렇게 하면 함수 리턴 값 출력 신경안쓰고 할 수 있다.
 					// 클릭해도 최상위로 안가고 좋아 좋아. 
 					
-// 					t+="<td align='center'><span id=upvote"+item.cm_id+" >"+ item.upvote +"</span><br>[▲]</td>";
-// 					t+="<td align='center'><span id=downvote"+item.cm_id+" >"+ item.downvote +"</span><br>[▼]</td>";
 
-					t+="</tr>";
-					<!-- 댓글 수정/삭제 버튼 -->
-					
-					<%--if(item.uid == '<%=uid%>'){
-						t+="<tr>"; 
-						t+='<td align="right" colspan="6">' ; 
-						t+='<input  class="form-control"  type="button" id="btn'+item.cm_id+'" value="수정" onclick="editComment('+item.cm_id+ ')">' ;
-						<!-- TODO : 답글 기능 넣기 -->
-						t+='<input  class="form-control"  type="button" value="답글" onclick="">'
-						t+='<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('+item.cm_id+')">' ;
-					}	 --%>
-					
+					t+="</tr>";					
 				})
 				$('#bestCommentList').append(t);
 			}
 		}) //ajax끝.
-	}
+	}// 베스트 코멘트 끝. 
+	
 	 
 	$(document).ready(function(){
 		bestCommentLoad(); 
 		commentLoad(); //댓글 가져오기 
 	}); 
 
+
+	
 	function editComment(index){
 		
 		console.log('btn'+index); 
@@ -410,11 +406,12 @@
 					</table>
 			    </div>
 			    <div role="tabpanel" class="tab-pane" id="allComment">
-			    	<table id="commentList" class="table table-bordered " >
+			    	<table id="commentList" class="table table-bordered" >
 						<tr id="commentHead">
-						<td colspan="6" align="right"> [댓글 목록]     
-						<input class="form-control" type="button" onclick="commentLoad()" value="댓글 새로고침">
-						</td>
+							<td colspan="4" align="center"> [댓글 목록] </td>
+							<td colspan="3" align="center">     
+								<input class="form-control" type="button" onclick="commentLoad()" value="새로고침">
+							</td>
 						<!--  TODO : 댓글도 페이징 넣기?  -->
 						</tr>
 					</table>
@@ -432,38 +429,42 @@
 					
 					<td> <%=uid %> </td> 
 					<td colspan="4">
-						<input class="form-control"  type="text" id="content" name="content" placeholder="댓글" required="required">
-						<%-- <input type="hidden" name="bid" value="<%=bid %>"> --%>
+						<input class="form-control"  type="text" id="content" name="content" placeholder="댓글" required="required" autocomplete="off" >
 					</td>
-					<td><input  class="form-control"  id="comment_write" type="button" value="작성" onclick="insertComment()"></td>
+					<td><input  class="form-control"  id="comment_write" type="button" value="작성" onclick="insertComment(1)"></td>
 					<script>
 					
-						function insertComment(){
+						function insertComment(isReply){
 							// TODO : Ajax로 변경할 것.  
 							//location.href="Comment/insertComment.jsp?uid=<%=session.getAttribute("id") %>"+"&content="+document.getElementById('content').value+"&bid=<%=bid%>";
 							
-							var content = $("#content").val() ; 
-							
-							$.ajax({ 
-								url : "Comment/insertComment.jsp",
-								type : "post", 
-								data : {uid : "<%=uid %>" ,content : content , bid : "<%=bid%>" }, 
-								datayType :"json" , 
-								success:function(data){
-									commentLoad(); 
-									$("#content").val(""); //댓글 내용 지워주기 
-									if ( data.grantUpdate == "yes"){
-										alert("축하합니다. 정회원으로 등업되었습니다.");
-										//일단은 보여주기 용도...입니다. 
-										//관리자에 의해서 강등되거나 하였을 경우 
-										//그리고 댓글을 지우고 다시 등업을 시도하는 등의 꼼수는 막아야할 겁니다. 
+							if (isReply == 1){ // 1인 경우 답글이 아님 
+							// 답글인 경우에 처리를 다르게 할 것. 
+								var content = $("#content").val() ; 
+								
+								$.ajax({ 
+									url : "Comment/insertComment.jsp",
+									type : "post", 
+									data : {uid : "<%=uid %>" ,content : content , bid : "<%=bid%>" }, 
+									datayType :"json" , 
+									success:function(data){
+										commentLoad(); 
+										$("#content").val(""); //댓글 내용 지워주기 
+										if ( data.grantUpdate == "yes"){
+											alert("축하합니다. 정회원으로 등업되었습니다.");
+											//일단은 보여주기 용도...입니다. 
+											//관리자에 의해서 강등되거나 하였을 경우 
+											//그리고 댓글을 지우고 다시 등업을 시도하는 등의 꼼수는 막아야할 겁니다. 
+										}
+										console.log("댓글 작성 완료!") ; 
+									},
+									error:function(data){
+										console.log("error") ; 
 									}
-									console.log("댓글 작성 완료!") ; 
-								},
-								error:function(data){
-									console.log("error") ; 
-								}
-							});
+								});
+							}else{ //답글인 경우의 처리. 
+								
+							}
 						}
 					</script>
 				</tr>
