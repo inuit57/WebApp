@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -81,12 +81,11 @@ function kakaoLogin() {
 		<table border="1"  id="tb" class="table table-bordered ">
 			<tr>
 			<td>아이디</td>
-			<td> <input class="form-control" type="text" name="id" autocomplete=”off”></td>
+			<td> <input class="form-control" type="text" name="id" autocomplete="off" ></td>
 			</tr>
 			<tr>
 			<td>비밀번호</td> 
 			<td> <input class="form-control" type="password" name="pwd"></td> 
-			
 			
 			<input  type="hidden" id="name" name="name">  
 			<input  type="hidden" id="email" name="email">
