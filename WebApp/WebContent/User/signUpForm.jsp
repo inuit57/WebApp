@@ -15,7 +15,8 @@
 			$("#idCheck22").css("color" , "red");
 		}
 		
-		
+		// TODO : 다른 항목들도 밑에 뜨게끔 기본적으로 세팅하기
+		// Ajax로 다 적용해보고 말이다. 
 	})
 	
 	
@@ -213,18 +214,12 @@
 					<td><input class="form-control"  type="text" name="id" id="id" maxlength="8" autocomplete=”off”
 					placeholder="영문,숫자(8자)"  onkeyup="idCheckAjax()" onchange="idCheckAjax()"><br> 
 					<div id="idCheck22" ></div>
-<!-- 					<input class="form-control"  type="button" value="중복확인" name="idChkBtn"  -->
-<!-- 								onclick="checkID()"> -->
-<!-- 					<input class="form-control"  type="button" value="ID수정" name="idChangeBtn" disabled="disabled" -->
-<!-- 								onclick="changeID()"> -->
+
 					<input type="hidden" name="idCheck" disabled="disabled"> 			
 					</td>
 					
 				</tr>
-<!-- 				<tr> -->
-<!-- 					<td> </td> -->
-<!-- 					<td colspan="6"><input type="text" id="idCheck2" value="아이디를 입력하세요."></span></td> -->
-<!-- 				</tr> -->
+
 				<tr>
 					<td>비밀번호 :</td>
 					<td><input class="form-control"  type="password" name="pwd" maxlength="14" placeholder="6~14자 이하의 영어,숫자" ></td>
