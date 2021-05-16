@@ -74,14 +74,17 @@ public class UserDAO extends ObjectDAO {
 		try {
 			conn = getConnection();
 			
-			String sql = "select id from userInfo where id=?";  
+			String id_kick = id +"(탈퇴)"; 
+			
+			String sql = "select id from userInfo where id=? or id=?";  
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
+			pstmt.setString(2, id_kick);
 			ResultSet rs = pstmt.executeQuery(); 
 			if(rs.next()){
-				return true; 
+				return true; // 중복된 아이디가 있는 경우.
 			}else{
-				return false; //없는 경우 null 리턴 
+				return false;  
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
