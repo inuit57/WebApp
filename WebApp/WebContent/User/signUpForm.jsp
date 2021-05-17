@@ -55,7 +55,7 @@
 			$("#pwdCheck22").text("비밀번호를 입력하세요.");
 		}else if( pwd_v.length < 6){
 			$("#pwdCheck22").text("비밀번호는 6자 이상이어야합니다.");
-		}else if(pwd_v.search(document.fr.id.value)){
+		}else if(pwd_v.search(document.fr.id.value) >= 0){
 			$("#pwdCheck22").text("비밀번호에 아이디가 포함될 수는 없습니다.");
 		}else if(/[^a-zA-Z0-9]/g.test(pwd_v)){
 			$("#pwdCheck22").text("비밀번호는 숫자와 영문자로만 구성되어야합니다."); 
