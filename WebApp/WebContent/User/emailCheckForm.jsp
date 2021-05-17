@@ -18,7 +18,10 @@
 	
 	String email_addr = request.getParameter("email");
 	
-	  
+	if(email_addr != null){
+		session.setAttribute("email", email_addr); 
+	}
+	
 	// TODO : DB 상에서 email이 있는 경우, 아이디 찾기로 보내기? 
 			 
 	
@@ -42,7 +45,7 @@
 		//location.reload();
 		keyValid=true; 
 		document.getElementById("key_check").disabled=false;
-		location.href="emailCheckPro.jsp?email="+"<%=email_addr%>"; 
+		location.href="emailCheckPro.jsp?email="+"<%= (String)session.getAttribute("email")%>"; 
 		
 	}
 	
