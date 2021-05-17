@@ -126,8 +126,12 @@
 				$.each(data, function(index,item ){
 					
 					t+="<tr>"; 
-					t+="<td>"+ item.uid +"<br><input  class='form-control' type='button' value='답글' onclick='openReply("+item.cm_id+")' "+
-						" data-toggle='collapse' data-target='#reply"+item.cm_id+"' aria-expanded='false' aria-controls='collapseExample'>"+"</td>";
+					t+="<td>"+ item.uid ; 
+					if("<%=uid%>" !=""){
+						t+= "<br><input  class='form-control' type='button' value='답글' onclick='openReply("+item.cm_id+")' "+
+						" data-toggle='collapse' data-target='#reply"+item.cm_id+"' aria-expanded='false' aria-controls='collapseExample'>" ;
+					}
+					t+="</td>";
 					t+="<td colspan = '3'><input  class='form-control'  type='text' style='background-color:white; border:none;' "+ 
 						"value="+item.content+" id='comment"+item.cm_id+ "' readonly='readonly'> </td>"; 
 					
@@ -139,28 +143,32 @@
 					// 이렇게 하면 함수 리턴 값 출력 신경안쓰고 할 수 있다.
 					// 클릭해도 최상위로 안가고 좋아 좋아. 
 
-					t+="<td>" ;
-					//수정 기능은 당사자만 가능하도록 
-					if(item.uid == '<%=uid%>'){						 
-						t+='<input  class="form-control"  type="button" id="btn'+item.cm_id+'" value="수정" onclick="editComment('+item.cm_id+ ')"><br>' ;
-					}	
-					//삭제 기능은 관리자 또는 당사자가 가능하도록.
-					if( (item.uid == '<%=uid%>') || (<%=isAdmin%>) ){
-						t+='<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('+item.cm_id+')">' ;
+					if("<%=uid%>" !=""){
+						t+="<td>" ;
+						//수정 기능은 당사자만 가능하도록 
+						if(item.uid == '<%=uid%>'){						 
+							t+='<input  class="form-control"  type="button" id="btn'+item.cm_id+'" value="수정" onclick="editComment('+item.cm_id+ ')"><br>' ;
+						}	
+						//삭제 기능은 관리자 또는 당사자가 가능하도록.
+						if( (item.uid == '<%=uid%>') || (<%=isAdmin%>) ){
+							t+='<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('+item.cm_id+')">' ;
+						}
+						t+="</td>"; 
 					}
-					t+="</td>"; 
 					t+="</tr>"; 
 					
-					//답글 칸 만들기					 
-					//id : reply+댓글번호
-					t+="<tr id='reply"+item.cm_id+"' class='collapse'>" ; 
-					t+="<td> <%=uid %> </td> "; 
-					t+="<td colspan='5'>" ;
-					t+="<input class='form-control' type='text' id='replyContent' name='replyContent' placeholder='답글' required='required'>";
-					t+="</td>";
-	 				t+="<td><input class='form-control' id='reply_write' type='button' value='작성' onclick='insertComment()'></td>";
-										
-					t+="</tr>" ;
+					if("<%=uid%>" !=""){
+						//답글 칸 만들기					 
+						//id : reply+댓글번호
+						t+="<tr id='reply"+item.cm_id+"' class='collapse'>" ; 
+						t+="<td> <%=uid %> </td> "; 
+						t+="<td colspan='4'>" ;
+						t+="<input class='form-control' type='text' id='replyContent' name='replyContent' placeholder='답글' required='required'>";
+						t+="</td>";
+		 				t+="<td><input class='form-control' id='reply_write' type='button' value='작성' onclick='insertComment()'></td>";
+											
+						t+="</tr>" ;
+					}
 				})
 				$('#commentList').append(t);
 			}
