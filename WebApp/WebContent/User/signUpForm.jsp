@@ -203,11 +203,18 @@
 			document.fr.email.focus(); 
 			return false ; 
 		}
-		if (document.fr.emailCheck.value == ""){
+		
+		if( $("#emailCheck22").text() != "이메일 인증 완료되었습니다."){
 			alert("이메일 인증을 진행하세요!");
 			document.fr.email.focus(); 
 			return false; 
 		}
+		
+// 		if (document.fr.emailCheck.value == ""){
+// 			alert("이메일 인증을 진행하세요!");
+// 			document.fr.email.focus(); 
+// 			return false; 
+// 		}
 		 
 	}
 	
