@@ -33,7 +33,11 @@
 			cmBean.put("uid", cb.getUid()); 
 			cmBean.put("content", cb.getContent()); 
 			cmBean.put("upvote" , cb.getUpvote()); 
-			cmBean.put("downvote" , cb.getDownvote()); 
+			cmBean.put("downvote" , cb.getDownvote());
+			
+			cmBean.put("alive", cb.getAlive()); 
+			cmBean.put("ref" , cb.getRef()); 
+			cmBean.put("lev" , cb.getLev()); 
 			
 			cmList.add(cmBean); 
 		}

@@ -59,7 +59,10 @@ public class BoardDAO extends ObjectDAO {
 		try {
 			conn = getConnection(); 
 			//String sql = "select b.* , count(c.bid) from board b order by bid desc "; 
-			String sql = "select b.* , count(c.cm_id) as cm_count from board b left join comment c on b.bid = c.bid group by(b.bid) order by bid desc" ; 
+			//String sql = "select b.* , count(c.cm_id) as cm_count from board b left join comment c on b.bid = c.bid group by(b.bid) order by bid desc" ;
+			
+			// 댓글 삭제 수정한 뒤 변경. 
+			String sql = "select b.* , sum(ifnull(c.alive,0)) as cm_count from board b left join comment c on b.bid = c.bid group by(b.bid) order by bid desc" ;
 		
 			pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery(); 

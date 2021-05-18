@@ -7,14 +7,37 @@ public class CommentBean {
 	private String uid; //댓글 작성자
 	private String content ; //댓글 내용 
 	
-	//댓글의 답글?? 
-	//댓글 작성 시간
+	private int lev ; // 답글 들여쓰기  
+	private int ref ; // 부모 댓글(답글의 최상위 댓글) 
+	private int alive ; // 삭제 여부 
 	
-	//댓글 추천/비추천 숫자?
+	// TODO : 댓글 작성 시간
+	
+	//댓글 추천/비추천 숫자
 	private int upvote ; 
 	private int downvote; 
 	
 	
+	public int getLev() {
+		return lev;
+	}
+	public void setLev(int lev) {
+		this.lev = lev;
+	}
+	public int getRef() {
+		return ref;
+	}
+	public void setRef(int ref) {
+		this.ref = ref;
+	}
+
+	public int getAlive() {
+		return alive;
+	}
+	public void setAlive(int alive) {
+		this.alive = alive;
+	}
+
 	public int getUpvote() {
 		return upvote;
 	}
