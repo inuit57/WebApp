@@ -84,22 +84,94 @@ public class CommentDAO extends ObjectDAO{
 			// 추가로 답글인지 여부를 여기에서 확인해볼 필요가 있다. 
 			// lev을 다르게 변경해야 한다는 이야기입니다. 
 			// ref도 말이죠. 
-			sql = "select lev,ref from comment where cm_id = ? "; 
+			
+			int parent_cm_id = cb.getRef(); 
+			sql = "select lev,ref from comment where cm_id = ? "; 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, cb.getRef()); // 답글이 아닌 경우에는 0을 준다. 
+			pstmt.setInt(1, parent_cm_id); // 답글이 아닌 경우에는 0을 준다. 
 			rs = pstmt.executeQuery(); 
-			if(rs.next()){
+			if(rs.next()){ // 답글인 경우 
 				cb.setLev(rs.getInt("lev")+1);
-				cb.setRef(rs.getInt("ref")); 
+				
+				int ref_tmp = rs.getInt("ref"); 
+				int lev_tmp = rs.getInt("lev")+1; 
+				
+				// max를 구하려는 것은 부모로부터 댓글 여러 개를 달았을 때
+				// 제일 아래에 달리게 하려는 목적이다. 
+				
+				// 근데 이렇게 접근하면 중간에 댓글을 넣어주는 것이 조금 꼬일 수 있다. 
+				// 중간에 넣어주려고 한다면 바로 위의 부모 rel + 1 을 넣는 식으로 가야만 한다. 
+				
+				// 중간에 넣는 것을 어떻게 구분할 수 있을까. 
+				// 쿼리를 다르게 써야만 할 거 같네 이건. 
+				// ... 해당 lev에 다른 것이 있는지를 확인하는 식으로 처리해야 할듯. 
+				
+				// lev을 사용하면 되려나. 같은 lev에서 마지막으로 접근한다면 어떨까. 
+				// lev : 1 - max(rel)로 접근
+				// lev : 2 - 
+				
+				sql = "select count(*) from comment where ref = ? and lev= ? "; 
+				pstmt = conn.prepareStatement(sql); 
+				pstmt.setInt(1, ref_tmp);
+				pstmt.setInt(2, lev_tmp);
+				rs = pstmt.executeQuery(); 
+				
+				int cnt = 0 ; 
+				if(rs.next()){
+					cnt = rs.getInt(1); 
+				}
+				
+				rs = null; 
+				//System.out.println("count : " + cnt); 
+				
+				if( cnt > 0){
+					sql = "select max(rel) as rel from comment where ref = ? and lev >= ? "; 
+					pstmt = conn.prepareStatement(sql); 
+					pstmt.setInt(1, ref_tmp);
+					pstmt.setInt(2, lev_tmp);
+					rs = pstmt.executeQuery(); 
+					
+					if(rs.next()){
+						int rel_tmp = rs.getInt("rel")+1; 
+						
+						//System.out.println("max(rel) : "+ rel_tmp);
+						cb.setRel(rel_tmp); 
+						// 기존에 해당 rel 값을 가지고 있던 애들을 1칸 뒤로 밀어준다.
+						sql = "update comment set rel = rel +1 where rel >=  ?"; 
+						pstmt = conn.prepareStatement(sql); 
+						pstmt.setInt(1, cb.getRel());				
+						pstmt.executeUpdate();
+					}
+					
+				}else{ // 첫번째 자식을 만드는 경우.
+					sql = "select rel from comment where cm_id = ? "; 
+					pstmt = conn.prepareStatement(sql); 
+					pstmt.setInt(1, parent_cm_id);  
+					rs = pstmt.executeQuery();
+					
+					if(rs.next()){
+						int rel_tmp = rs.getInt("rel")+1; 
+						
+						//System.out.println("rel_tmp : " + rel_tmp);
+						
+						cb.setRel(rel_tmp); 
+						// 기존에 해당 rel 값을 가지고 있던 애들을 1칸 뒤로 밀어준다.
+						sql = "update comment set rel = rel +1 where rel >=  ?"; 
+						pstmt = conn.prepareStatement(sql); 
+						pstmt.setInt(1, rel_tmp);				
+						pstmt.executeUpdate();
+					}
+				}
+					
+				cb.setRef(ref_tmp);
 			}else{
 				//답글이 아닌 경우
 				cb.setRef(num+1);
 				cb.setLev(0);
 			}
-			
-			
-			sql = "insert into comment(cm_id, bid,uid,content,ref,lev,alive) " + 
-					           "values(  ?,    ? , ? , ?  ,   ?  , ? , 1) "; 
+				
+			sql = "insert into comment(cm_id, bid,uid,content,ref,lev,alive ,rel) " + 
+					           "values(  ?,    ? , ? , ?  ,   ?  , ? , 1, ?) "; 
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num+1);
@@ -114,6 +186,7 @@ public class CommentDAO extends ObjectDAO{
 			
 			pstmt.setInt(5, cb.getRef());  // ref	 
 			pstmt.setInt(6, cb.getLev());  // lev
+			pstmt.setInt(7, cb.getRel()); //rel 
 			
 			pstmt.executeUpdate();
 			
@@ -148,7 +221,7 @@ public class CommentDAO extends ObjectDAO{
 		// 답글 처리를 위해서 정렬 작업도 진행해야 한다. 
 		String sql = "select c.* , cv.up_vote as upvote, cv.down_vote as downvote " +
 				     "from comment c left join comment_vote cv on c.cm_id = cv.cm_id where c.bid= ? " + 
-				     "order by ref asc, cm_id asc"	;
+				     "order by ref asc , rel asc" ; // , cm_id asc"	;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bid);

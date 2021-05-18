@@ -10,13 +10,21 @@ public class CommentBean {
 	private int lev ; // 답글 들여쓰기  
 	private int ref ; // 부모 댓글(답글의 최상위 댓글) 
 	private int alive ; // 삭제 여부 
+	private int rel ; // 답글의 순서 구분용 
 	
 	// TODO : 댓글 작성 시간
 	
+
 	//댓글 추천/비추천 숫자
 	private int upvote ; 
 	private int downvote; 
 	
+	public int getRel() {
+		return rel;
+	}
+	public void setRel(int rel) {
+		this.rel = rel;
+	}
 	
 	public int getLev() {
 		return lev;
