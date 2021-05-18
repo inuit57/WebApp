@@ -80,14 +80,22 @@ public class CommentDAO extends ObjectDAO{
 				num = 0; 
 			}
 				
-			System.out.println(num+1);
-			System.out.println(cb.getBid());
-			System.out.println(cb.getUid());
-			System.out.println(cb.getContent());
 			
 			// 추가로 답글인지 여부를 여기에서 확인해볼 필요가 있다. 
 			// lev을 다르게 변경해야 한다는 이야기입니다. 
 			// ref도 말이죠. 
+			sql = "select lev,ref from comment where cm_id = ? "; 
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cb.getRef()); // 답글이 아닌 경우에는 0을 준다. 
+			rs = pstmt.executeQuery(); 
+			if(rs.next()){
+				cb.setLev(rs.getInt("lev")+1);
+				cb.setRef(rs.getInt("ref")); 
+			}else{
+				//답글이 아닌 경우
+				cb.setRef(num+1);
+				cb.setLev(0);
+			}
 			
 			
 			sql = "insert into comment(cm_id, bid,uid,content,ref,lev,alive) " + 
@@ -101,8 +109,11 @@ public class CommentDAO extends ObjectDAO{
 			
 			// 답글 작성할 때 이거를 처리해줘야한다.
 			// 답글이 아닌 경우에는 (cm_id , 0 ) 이 기본값이 된다. 
-			pstmt.setInt(5, num+1);  // ref	 
-			pstmt.setInt(6, 0 );     // lev 
+//			pstmt.setInt(5, num+1);  // ref	 
+//			pstmt.setInt(6, 0 );     // lev
+			
+			pstmt.setInt(5, cb.getRef());  // ref	 
+			pstmt.setInt(6, cb.getLev());  // lev
 			
 			pstmt.executeUpdate();
 			
@@ -134,8 +145,10 @@ public class CommentDAO extends ObjectDAO{
 //					 + "from comment c join comment_vote cv on c.cm_id = cv.cm_id where c.bid= ?" ;
 		
 		// "삭제된 댓글입니다." 보여주기 위해서 left outer join 처리.
-		String sql = "select c.* , cv.up_vote as upvote, cv.down_vote as downvote "
-				 + "from comment c left join comment_vote cv on c.cm_id = cv.cm_id where c.bid= ?" ;
+		// 답글 처리를 위해서 정렬 작업도 진행해야 한다. 
+		String sql = "select c.* , cv.up_vote as upvote, cv.down_vote as downvote " +
+				     "from comment c left join comment_vote cv on c.cm_id = cv.cm_id where c.bid= ? " + 
+				     "order by ref asc, cm_id asc"	;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bid);

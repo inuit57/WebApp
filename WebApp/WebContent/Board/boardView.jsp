@@ -127,6 +127,9 @@
 					if (item.alive != "0"){ // 삭제된 댓글이 아닐 경우.
 						t+="<tr>"; 
 						
+						if(item.lev > 0){
+							t+="<td colspan=' "+item.lev +" '> </td>"; 
+						}
 						t+="<td>"+ item.uid ; 
 						if("<%=uid%>" !=""){
 							t+= "<br><input  class='form-control' type='button' value='답글' onclick='openReply("+item.cm_id+")' "+
@@ -165,7 +168,7 @@
 							t+="<tr id='reply"+item.cm_id+"' class='collapse'>" ; 
 							t+="<td> <%=uid %> </td> "; 
 							t+="<td colspan='4'>" ;
-							t+="<input class='form-control' type='text' id='replyContent' name='replyContent' placeholder='답글' required='required'>";
+							t+="<input class='form-control' type='text' id='replyContent"+item.cm_id+"' placeholder='답글' required='required'>";
 							t+="</td>";
 			 				t+="<td><input class='form-control' id='reply_write' type='button' value='작성' onclick='insertComment("+item.cm_id+")'></td>";
 												
@@ -457,6 +460,9 @@
 							// 답글인 경우에 처리를 다르게 할 것. 
 								var content = $("#content").val() ; 
 								
+								if( isReply != 0){
+									content = $("#replyContent"+isReply).val(); 
+								}
 								$.ajax({ 
 									url : "Comment/insertComment.jsp",
 									type : "post", 
