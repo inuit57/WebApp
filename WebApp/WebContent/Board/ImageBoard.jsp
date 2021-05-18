@@ -128,7 +128,7 @@
 			<%
 			 	String file_name = arrBB.get(i*listCut + j).getFile_name(); 
 			 	if( (file_name != null && !file_name.equals(""))){
-			 		if((file_name.indexOf(".jpg") > -1) || (file_name.indexOf(".png") > -1)){
+			 		if((file_name.indexOf(".jpg") > -1) || (file_name.indexOf(".png") > -1) || (file_name.indexOf(".JPG") > -1) || (file_name.indexOf(".PNG") > -1)){
 			 		//System.out.println((file_name.indexOf(".png")) ); 
 			 		// 파일 이름이 jpg , png 인 경우에 처리하도록. 
 			 		ServletContext ctx = getServletContext(); 
