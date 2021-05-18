@@ -122,7 +122,7 @@ public class CommentDAO extends ObjectDAO{
 				}
 				
 				rs = null; 
-				System.out.println("count : " + cnt); 
+				//System.out.println("count : " + cnt); 
 				
 				if( cnt > 0){
 					sql = "select max(rel) as rel from comment where ref = ? and lev >= ? "; 
@@ -134,7 +134,7 @@ public class CommentDAO extends ObjectDAO{
 					if(rs.next()){
 						int rel_tmp = rs.getInt("rel")+1; 
 						
-						System.out.println("max(rel) : "+ rel_tmp);
+						//System.out.println("max(rel) : "+ rel_tmp);
 						cb.setRel(rel_tmp); 
 						// 기존에 해당 rel 값을 가지고 있던 애들을 1칸 뒤로 밀어준다.
 						sql = "update comment set rel = rel +1 where rel >=  ?"; 
@@ -152,7 +152,7 @@ public class CommentDAO extends ObjectDAO{
 					if(rs.next()){
 						int rel_tmp = rs.getInt("rel")+1; 
 						
-						System.out.println("rel_tmp : " + rel_tmp);
+						//System.out.println("rel_tmp : " + rel_tmp);
 						
 						cb.setRel(rel_tmp); 
 						// 기존에 해당 rel 값을 가지고 있던 애들을 1칸 뒤로 밀어준다.
@@ -169,10 +169,7 @@ public class CommentDAO extends ObjectDAO{
 				cb.setRef(num+1);
 				cb.setLev(0);
 			}
-			
-			
-			
-			
+				
 			sql = "insert into comment(cm_id, bid,uid,content,ref,lev,alive ,rel) " + 
 					           "values(  ?,    ? , ? , ?  ,   ?  , ? , 1, ?) "; 
 			
