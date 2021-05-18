@@ -41,7 +41,7 @@
 	 <%if(ub.getUserGrant() == 3){ %> [관리자]
 	 <%}else if(ub.getUserGrant() == 2){ %> [운영진]
 	 <%}else if(ub.getUserGrant() == 1){ %> [정회원]
-	 <%}else if(ub.getUserGrant() == 1){ %> [준회원] <%} %>
+	 <%}else if(ub.getUserGrant() == 0){ %> [준회원] <%} %>
 	 <%=id %>님 환영합니다.
 	 
 	 </h2>
