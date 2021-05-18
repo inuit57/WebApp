@@ -31,6 +31,10 @@ public class CommentDAO extends ObjectDAO{
 				cb.setCm_id(rs.getInt("cm_id"));
 				cb.setContent(rs.getString("content"));
 				cb.setUid(rs.getString("uid"));
+				
+				cb.setRef(rs.getInt("ref"));
+				cb.setLev(rs.getInt("lev"));
+				cb.setAlive(rs.getInt("alive"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -45,7 +49,7 @@ public class CommentDAO extends ObjectDAO{
 	public int getCommentCnt(String uid){
 		conn = getConnection();
 		try {
-			String sql = "select count(cm_id) from comment where uid = ?";
+			String sql = "select count(cm_id) from comment where uid = ? and alive = 1";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, uid);
 			
@@ -61,6 +65,7 @@ public class CommentDAO extends ObjectDAO{
 		return 0 ; 
 	} // getCommentCnt(String uid){
 	
+	
 	public boolean insertComment(CommentBean cb){
 		int num = 0 ; 
 		try {
@@ -75,18 +80,40 @@ public class CommentDAO extends ObjectDAO{
 				num = 0; 
 			}
 				
-			System.out.println(num+1);
-			System.out.println(cb.getBid());
-			System.out.println(cb.getUid());
-			System.out.println(cb.getContent());
 			
-			sql = "insert into comment values(?, ? , ? , ? ) "; 
+			// 추가로 답글인지 여부를 여기에서 확인해볼 필요가 있다. 
+			// lev을 다르게 변경해야 한다는 이야기입니다. 
+			// ref도 말이죠. 
+			sql = "select lev,ref from comment where cm_id = ? "; 
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cb.getRef()); // 답글이 아닌 경우에는 0을 준다. 
+			rs = pstmt.executeQuery(); 
+			if(rs.next()){
+				cb.setLev(rs.getInt("lev")+1);
+				cb.setRef(rs.getInt("ref")); 
+			}else{
+				//답글이 아닌 경우
+				cb.setRef(num+1);
+				cb.setLev(0);
+			}
+			
+			
+			sql = "insert into comment(cm_id, bid,uid,content,ref,lev,alive) " + 
+					           "values(  ?,    ? , ? , ?  ,   ?  , ? , 1) "; 
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num+1);
 			pstmt.setInt(2, cb.getBid());
 			pstmt.setString(3, cb.getUid());
 			pstmt.setString(4, cb.getContent());
+			
+			// 답글 작성할 때 이거를 처리해줘야한다.
+			// 답글이 아닌 경우에는 (cm_id , 0 ) 이 기본값이 된다. 
+//			pstmt.setInt(5, num+1);  // ref	 
+//			pstmt.setInt(6, 0 );     // lev
+			
+			pstmt.setInt(5, cb.getRef());  // ref	 
+			pstmt.setInt(6, cb.getLev());  // lev
 			
 			pstmt.executeUpdate();
 			
@@ -114,8 +141,14 @@ public class CommentDAO extends ObjectDAO{
 		conn = getConnection(); 
 		CommentBean cb = null ; 
 		//String sql = "select * from comment where bid= ? ";
-		String sql = "select c.* , cv.up_vote as upvote, cv.down_vote as downvote "
-					 + "from comment c join comment_vote cv on c.cm_id = cv.cm_id where c.bid= ?" ; 
+//		String sql = "select c.* , cv.up_vote as upvote, cv.down_vote as downvote "
+//					 + "from comment c join comment_vote cv on c.cm_id = cv.cm_id where c.bid= ?" ;
+		
+		// "삭제된 댓글입니다." 보여주기 위해서 left outer join 처리.
+		// 답글 처리를 위해서 정렬 작업도 진행해야 한다. 
+		String sql = "select c.* , cv.up_vote as upvote, cv.down_vote as downvote " +
+				     "from comment c left join comment_vote cv on c.cm_id = cv.cm_id where c.bid= ? " + 
+				     "order by ref asc, cm_id asc"	;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bid);
@@ -128,6 +161,10 @@ public class CommentDAO extends ObjectDAO{
 				cb.setUid(rs.getString("uid"));
 				cb.setUpvote(rs.getInt("upvote"));
 				cb.setDownvote(rs.getInt("downvote"));
+				
+				cb.setLev(rs.getInt("lev"));
+				cb.setAlive(rs.getInt("alive"));
+				cb.setRef(rs.getInt("ref"));
 				arrCb.add(cb); 
 			}
 			//System.out.println("댓글 갯수 총 "+ arrCb.size()+"개");
@@ -154,6 +191,7 @@ public class CommentDAO extends ObjectDAO{
 			pstmt.setInt(1, bid);
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()){
+				if(rs.getInt("alive") == 0) continue; //삭제된 댓글은 베스트 댓글에 표시 X
 				cb = new CommentBean(); 
 				//cb.setBid(bid);
 				cb.setCm_id(rs.getInt("cm_id"));
@@ -161,6 +199,7 @@ public class CommentDAO extends ObjectDAO{
 				cb.setUid(rs.getString("uid"));
 				cb.setUpvote(rs.getInt("upvote"));
 				cb.setDownvote(rs.getInt("downvote"));
+				
 				arrCb.add(cb); 
 			}
 			//System.out.println("댓글 갯수 총 "+ arrCb.size()+"개");
@@ -224,7 +263,10 @@ public class CommentDAO extends ObjectDAO{
 			pstmt.executeUpdate();
 			
 			//마지막으로 comment 테이블에서 삭제 진행 
-			sql = "delete from comment where bid=? and cm_id=?";
+			//sql = "delete from comment where bid=? and cm_id=?";
+			
+			// 삭제하는 대신, alive 를 0으로 변경.
+			sql = "update comment set alive = 0  where bid=? and cm_id=?";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, cb.getBid());

@@ -11,6 +11,7 @@
 
 <%
 	CommentDAO cDAO = new CommentDAO(); 
+
 	boolean flag = cDAO.insertComment(cb);
 	
 	String id = (String)session.getAttribute("id"); 

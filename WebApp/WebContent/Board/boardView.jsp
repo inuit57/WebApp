@@ -124,43 +124,62 @@
 				var t = ""; 
 				
 				$.each(data, function(index,item ){
-					
-					t+="<tr>"; 
-					t+="<td>"+ item.uid +"<br><input  class='form-control' type='button' value='답글' onclick='openReply("+item.cm_id+")' "+
-						" data-toggle='collapse' data-target='#reply"+item.cm_id+"' aria-expanded='false' aria-controls='collapseExample'>"+"</td>";
-					t+="<td colspan = '3'><input  class='form-control'  type='text' style='background-color:white; border:none;' "+ 
-						"value="+item.content+" id='comment"+item.cm_id+ "' readonly='readonly'> </td>"; 
-					
-					t+="<td align='center' style='vertical-align:middle;'><a href='javascript:void(0);' id='upvote"+item.cm_id+ "' "+ 
-						"onclick='upvoteComment("+item.cm_id+")'>"+ item.upvote +"<br>[▲]</a></td>";
-					t+="<td align='center' style='vertical-align:middle;'><a href='javascript:void(0);' id='downvote"+item.cm_id+"' "+
-						"onclick='downvoteComment("+item.cm_id + " )'>"+ item.downvote +"<br>[▼]</a></td>";
-											
-					// 이렇게 하면 함수 리턴 값 출력 신경안쓰고 할 수 있다.
-					// 클릭해도 최상위로 안가고 좋아 좋아. 
-
-					t+="<td>" ;
-					//수정 기능은 당사자만 가능하도록 
-					if(item.uid == '<%=uid%>'){						 
-						t+='<input  class="form-control"  type="button" id="btn'+item.cm_id+'" value="수정" onclick="editComment('+item.cm_id+ ')"><br>' ;
-					}	
-					//삭제 기능은 관리자 또는 당사자가 가능하도록.
-					if( (item.uid == '<%=uid%>') || (<%=isAdmin%>) ){
-						t+='<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('+item.cm_id+')">' ;
+					if (item.alive != "0"){ // 삭제된 댓글이 아닐 경우.
+						t+="<tr>"; 
+						
+						if(item.lev > 0){
+							t+="<td colspan=' "+item.lev +" '> </td>"; 
+						}
+						t+="<td>"+ item.uid ; 
+						if("<%=uid%>" !=""){
+							t+= "<br><input  class='form-control' type='button' value='답글' onclick='openReply("+item.cm_id+")' "+
+							" data-toggle='collapse' data-target='#reply"+item.cm_id+"' aria-expanded='false' aria-controls='collapseExample'>" ;
+						}
+						t+="</td>";
+						t+="<td colspan = '3'><input  class='form-control'  type='text' style='background-color:white; border:none;' "+ 
+							"value="+item.content+" id='comment"+item.cm_id+ "' readonly='readonly'> </td>"; 
+						
+						t+="<td align='center' style='vertical-align:middle;'><a href='javascript:void(0);' id='upvote"+item.cm_id+ "' "+ 
+							"onclick='upvoteComment("+item.cm_id+")'>"+ item.upvote +"<br>[▲]</a></td>";
+						t+="<td align='center' style='vertical-align:middle;'><a href='javascript:void(0);' id='downvote"+item.cm_id+"' "+
+							"onclick='downvoteComment("+item.cm_id + " )'>"+ item.downvote +"<br>[▼]</a></td>";
+												
+						// 이렇게 하면 함수 리턴 값 출력 신경안쓰고 할 수 있다.
+						// 클릭해도 최상위로 안가고 좋아 좋아. 
+	
+						if("<%=uid%>" !=""){
+							t+="<td>" ;
+							//수정 기능은 당사자만 가능하도록 
+							if(item.uid == '<%=uid%>'){						 
+								t+='<input  class="form-control"  type="button" id="btn'+item.cm_id+'" value="수정" onclick="editComment('+item.cm_id+ ')"><br>' ;
+							}	
+							//삭제 기능은 관리자 또는 당사자가 가능하도록.
+							if( (item.uid == '<%=uid%>') || (<%=isAdmin%>) ){
+								t+='<input  class="form-control"  type="button" value="삭제" onclick="deleteComment('+item.cm_id+')">' ;
+							}
+							t+="</td>"; 
+						}
+						
+						t+="</tr>"; 
+						
+						if("<%=uid%>" !=""){
+							//답글 칸 만들기					 
+							//id : reply+댓글번호
+							t+="<tr id='reply"+item.cm_id+"' class='collapse'>" ; 
+							t+="<td> <%=uid %> </td> "; 
+							t+="<td colspan='4'>" ;
+							t+="<input class='form-control' type='text' id='replyContent"+item.cm_id+"' placeholder='답글' required='required'>";
+							t+="</td>";
+			 				t+="<td><input class='form-control' id='reply_write' type='button' value='작성' onclick='insertComment("+item.cm_id+")'></td>";
+												
+							t+="</tr>" ;
+						}
+						//input[name=...]:checked).val
+					}else if($('input[name=showOpt1]:checked').val() == 'O'){
+						t+="<tr>";
+						t+="<td colspan='7'> 삭제된 댓글입니다.</td>" ;
+						t+="</tr>"; 
 					}
-					t+="</td>"; 
-					t+="</tr>"; 
-					
-					//답글 칸 만들기					 
-					//id : reply+댓글번호
-					t+="<tr id='reply"+item.cm_id+"' class='collapse'>" ; 
-					t+="<td> <%=uid %> </td> "; 
-					t+="<td colspan='5'>" ;
-					t+="<input class='form-control' type='text' id='replyContent' name='replyContent' placeholder='답글' required='required'>";
-					t+="</td>";
-	 				t+="<td><input class='form-control' id='reply_write' type='button' value='작성' onclick='insertComment()'></td>";
-										
-					t+="</tr>" ;
 				})
 				$('#commentList').append(t);
 			}
@@ -396,6 +415,7 @@
 			 <ul class="nav nav-tabs" role="tablist">
 			    <li role="presentation" class="active"><a href="#bestComment" aria-controls="bestComment" role="tab" data-toggle="tab">베스트 댓글</a></li>
 			    <li role="presentation" ><a href="#allComment" aria-controls="allComment" role="tab" data-toggle="tab">전체 댓글</a></li>
+			    <li role="presentation" ><a href="#optionCheck" aria-controls="optionCheck" role="tab" data-toggle="tab">댓글 옵션</a></li>
 			 </ul>
 			 <div class="tab-content">
 			    <div role="tabpanel" class="tab-pane active" id="bestComment">
@@ -416,6 +436,17 @@
 						</tr>
 					</table>
 			    </div>
+				<div role="tabpanel" class="tab-pane" id="optionCheck">
+				    삭제댓글 표시
+				    <div class="btn-group" data-toggle="buttons">
+					  <label class="btn btn-primary active">
+					    <input type="radio" name="showOpt1" id="showDelete1" value="O" autocomplete="off"> O
+					  </label>
+					  <label class="btn btn-primary">
+					    <input type="radio" name="showOpt1" id="showDelete2" value="X" autocomplete="off" checked> X
+					  </label>
+				    </div>
+				</div>	
 			  </div>
 			</div>
 			</td>
@@ -431,21 +462,24 @@
 					<td colspan="4">
 						<input class="form-control"  type="text" id="content" name="content" placeholder="댓글" required="required" autocomplete="off" >
 					</td>
-					<td><input  class="form-control"  id="comment_write" type="button" value="작성" onclick="insertComment(1)"></td>
+					<td><input  class="form-control"  id="comment_write" type="button" value="작성" onclick="insertComment(0)"></td>
 					<script>
 					
 						function insertComment(isReply){
 							// TODO : Ajax로 변경할 것.  
 							//location.href="Comment/insertComment.jsp?uid=<%=session.getAttribute("id") %>"+"&content="+document.getElementById('content').value+"&bid=<%=bid%>";
 							
-							if (isReply == 1){ // 1인 경우 답글이 아님 
+							//if (isReply == 0){ // 1인 경우 답글이 아님 
 							// 답글인 경우에 처리를 다르게 할 것. 
 								var content = $("#content").val() ; 
 								
+								if( isReply != 0){
+									content = $("#replyContent"+isReply).val(); 
+								}
 								$.ajax({ 
 									url : "Comment/insertComment.jsp",
 									type : "post", 
-									data : {uid : "<%=uid %>" ,content : content , bid : "<%=bid%>" }, 
+									data : {uid : "<%=uid %>" ,content : content , bid : "<%=bid%>" , ref : isReply }, 
 									datayType :"json" , 
 									success:function(data){
 										commentLoad(); 
@@ -462,9 +496,7 @@
 										console.log("error") ; 
 									}
 								});
-							}else{ //답글인 경우의 처리. 
-								
-							}
+							//}
 						}
 					</script>
 				</tr>
