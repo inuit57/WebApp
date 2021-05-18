@@ -174,7 +174,8 @@
 												
 							t+="</tr>" ;
 						}
-					}else{
+						//input[name=...]:checked).val
+					}else if($('input[name=showOpt1]:checked').val() == 'O'){
 						t+="<tr>";
 						t+="<td colspan='7'> 삭제된 댓글입니다.</td>" ;
 						t+="</tr>"; 
@@ -414,6 +415,7 @@
 			 <ul class="nav nav-tabs" role="tablist">
 			    <li role="presentation" class="active"><a href="#bestComment" aria-controls="bestComment" role="tab" data-toggle="tab">베스트 댓글</a></li>
 			    <li role="presentation" ><a href="#allComment" aria-controls="allComment" role="tab" data-toggle="tab">전체 댓글</a></li>
+			    <li role="presentation" ><a href="#optionCheck" aria-controls="optionCheck" role="tab" data-toggle="tab">댓글 옵션</a></li>
 			 </ul>
 			 <div class="tab-content">
 			    <div role="tabpanel" class="tab-pane active" id="bestComment">
@@ -434,6 +436,17 @@
 						</tr>
 					</table>
 			    </div>
+				<div role="tabpanel" class="tab-pane" id="optionCheck">
+				    삭제댓글 표시
+				    <div class="btn-group" data-toggle="buttons">
+					  <label class="btn btn-primary active">
+					    <input type="radio" name="showOpt1" id="showDelete1" value="O" autocomplete="off"> O
+					  </label>
+					  <label class="btn btn-primary">
+					    <input type="radio" name="showOpt1" id="showDelete2" value="X" autocomplete="off" checked> X
+					  </label>
+				    </div>
+				</div>	
 			  </div>
 			</div>
 			</td>
