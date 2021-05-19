@@ -14,3 +14,5 @@
     1) 외래키 먼저 삭제 (게시글 삭제)
     2) 삭제 여부를 관리할 컬럼 추가 (댓글 삭제)
     3) 새로운 컬럼을 넣고, 해당 컬럼으로 FK를 update후 삭제 (회원탈퇴)
+
+- [PPT](https://docs.google.com/presentation/d/1tCH_S4Dj-LJbffTJgzC5ETcTaV-iLMwKudvKMH-ot_c/edit?usp=sharing)
