@@ -438,8 +438,6 @@
 					<input type="button"  class="form-control"  value="목록" onclick="moveList()">
 				</td> 
 			</tr>
-			
-			
 			<!-- TODO : 베스트 댓글 3개 정도 넣어주기  -->
 			
 			<!--  댓글들 읽어서 테이블 형태로 찍어주기 -->
@@ -485,8 +483,6 @@
 			</div>
 			</td>
 			</tr>
-			
-			
 			<!--  댓글 유효성 검사 : required로 대체. -->
 		 	<% if(!uid.equals("")){ %>
 				<tr>
