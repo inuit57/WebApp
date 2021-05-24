@@ -413,19 +413,19 @@
 			<td colspan="7">
 			<div role="tabpanel">
 			 <ul class="nav nav-tabs" role="tablist">
-			    <li role="presentation" class="active"><a href="#bestComment" aria-controls="bestComment" role="tab" data-toggle="tab">베스트 댓글</a></li>
-			    <li role="presentation" ><a href="#allComment" aria-controls="allComment" role="tab" data-toggle="tab">전체 댓글</a></li>
+			    <li role="presentation" ><a href="#bestComment" aria-controls="bestComment" role="tab" data-toggle="tab">베스트 댓글</a></li>
+			    <li role="presentation" class="active"><a href="#allComment" aria-controls="allComment" role="tab" data-toggle="tab">전체 댓글</a></li>
 			    <li role="presentation" ><a href="#optionCheck" aria-controls="optionCheck" role="tab" data-toggle="tab">댓글 옵션</a></li>
 			 </ul>
 			 <div class="tab-content">
-			    <div role="tabpanel" class="tab-pane active" id="bestComment">
+			    <div role="tabpanel" class="tab-pane" id="bestComment">
 			    	<table id="bestCommentList" class="table table-bordered " >
 			    		<tr id="bestCommentHead">
 							<td colspan="6" align="center"> [베스트 댓글 목록]</td>
 						</tr>
 					</table>
 			    </div>
-			    <div role="tabpanel" class="tab-pane" id="allComment">
+			    <div role="tabpanel" class="tab-pane active"  id="allComment">
 			    	<table id="commentList" class="table table-bordered" >
 						<tr id="commentHead">
 							<td colspan="4" align="center"> [댓글 목록] </td>
