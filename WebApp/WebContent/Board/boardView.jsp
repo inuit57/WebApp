@@ -342,6 +342,40 @@
 			}
 		});
 	}
+	
+	function insertComment(isReply){
+		// TODO : Ajax로 변경할 것.  
+		//location.href="Comment/insertComment.jsp?uid=<%=session.getAttribute("id") %>"+"&content="+document.getElementById('content').value+"&bid=<%=bid%>";
+		
+		//if (isReply == 0){ // 1인 경우 답글이 아님 
+		// 답글인 경우에 처리를 다르게 할 것. 
+			var content = $("#content").val() ; 
+			
+			if( isReply != 0){
+				content = $("#replyContent"+isReply).val(); 
+			}
+			$.ajax({ 
+				url : "Comment/insertComment.jsp",
+				type : "post", 
+				data : {uid : "<%=uid %>" ,content : content , bid : "<%=bid%>" , ref : isReply }, 
+				datayType :"json" , 
+				success:function(data){
+					commentLoad(); 
+					$("#content").val(""); //댓글 내용 지워주기 
+					if ( data.grantUpdate == "yes"){
+						alert("축하합니다. 정회원으로 등업되었습니다.");
+						//일단은 보여주기 용도...입니다. 
+						//관리자에 의해서 강등되거나 하였을 경우 
+						//그리고 댓글을 지우고 다시 등업을 시도하는 등의 꼼수는 막아야할 겁니다. 
+					}
+					console.log("댓글 작성 완료!") ; 
+				},
+				error:function(data){
+					console.log("error") ; 
+				}
+			});
+		//}
+	}
 </script>					
 
 <!--  header 시작 -->
@@ -456,49 +490,11 @@
 			<!--  댓글 유효성 검사 : required로 대체. -->
 		 	<% if(!uid.equals("")){ %>
 				<tr>
-					<%-- <td align="center"><input  class="form-control" type="text" name="uid" value='<%=session.getAttribute("id") %>' readonly="readonly"></td> --%>
-					
 					<td> <%=uid %> </td> 
 					<td colspan="4">
 						<input class="form-control"  type="text" id="content" name="content" placeholder="댓글" required="required" autocomplete="off" >
 					</td>
 					<td><input  class="form-control"  id="comment_write" type="button" value="작성" onclick="insertComment(0)"></td>
-					<script>
-					
-						function insertComment(isReply){
-							// TODO : Ajax로 변경할 것.  
-							//location.href="Comment/insertComment.jsp?uid=<%=session.getAttribute("id") %>"+"&content="+document.getElementById('content').value+"&bid=<%=bid%>";
-							
-							//if (isReply == 0){ // 1인 경우 답글이 아님 
-							// 답글인 경우에 처리를 다르게 할 것. 
-								var content = $("#content").val() ; 
-								
-								if( isReply != 0){
-									content = $("#replyContent"+isReply).val(); 
-								}
-								$.ajax({ 
-									url : "Comment/insertComment.jsp",
-									type : "post", 
-									data : {uid : "<%=uid %>" ,content : content , bid : "<%=bid%>" , ref : isReply }, 
-									datayType :"json" , 
-									success:function(data){
-										commentLoad(); 
-										$("#content").val(""); //댓글 내용 지워주기 
-										if ( data.grantUpdate == "yes"){
-											alert("축하합니다. 정회원으로 등업되었습니다.");
-											//일단은 보여주기 용도...입니다. 
-											//관리자에 의해서 강등되거나 하였을 경우 
-											//그리고 댓글을 지우고 다시 등업을 시도하는 등의 꼼수는 막아야할 겁니다. 
-										}
-										console.log("댓글 작성 완료!") ; 
-									},
-									error:function(data){
-										console.log("error") ; 
-									}
-								});
-							//}
-						}
-					</script>
 				</tr>
 			<%} %>
 			<tr>
