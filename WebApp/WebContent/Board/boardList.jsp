@@ -29,17 +29,10 @@
 
 <script type="text/javascript">
 	function prePage(curr , min , listCnt){
-		//function prePage(curr){
-		//location.href="boardList.jsp?currentIndex="+(curr-1);
 		var c_len = String(curr).length;
 		
 		curr = curr - 1; 
 		if(curr < min){ curr = min; }
-		
-		//alert(location.href); 
-		//location.href="boardList.jsp?currentIndex="+(curr) +"&listCnt="+listCnt;
-		
-		//location.href +="&currentIndex="+(curr) +"&listCnt="+listCnt;
 		
 		// 주소에 있는 정보는 내가 가지고 있다. 
 		// 여기에서 바뀌어야 하는 정보는 curr 정보.
@@ -314,6 +307,7 @@
 			<input type="text"   class="form-control" name="searchText" 
 				<%if (searchText!=null){ %>value=<%=searchText %> <%} %> > <!-- placeholder="검색어를 입력하세요."> -->
 		</div>
+		<input type="hidden" name="listCnt" value="<%=listCut %>" > 
 	</div>
 	<input type="submit"  class="btn btn-default" value="검색">
 </form>
@@ -323,11 +317,9 @@
 <div align="center">
 <%
 	//이전 버튼
-		//if(pageStart > pageCut){
 			%>
 			<input type="button"  class="btn btn-default" value="이전" onclick="prePage(<%=currentIndex%>,1,<%=listCut%>)">
 			<%
-		//}
 		//페이지 번호 출력.
 		for(i= pageStart ; i <= pageEnd ; i++){
 %>
