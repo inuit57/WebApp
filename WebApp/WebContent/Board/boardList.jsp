@@ -26,7 +26,6 @@
 	
 </style>
 
-
 <script type="text/javascript">
 	function prePage(curr , min , listCnt){
 		var c_len = String(curr).length;
@@ -46,22 +45,14 @@
 			var cut_idx = curr_link.indexOf("currentIndex=") ;
 			var tmp_len = "currentIndex=".length; 
 			 
-//			console.log("c_len : "+ c_len);
-//			console.log("cut_idx : "+ cut_idx) ; 
-//			console.log(curr_link.substr(0, cut_idx+tmp_len));
-//			console.log(curr_link.substr(cut_idx+tmp_len+c_len));  
-
 			location.href = curr_link.substr(0, cut_idx+tmp_len)+curr+curr_link.substr(cut_idx+tmp_len+c_len) ;
 		}
 	}
 
 	function postPage(curr, max,listCnt){
-		//function postPage(curr){
-		//location.href="boardList.jsp?currentIndex="+(curr+1);
 		var c_len = String(curr).length;  
 		curr = curr + 1; 
 		if(curr > max) { curr = max; }
-		//location.href="boardList.jsp?currentIndex="+(curr)+"&listCnt="+listCnt;;
 		
 		var curr_link = location.href ; 
 		if( curr_link.indexOf("?") < 0 ){
@@ -71,11 +62,6 @@
 		}else{
 			var cut_idx = curr_link.indexOf("currentIndex=") ;
 			var tmp_len = "currentIndex=".length; 
-			 
-//			console.log("c_len : "+ c_len);
-//			console.log("cut_idx : "+ cut_idx) ; 
-//			console.log(curr_link.substr(0, cut_idx+tmp_len));
-//			console.log(curr_link.substr(cut_idx+tmp_len+c_len));  
 
 			location.href = curr_link.substr(0, cut_idx+tmp_len)+curr+curr_link.substr(cut_idx+tmp_len+c_len) ;
 		}
@@ -94,7 +80,6 @@
 			 
 			location.href = curr_link.substr(0, cut_idx+tmp_len)+listCnt ;//+curr_link.substr(cut_idx+tmp_len) ;
 		}
-		//location.href="boardList.jsp?listCnt="+listCnt; 
 	}
 	
 	function userGrantCheck(btype){
@@ -117,19 +102,10 @@
 	String listCnt = request.getParameter("listCnt"); 
 	String id = (String)session.getAttribute("id");
 	
-	
+	//검색용 
 	String btype = request.getParameter("btype");
-	
 	String searchType = request.getParameter("searchType");
-
 	String searchText = request.getParameter("searchText");
-	
-	
-	if(id == null){
-		//response.sendRedirect("../User/Login/main.jsp");
-		//메인으로 이동시키는 대신, 비회원이더라도 기능 제한을 두고 
-		//글 내용을 확인하는 것은 가능하도록? 
-	}
 	
 	//TODO : 세션 또는 쿠키에 저장하자. 
 	// curr, listCnt  
@@ -143,10 +119,8 @@
 
 	session.setAttribute("viewType", "1");  // 1 : list 
 	session.setMaxInactiveInterval(5000); 
-
 	
 	BoardDAO bDao = new BoardDAO(); 
-	
 	
 	ArrayList<BoardBean> arrBB = bDao.getBoardList(); //아무 조건도 안 주었을 경우에 나오는 경우
 	
@@ -161,11 +135,7 @@
 	if ( searchText != null) { 
 		System.out.println(searchText); 
 		arrBB = bDao.getBoardList(btype, searchType, searchText); 				
-	}else{
-		//System.out.println("아무것도 없사와요");
 	}
-	
-	
 	
 	int size = arrBB.size();  // 전체 게시글 숫자
 	int listCut = 3; //한 페이지 목록에 보여질 게시글의 숫자.
@@ -326,15 +296,10 @@
 			<a href="boardList.jsp?currentIndex=<%=i %>"><%=i %></a>
 	<%} 	
 	%>
-	<%//다음 버튼
-	//if(pageEnd < maxIndex ){
-	%>
 		<input type="button"  class="btn btn-default" value="다음" onclick="postPage(<%=currentIndex%>,<%=maxIndex%>,<%=listCut%>)">
-	<%//}	%>
 </div>	
-</div>
 <%		
-	}else{
+	}else{ //if(size >0){
 	%>
 	등록된 글이 없습니다.
 <% }%>
