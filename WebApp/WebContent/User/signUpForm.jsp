@@ -42,8 +42,38 @@
 	//이메일을 다르게 입력할 경우 다시 인증을 진행하도록 하기. 
 	//이메일 인증을 진행하고 변경하더라도 다시 하도록. 
 	function eamilCheckAgain(){ 
-		$("#emailCheck22").text("이메일 인증을 진행하세요.");
-		$("#emailCheck22").css("color" , "red");
+		
+		$.ajax({
+			url : "emailDuplCheck.jsp",
+			data : {email : $("#email").val()} ,
+			dataType : "json",
+			success: function(data){
+				console.log(data.flag); 
+				if(data.flag == "false"){
+					 
+					$("#emailCheck22").text("이메일 인증을 진행하세요.");
+					$("#emailCheck22").css("color" , "red"); 
+					 		
+				}else{
+					$("#emailCheck22").text("이미 사용 중인 이메일입니다.");
+					$("#emailCheck22").css("color" , "red");
+					 
+				}
+				
+				if($("#email").val() == ""){
+					$("#emailCheck22").text("이메일을 입력하세요.");
+					$("#emailCheck22").css("color" , "red");
+					
+				}
+			},
+			error : function(data) {
+				console.log(data);
+				console.log("error") ; 
+				
+			}
+		}); //ajax 끝
+// 		$("#emailCheck22").text("이메일 인증을 진행하세요.");
+// 		$("#emailCheck22").css("color" , "red"); 
 	}
 	
 	function pwdCheck(){
@@ -240,8 +270,14 @@
 			return ;
 		}
 		
-		window.open( "emailCheckPro.jsp?email="+document.fr.email.value  , "이메일 인증","width=500,height=600")
-		 
+		if( $("#emailCheck22").text() == "이미 사용 중인 이메일입니다." ){
+			if(confirm("이미 가입된 회원입니다. 회원 정보 찾기로 이동하시겠습니까?")){
+				location.href = "idPwSearch.jsp"; 			
+			}
+			return; 
+		}else{
+			window.open( "emailCheckPro.jsp?email="+document.fr.email.value  , "이메일 인증","width=500,height=600")
+		}
 	}
 	
     function searchPostCode() {

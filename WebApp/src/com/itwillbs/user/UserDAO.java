@@ -21,6 +21,28 @@ public class UserDAO extends ObjectDAO {
 	//UserBean ub = new UserBean.Builder().build(); 
 	// 이렇게 하면 그냥 빈 객체 생성된다. 
 	
+	public boolean emailCheck(String email){
+		try {
+			conn = getConnection(); 
+
+			String sql = "select email from userInfo where email = ?" ; 
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, email);
+			
+			ResultSet rs = pstmt.executeQuery(); 
+			if(rs.next()){
+				return true; 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false; 
+		} finally{
+			dbClose();
+		}
+		return false; 
+	}
+	
 	// id로 User얻어오기
 	public boolean UserCheck(String id,String pwd){
 		try {
