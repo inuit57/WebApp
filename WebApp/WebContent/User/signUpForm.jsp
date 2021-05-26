@@ -5,6 +5,7 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+ <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 <script type="text/javascript">
 
@@ -165,6 +166,13 @@
 		// 2) 입력하지 않은 값이 있는지 확인 
 		
 		var pwd = document.fr.pwd.value ; 
+		
+		//구글 자동가입 방지 문자 
+		var chk = grecaptcha.getResponse(); 
+		if(chk.length == 0) {
+			alert("reCAPCHA를 진행해주세요!")			
+			return false; 
+		}
 		
 		//아이디
 		if(document.fr.id.value == ""){
@@ -385,6 +393,14 @@
 					
 				</tr>
 				<tr>
+				<td>
+					자동가입방지
+				</td>
+				<td>
+					<div class="g-recaptcha" id="g-recaptcha" data-sitekey="6LdKb_AaAAAAAGb0by9q-ww9UbowyZTnYcz-a47K" ></div>
+				</td>
+				</tr>
+				<tr>
 					<td colspan="2" align="right">
 						<input class="form-control"  type="submit" value="확인" >
 						<input class="form-control"  type="button" value="취소" onclick="location.href='Login/main.jsp'">
@@ -395,7 +411,6 @@
 		</form>
 	</fieldset>
 </div>
-
 
 </body>
 </html>
