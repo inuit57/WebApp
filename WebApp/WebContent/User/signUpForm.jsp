@@ -73,8 +73,6 @@
 				
 			}
 		}); //ajax 끝
-// 		$("#emailCheck22").text("이메일 인증을 진행하세요.");
-// 		$("#emailCheck22").css("color" , "red"); 
 	}
 	
 	function pwdCheck(){
@@ -140,7 +138,9 @@
 				if($("#id").val() == ""){
 					$("#idCheck22").text("아이디를 입력하세요.");
 					$("#idCheck22").css("color" , "red");
-					
+				}else if ($("#id").val().length < 4){
+					$("#idCheck22").text("아이디는 4자 이상이어야 합니다.");
+					$("#idCheck22").css("color" , "red");
 				}
 			},
 			
@@ -247,12 +247,6 @@
 			document.fr.email.focus(); 
 			return false; 
 		}
-		
-// 		if (document.fr.emailCheck.value == ""){
-// 			alert("이메일 인증을 진행하세요!");
-// 			document.fr.email.focus(); 
-// 			return false; 
-// 		}
 		 
 	}
 	
