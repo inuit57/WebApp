@@ -33,8 +33,10 @@
             <li><a href="<%=path%>/User/userUpdateForm.jsp"><%=session.getAttribute("id") %></a></li>
             <li><a href="<%=path%>/User/Login/logoutPro.jsp">로그아웃</a></li>
             <%} %>
+            <% if(session.getAttribute("id") == null){ %> 
+            <!--  이미 로그인 했는데 회원 정보 찾는다는 것도 이상하다.  -->
             <li><a href="<%=path%>/User/idPwSearch.jsp">회원정보찾기</a></li>
-            <%-- <li><a href="<%=path%>/Board/ImageBoard.jsp">갤러리</a></li> --%>
+            <%} %>
           </ul>
           <!-- 이거는 쓸지 안 쓸지는 좀 고민해보자. 
           <form class="navbar-form navbar-right">
@@ -45,29 +47,17 @@
       </div>
     </nav>
 
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">전체메뉴 <span class="sr-only">(current)</span></a></li>
-            <li><a href="<%=path%>/Board/boardList.jsp">게시판</a></li>
-            <li><a href="<%=path%>/Board/ImageBoard.jsp">갤러리</a></li>
-            
-            <!-- <li><a href="#">Export</a></li> -->
-          </ul>
-          
-          <!-- 
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item</a></li>
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-            <li><a href="">More navigation</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-          </ul>
-           -->
-        </div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 col-md-2 sidebar">
+			<ul class="nav nav-sidebar">
+				<li class="active"><a href="#">전체메뉴 <span class="sr-only">(current)</span></a></li>
+				<li><a href="<%=path%>/Board/boardList.jsp">게시판</a></li>
+				<li><a href="<%=path%>/Board/ImageBoard.jsp">갤러리</a></li>
+
+				<!-- <li><a href="#">Export</a></li> -->
+			</ul>
+
+		</div>
+	</div>
+</div>

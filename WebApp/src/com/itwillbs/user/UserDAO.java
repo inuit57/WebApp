@@ -129,7 +129,7 @@ public class UserDAO extends ObjectDAO {
 			if(rs.next()){
 				return rs.getString(1); 
 			}else{
-				return null; //없는 경우 null 리턴 
+				return ""; //없는 경우 null 리턴 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
