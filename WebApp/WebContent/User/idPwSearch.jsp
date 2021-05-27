@@ -33,7 +33,7 @@
 </form>
 
 <hr>
-<h1># pw 찾기</h1>
+<h1># 비밀번호 재발급</h1>
 <form  class="form-inline" action="keyResetPro.jsp" name="pwForm" onsubmit="return pwCheck()">
 <div class="form-group">
 	<table border="1"  id="tb" class="table table-bordered ">
@@ -66,31 +66,24 @@
 			document.pwForm.name.focus; 
 			return false; 
 		}
-		
 		if(document.idForm.email.value == ""){
 			alert("이메일을 입력하세요!"); 
 			document.pwForm.email.focus; 
 			return false; 
 		}	
-		//window.open( "emailCheckPro.jsp?email="+document.getElementById("email").value  , "이메일 인증","width=500,height=600");
-	
 	}
 	
 	function pwSearch(){
-		//window.open( "emailCheckPro.jsp?email="+document.getElementById("email").value  , "이메일 인증","width=500,height=600");
-		
 		if(document.pwForm.id.value == ""){
 			alert("아이디를 입력하세요!"); 
 			document.pwForm.id.focus; 
 			return false; 
 		}
-		
 		if(document.pwForm.name.value == ""){
 			alert("이름를 입력하세요!"); 
 			document.pwForm.name.focus; 
 			return false; 
 		}
-		
 		if(document.pwForm.email.value == ""){
 			alert("이메일을 입력하세요!"); 
 			document.pwForm.email.focus; 
