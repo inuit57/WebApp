@@ -473,11 +473,11 @@
 				<div role="tabpanel" class="tab-pane" id="optionCheck">
 				    삭제댓글 표시
 				    <div class="btn-group" data-toggle="buttons">
-					  <label class="btn btn-primary active">
+					  <label class="btn btn-primary">
 					    <input type="radio" name="showOpt1" id="showDelete1" value="O" autocomplete="off"  onchange="showDeleteCmt()"> O
 					  </label>
-					  <label class="btn btn-primary">
-					    <input type="radio" name="showOpt1" id="showDelete2" value="X" autocomplete="off" checked onchange="showDeleteCmt()"> X
+					  <label class="btn btn-primary active">
+					    <input type="radio" name="showOpt1" id="showDelete2" value="X" autocomplete="off" checked="checked" onchange="showDeleteCmt()"> X
 					  </label>
 				    </div>
 				</div>	
