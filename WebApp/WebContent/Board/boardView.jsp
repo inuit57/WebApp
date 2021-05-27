@@ -344,11 +344,6 @@
 	}
 	
 	function insertComment(isReply){
-		// TODO : Ajax로 변경할 것.  
-		//location.href="Comment/insertComment.jsp?uid=<%=session.getAttribute("id") %>"+"&content="+document.getElementById('content').value+"&bid=<%=bid%>";
-		
-		//if (isReply == 0){ // 1인 경우 답글이 아님 
-		// 답글인 경우에 처리를 다르게 할 것. 
 			var content = $("#content").val() ; 
 			
 			if( isReply != 0){
@@ -376,6 +371,13 @@
 			});
 		//}
 	}
+	
+	
+	function showDeleteCmt() {
+		$("#cmtReload").trigger("click");
+	}
+		 
+	
 </script>					
 
 <!--  header 시작 -->
@@ -462,7 +464,7 @@
 						<tr id="commentHead">
 							<td colspan="4" align="center"> [댓글 목록] </td>
 							<td colspan="3" align="center">     
-								<input class="form-control" type="button" onclick="commentLoad()" value="새로고침">
+								<input class="form-control" type="button" id="cmtReload" onclick="commentLoad()" value="새로고침">
 							</td>
 						<!--  TODO : 댓글도 페이징 넣기?  -->
 						</tr>
@@ -472,10 +474,10 @@
 				    삭제댓글 표시
 				    <div class="btn-group" data-toggle="buttons">
 					  <label class="btn btn-primary active">
-					    <input type="radio" name="showOpt1" id="showDelete1" value="O" autocomplete="off"> O
+					    <input type="radio" name="showOpt1" id="showDelete1" value="O" autocomplete="off"  onchange="showDeleteCmt()"> O
 					  </label>
 					  <label class="btn btn-primary">
-					    <input type="radio" name="showOpt1" id="showDelete2" value="X" autocomplete="off" checked> X
+					    <input type="radio" name="showOpt1" id="showDelete2" value="X" autocomplete="off" checked onchange="showDeleteCmt()"> X
 					  </label>
 				    </div>
 				</div>	
