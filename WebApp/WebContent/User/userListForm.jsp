@@ -54,11 +54,11 @@
 		<td><%=ub.getName() %></td>
 		<td><%=(ub.getGender().equals("M") ? "남" : "여") %></td>
 		<td><%=ub.getAge()%></td>
-		<%-- <td><%=(ub.getUserGrant() == 0 ? "비회원" : "정회원") %></td> --%>
+		<%-- <td><%=(ub.getUserGrant() == 0 ? "준회원" : "정회원") %></td> --%>
 		<td>
 			<select  class="form-control"  name="grant" id="grant_<%=ub.getId() %>">
 				<!-- <option name="g00">추방</option> -->
-				<option name="g01" value="0" <% if(userGrant == 0){ %>selected="selected" <%} %>>비회원</option>
+				<option name="g01" value="0" <% if(userGrant == 0){ %>selected="selected" <%} %>>준회원</option>
 				<option name="g02" value="1" <% if(userGrant == 1){ %>selected="selected" <%} %>>정회원</option>
 			</select>
 		</td>
