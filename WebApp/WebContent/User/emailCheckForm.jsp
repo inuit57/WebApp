@@ -33,8 +33,10 @@
 	// 여기 안에서 한번에 바꾸려고 처리하려니까 잘 되진 않는다. 
 	// 세션 안에 집어넣고 처리하는 식으로 구현하는 것으로 한다.
 	
-	String searchID = (String)session.getAttribute("id"); 
-	session.removeAttribute("id") ; 
+	String searchID = (String)session.getAttribute("id2"); 
+	session.removeAttribute("id2") ; 
+	// id로 동일하게 주니까 로그인 쪽에 id가 **로 가려져서 출력된다. 
+	// 그 부분을 수정. 
 %>
 
 <script type="text/javascript">
@@ -71,9 +73,6 @@
 			self.close(); 
 		}else{
 			alert("인증 암호를 다시 확인하세요.  " +  "<%=Key%>" );
-			//opener.document.fr.id.value = ""; 
-			//opener.document.fr.emailCheck.value = "";
-			//self.close();
 		}
 	}
 

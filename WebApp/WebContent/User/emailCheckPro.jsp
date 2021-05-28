@@ -89,21 +89,15 @@
 	    Transport.send(msg); // 전송
 	} catch(Exception e){
 	    e.printStackTrace();
-	    //out.println("<script>alert('Send Mail Failed..');history.back();</script>");
 	    return;
 	}
 	 
-	//out.println("<script>alert('Send Mail Success!!');location.href='mailForm.jsp';</script>");
-	// 성공 시
-	
-	
 	
 	// 여기에서 키를 생성해서 돌려주도록 한다.
 	if(pwReset != null){  
 		//비밀번호 초기화 동작을 수행한다.
 		//다시 로그인 페이지로 넘겨주자.
 		response.sendRedirect("Login/loginForm.jsp"); 
-		 
 	}else{
 		response.sendRedirect("emailCheckForm.jsp");  
 	}

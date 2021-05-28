@@ -19,6 +19,7 @@
 	String id ="" ; 
 	id = udao.getId(name, email);
 	
+	System.out.println("id 검색 결과 : "+ id) ; 
 	
 	if(id != null){
 		String show_id ="";	 
@@ -43,7 +44,7 @@
 				}
 			}
 		}
-		session.setAttribute("id", show_id);
+		session.setAttribute("id2", show_id);
 	}else{
 		id = ""; 
 	}
@@ -52,10 +53,12 @@
 
 	if("<%=id%>" != ""){
 		window.open( "emailCheckPro.jsp?email=<%=email%>" , "이메일 인증","width=500,height=600");
+		setTimeout(() => location.href = "idPwSearch.jsp", 1000) ;
 	}else{
 		alert("입력하신 정보와 일치하는 회원이 없습니다."); 
+		location.href = "idPwSearch.jsp" ;
 	}
-	location.href = "idPwSearch.jsp"
+	 
 
 </script>
 </body>
