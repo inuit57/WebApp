@@ -137,7 +137,7 @@
 	<fieldset  style="width: 600px;"> 
 		<legend> 회원 정보 수정 </legend>
 		<!-- TODO : 테스트 완료되면 get에서  post로 바꾸기 -->
-		<form action="userUpdatePro.jsp" method="get" name="fr" onsubmit="return checkUser()"> 
+		<form action="userUpdatePro.jsp" method="post" name="fr" onsubmit="return checkUser()"> 
 			<table border="1"  id="tb" class="table table-hover table-bordered "> 
 				<tr>
 					<td>아이디 :</td>
