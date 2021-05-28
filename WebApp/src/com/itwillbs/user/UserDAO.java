@@ -393,6 +393,7 @@ public class UserDAO extends ObjectDAO {
 	
 	
 	public boolean updateUser(UserBean ub){
+		
 		try {
 			conn = getConnection(); 
 			

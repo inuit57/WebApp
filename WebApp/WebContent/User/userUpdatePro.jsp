@@ -17,7 +17,15 @@
 	
 <% 
 	UserDAO ud = new UserDAO(); 
-	boolean flag = ud.updateUser(userBean);
+	
+	String new_pwd = request.getParameter("new_pwd"); 
+	System.out.println("new_pwd : " + new_pwd);
+	
+	boolean flag = false; 
+	if ( ud.UserCheck(userBean.getId(), userBean.getPwd()) ) {
+		userBean.setPwd(new_pwd); 
+		flag = ud.updateUser(userBean);
+	}
 	
 %>
 <script type="text/javascript">

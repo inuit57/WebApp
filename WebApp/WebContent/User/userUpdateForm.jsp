@@ -34,9 +34,9 @@
 	}
 	
 	function deletepwd(){
-		document.fr.pwd.value="";
-		document.fr.pwd2.value="";
-		document.fr.pwd.focus();
+		document.fr.new_pwd.value="";
+		document.fr.new_pwd2.value="";
+		document.fr.new_pwd.focus();
 	}
 	function checkUser(){
 		
@@ -55,30 +55,32 @@
 		//비밀번호
 		if ( pwd == ""){
 			alert("비밀번호를 입력하세요!"); 
-			deletepwd();
+			//deletepwd();
 			return false; 
-		}else if(pwd.length < 6 ){
-			alert("비밀번호는 6자 이상 작성해주세요!");
-			deletepwd();
-			return false;
-		}else if ( pwd != document.fr.pwd2.value){
-			alert("입력하신 비밀번호가 다릅니다."); 
-			deletepwd(); 
-			
-			return false; 
-		}else{
-			if (pwd.search(document.fr.id.value)>=0){
-				alert("비밀번호에 아이디가 포함될 수는 없습니다.");
-				deletepwd(); 
-				return false; 
-			}
-			
-			if(/[^a-zA-Z0-9]/g.test(pwd)){
-				alert("비밀번호는 숫자와 영문자로만 구성되어야합니다."); 
+		}
+		
+		if(new_pwd != ""){
+			if(new_pwd.length < 6 ){
+				alert("비밀번호는 6자 이상 작성해주세요!");
 				deletepwd();
+				return false;
+			}else if ( new_pwd != document.fr.new_pwd2.value){
+				alert("입력하신 비밀번호가 다릅니다."); 
+				deletepwd(); 
+				
 				return false; 
+			}else{
+				if (new_pwd.search(document.fr.id.value)>=0){
+					alert("비밀번호에 아이디가 포함될 수는 없습니다.");
+					deletepwd(); 
+					return false; 
+				}
+				if(/[^a-zA-Z0-9]/g.test(new_pwd)){
+					alert("비밀번호는 숫자와 영문자로만 구성되어야합니다."); 
+					deletepwd();
+					return false; 
+				}
 			}
-			
 		}
 		 	
 		//이름
@@ -147,12 +149,17 @@
 					<td>비밀번호 :</td>
 					<td>
 					<input style="width: 180px" type="password" name="pwd" maxlength="14" 
-					placeholder="6~14자 이하의 영어,숫자 조합"  value=<%=ub.getPwd() %>></td>
-					
+					placeholder="6~14자 이하의 영어,숫자 조합"  ></td>
 				</tr>
 				<tr>
-					<td>비밀번호 확인 :</td>
-					<td><input style="width: 180px" type="password" name="pwd2" maxlength="14" placeholder="6~14자 이하의 영어,숫자 조합" ></td>
+					<td>새로운 비밀번호 :</td>
+					<td>
+					<input style="width: 180px" type="password" name="new_pwd" maxlength="14" 
+					placeholder="6~14자 이하의 영어,숫자 조합"  ></td>
+				</tr>
+				<tr>
+					<td>새로운 비밀번호 확인 :</td>
+					<td><input style="width: 180px" type="password" name="new_pwd2" maxlength="14" placeholder="6~14자 이하의 영어,숫자 조합" ></td>
 				</tr>
 				<tr>
 					<td>이름</td>
