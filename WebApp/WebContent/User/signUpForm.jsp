@@ -320,7 +320,7 @@
 	<fieldset  style="width: 600px;"> 
 		<legend> 회원 가입 </legend>
 		<!-- TODO : 테스트 완료되면 get에서  post로 바꾸기 -->
-		<form  class="form-inline" action="signUpPro.jsp" method="get" name="fr" onsubmit="return checkUser()">
+		<form  class="form-inline" action="signUpPro.jsp" method="post" name="fr" onsubmit="return checkUser()">
 			<div class="form-group">
 			<table border="1"  id="tb" class="table table-hover table-bordered "> 
 				<tr>

@@ -76,7 +76,7 @@ function kakaoLogin() {
 		<legend>로그인</legend>
 		<!--  테스트 끝나고 get에서 post로 바꿀 것. -->
 
-		<form class="form-inline" action="loginPro.jsp" id="loginForm" method="get">
+		<form class="form-inline" action="loginPro.jsp" id="loginForm" method="post">
 		<div class="form-group">
 		<table border="1"  id="tb" class="table table-bordered ">
 			<tr>
