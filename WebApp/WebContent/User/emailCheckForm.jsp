@@ -63,7 +63,8 @@
 // 				opener.document.fr.emailCheck22.text ="이메일 인증 완료되었습니다." ;
 				$("#emailCheck22" , opener.document).text("이메일 인증 완료되었습니다.");
 				$("#emailCheck22" , opener.document).css("color", "blue"); 
-			}else if( document.referrer.includes("idSearchPro.jsp") ){ // 아이디 찾기 처리
+			//}else if( document.referrer.includes("idSearchPro.jsp") ){ // 아이디 찾기 처리
+			}else if( document.referrer.includes("idPwSearch.jsp") ){ // 아이디 찾기 처리
 				//아이디는 중간에 **을 넣어서 알려주기
 				alert("아이디는 <%=searchID%> 입니다."); 
 				opener.location.href="Login/loginForm.jsp"; 
